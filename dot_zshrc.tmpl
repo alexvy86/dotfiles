@@ -76,6 +76,10 @@ plugins=(my-customizations git docker docker-compose ssh-agent)
 plugins=(my-customizations git ssh-agent)
 {{- end }}
 
+# Lazy loading for SSH keys into ssh-agent and expiration time
+zstyle :omz:plugins:ssh-agent lazy yes
+zstyle :omz:plugins:ssh-agent lifetime 10h
+
 source $ZSH/oh-my-zsh.sh
 
 # User configuration
