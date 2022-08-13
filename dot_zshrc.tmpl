@@ -71,9 +71,9 @@ ZSH_CUSTOM=~/ohmyzsh-customizations
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 {{- if eq .chezmoi.hostname "rpi4" }}
-plugins=(my-customizations git docker docker-compose ssh-agent)
+plugins=(my-customizations git docker docker-compose ssh-agent npm)
 {{- else }}
-plugins=(my-customizations git ssh-agent)
+plugins=(my-customizations git ssh-agent npm)
 {{- end }}
 
 # Lazy loading for SSH keys into ssh-agent and expiration time
