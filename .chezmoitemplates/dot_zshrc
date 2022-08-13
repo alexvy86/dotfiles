@@ -70,8 +70,11 @@ ZSH_CUSTOM=~/ohmyzsh-customizations
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
+{{ if eq .chezmoi.hostname "rpi4" }}
 plugins=(my-customizations git docker docker-compose ssh-agent)
-
+{{ else }}
+plugins=(my-customizations git ssh-agent)
+{{ end }}
 source $ZSH/oh-my-zsh.sh
 
 # User configuration
