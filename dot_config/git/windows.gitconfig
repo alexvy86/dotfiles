@@ -1,0 +1,7 @@
+[difftool "BeyondCompare4"]
+	path=C:/Program Files/Beyond Compare 4/bcomp.exe
+	cmd="C:/Program Files/Beyond Compare 4/bcomp.exe" "$LOCAL" "$REMOTE"
+
+[mergetool "BeyondCompare4"]
+	path=C:/Program Files/Beyond Compare 4/bcomp.exe
+	cmd="C:/Program Files/Beyond Compare 4/bcomp.exe" "$LOCAL" "$REMOTE" "$BASE" "$MERGED"

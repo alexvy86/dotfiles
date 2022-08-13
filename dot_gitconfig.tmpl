@@ -1,0 +1,64 @@
+[user]
+	name = Alex Villarreal
+	email = 716334+alexvy86@users.noreply.github.com
+[init]
+	defaultBranch = main
+[fetch]
+	prune = true
+[pull]
+	rebase = true
+[push]
+	# In combination, default=upstream and autoSetupRemote=true make it so pushing a branch that doesn't
+	# have upstream configuration yet will create a remote branch with the same name in the default remote.
+	# But if the branch already has upstream configuration, it will get pushed to that one (vs
+	# using default=current, which would ignore the existing remote configuration and create a new remote
+	# branch with the same name as the branch being pushed).
+	autoSetupRemote = true
+	default = upstream
+[rebase]
+	autostash = true
+[core]
+	autocrlf = input
+	editor = code -r -w
+[status]
+	# Show status of git submodules in git status output
+	submoduleSummary = true
+[diff]
+	# Show submodules changes in diffs as a list of commits like `git log` shows
+	submodule = log
+	tool=BeyondCompare4
+	guitool=BeyondCompare4
+[merge]
+	tool=BeyondCompare4
+	guitool=BeyondCompare4
+[color]
+	ui = auto
+# [color "diff-highlight"]
+#	 oldNormal = red bold
+#	 oldHighlight = red bold 52
+#	 newNormal = green bold
+#	 newHighlight = green bold 22
+# [color "branch"]
+#	 current = yellow reverse
+#	 local = yellow
+#	 remote = green
+# [color "status"]
+#	 added = yellow
+#	 changed = green
+#	 untracked = cyan
+
+{{- if (eq .chezmoi.os "linux") -}}
+	{{ if (or (contains "Microsoft" .chezmoi.kernel.osrelease) (contains "microsoft" .chezmoi.kernel.osrelease)) }}
+[include]
+	path = {{ .chezmoi.homeDir }}/.config/git/wsl.gitconfig
+	{{ else }}
+[include]
+	path = {{ .chezmoi.homeDir }}/.config/git/linux.gitconfig
+	{{ end }}
+{{ else if (eq .chezmoi.os "darwin") }}
+[include]
+	path = {{ .chezmoi.homeDir }}/.config/git/mac.gitconfig
+{{ else if (eq .chezmoi.os "windows") }}
+[include]
+	path = {{ ((splitList "\\" .chezmoi.homeDir) | join "\\\\" ) }}{{ "\\\\.config\\\\git\\\\windows.gitconfig" }}
+{{ end -}}

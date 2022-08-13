@@ -1,0 +1,8 @@
+[include]
+	path = linux.gitconfig
+
+[mergetool "BeyondCompare4"]
+	cmd='/mnt/c/Program Files/Beyond Compare 4/BComp.exe' "$(wslpath -aw $LOCAL)" "$(wslpath -aw $REMOTE)" "$(wslpath -aw $BASE)" "$(wslpath -aw $MERGED)"
+
+[difftool "BeyondCompare4"]
+	cmd = '/mnt/c/Program Files/Beyond Compare 4/BComp.exe' "$(wslpath -aw $LOCAL)" "$(wslpath -aw $REMOTE)"
