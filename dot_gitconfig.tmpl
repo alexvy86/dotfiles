@@ -48,7 +48,7 @@
 #	 untracked = cyan
 
 {{- if (eq .chezmoi.os "linux") -}}
-	{{ if (or (contains "Microsoft" .chezmoi.kernel.osrelease) (contains "microsoft" .chezmoi.kernel.osrelease)) }}
+	{{ if (.chezmoi.kernel.osrelease | lower | contains "microsoft") }}
 [include]
 	path = {{ .chezmoi.homeDir }}/.config/git/wsl.gitconfig
 	{{ else }}
