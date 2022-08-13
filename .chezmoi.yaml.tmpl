@@ -1,0 +1,8 @@
+{{- $codespaces := env "CODESPACES" | not | not -}}
+
+data:
+  codespaces: {{ $codespaces }}
+
+edit:
+  command: "code"
+  args: ["-r", "--wait"]
