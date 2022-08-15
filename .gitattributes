@@ -2,4 +2,3 @@
 *gitconfig.tmpl   linguist-language=gitconfig
 *yaml.tmpl        linguist-language=yml
 *zshrc.tmpl       linguist-language=zsh
-dot_zshrc.tmpl    linguist-language=zsh
