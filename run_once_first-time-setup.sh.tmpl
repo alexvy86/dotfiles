@@ -25,7 +25,7 @@ sudo apt install --yes --no-install-recommends \
 sudo apt install --yes --no-install-recommends zsh;
 {{- end -}}
 
-chsh -s $(which zsh);
+sudo chsh -s $(which zsh);
 
 # Install fnm. --skip-shell because the .zshrc template already adds it
 # to the PATH.
