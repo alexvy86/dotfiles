@@ -9,13 +9,6 @@ sudo apt update;
 # Install zsh and set it as the default shell.
 sudo apt install --yes --no-install-recommends zsh;
 
-# Set up the APT repository to get the latest version of git.
-# A1715D88E1DF1F24 is the signing key for the git PPA itself, the others
-# are dependencies (I think).
-sudo apt-key adv --recv-keys --keyserver keyserver.ubuntu.com A1715D88E1DF1F24 40976EAF437D05B5 3B4FE6ACC0B21F32 A6616109451BBBF2;
-sudo apt install --yes software-properties-common; # Contains 'add-apt-repository'
-sudo add-apt-repository --yes ppa:git-core/ppa;
-
 # Update package lists again after adding repository
 sudo apt update;
 
@@ -23,6 +16,13 @@ sudo apt update;
 sudo apt install --yes --no-install-recommends \
     git \
     ssh;
+
+# Set up the APT repository to get the latest version of git.
+# A1715D88E1DF1F24 is the signing key for the git PPA itself, the others
+# are dependencies (I think).
+sudo apt-key adv --recv-keys --keyserver keyserver.ubuntu.com A1715D88E1DF1F24 40976EAF437D05B5 3B4FE6ACC0B21F32 A6616109451BBBF2;
+sudo apt install --yes software-properties-common; # Contains 'add-apt-repository'
+sudo add-apt-repository --yes ppa:git-core/ppa;
 
 {{- end -}}
 
