@@ -1,7 +1,7 @@
 {{- if eq .chezmoi.os "linux" -}}
-{{- if (eq (index .chezmoi.osRelease "idLike") "debian") -}}
 #!/bin/bash
 
+{{- if (eq (index .chezmoi.osRelease "id") "debian") -}}
 sudo apt update;
 
 # Set up the APT repository to get the latest version of git.
@@ -23,10 +23,11 @@ sudo apt install --yes --no-install-recommends \
 
 # Install zsh and set it as the default shell.
 sudo apt install --yes --no-install-recommends zsh;
+{{- end -}}
+
 chsh -s $(which zsh);
 
 # Install fnm. --skip-shell because the .zshrc template already adds it
 # to the PATH.
 curl -fsSL https://fnm.vercel.app/install | bash -s -- --skip-shell;
-{{- end -}}
 {{- end -}}
