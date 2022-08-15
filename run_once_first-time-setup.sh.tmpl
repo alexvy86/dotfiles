@@ -6,6 +6,9 @@
 {{- if (eq (index .chezmoi.osRelease "id") "debian") -}}
 sudo apt update;
 
+# Install zsh and set it as the default shell.
+sudo apt install --yes --no-install-recommends zsh;
+
 # Set up the APT repository to get the latest version of git.
 # A1715D88E1DF1F24 is the signing key for the git PPA itself, the others
 # are dependencies (I think).
@@ -21,8 +24,6 @@ sudo apt install --yes --no-install-recommends \
     git \
     ssh;
 
-# Install zsh and set it as the default shell.
-sudo apt install --yes --no-install-recommends zsh;
 {{- end -}}
 
 sudo chsh -s $(which zsh);
@@ -33,8 +34,6 @@ curl -fsSL https://fnm.vercel.app/install | bash -s -- --skip-shell;
 
 {{- if .codespaces -}}
 # Set up the APT repository to get the latest version of git.
-# A1715D88E1DF1F24 is the signing key for the git PPA itself, the others
-# are dependencies (I think).
 sudo apt install --yes software-properties-common; # Contains 'add-apt-repository'
 sudo add-apt-repository --yes ppa:git-core/ppa;
 {{- end -}}
