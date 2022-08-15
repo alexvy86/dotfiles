@@ -5,28 +5,12 @@
 
 {{- if (eq (index .chezmoi.osRelease "id") "debian") -}}
 sudo apt update;
+sudo apt update;
 
 # Install zsh and set it as the default shell.
 sudo apt install --yes --no-install-recommends zsh;
-{{- end -}}
 
 sudo apt update;
-
-sudo chsh -s $(which zsh);
-
-{{- if (eq (index .chezmoi.osRelease "id") "debian") -}}
-
-# Install packages.
-sudo apt install --yes --no-install-recommends \
-    git \
-    ssh;
-
-{{- end -}}
-
-
-# Install fnm. --skip-shell because the .zshrc template already adds it
-# to the PATH.
-curl -fsSL https://fnm.vercel.app/install | bash -s -- --skip-shell;
 
 # Set up the APT repository to get the latest version of git.
 # A1715D88E1DF1F24 is the signing key for the git PPA itself, the others
@@ -38,10 +22,17 @@ sudo add-apt-repository --yes ppa:git-core/ppa;
 # Update package lists again after adding repository
 sudo apt update;
 
-{{- if .codespaces -}}
-# Set up the APT repository to get the latest version of git.
-sudo apt install --yes software-properties-common; # Contains 'add-apt-repository'
-sudo add-apt-repository --yes ppa:git-core/ppa;
+# Install packages.
+sudo apt install --yes --no-install-recommends \
+    git \
+    ssh;
+
 {{- end -}}
+
+sudo chsh -s $(which zsh);
+
+# Install fnm. --skip-shell because the .zshrc template already adds it
+# to the PATH.
+curl -fsSL https://fnm.vercel.app/install | bash -s -- --skip-shell;
 
 {{- end -}}
