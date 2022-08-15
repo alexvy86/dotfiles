@@ -113,6 +113,12 @@ source $ZSH/oh-my-zsh.sh
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
+{{- if .codespaces -}}
+# Default settings in Github Codespaces
+DISABLE_AUTO_UPDATE=true
+DISABLE_UPDATE_PROMPT=true
+{{- end -}}
+
 # fnm
 export PATH=$HOME/.fnm:$PATH
 eval "`fnm env`"
