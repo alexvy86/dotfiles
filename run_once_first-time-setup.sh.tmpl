@@ -12,6 +12,8 @@ sudo apt install --yes --no-install-recommends zsh;
 
 sudo chsh -s $(which zsh);
 
+sudo apt update;
+
 {{- if (eq (index .chezmoi.osRelease "id") "debian") -}}
 
 # Install packages.
