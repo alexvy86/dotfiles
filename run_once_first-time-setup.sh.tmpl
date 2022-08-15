@@ -6,16 +6,13 @@
 {{- if (eq (index .chezmoi.osRelease "id") "debian") -}}
 sudo apt update;
 
-# Update CA certificates.
-sudo apt install ca-certificates
-
 # Install zsh and set it as the default shell.
 sudo apt install --yes --no-install-recommends zsh;
+{{- end -}}
 
-# Install packages.
-sudo apt install --yes --no-install-recommends \
-    git \
-    ssh;
+sudo chsh -s $(which zsh);
+
+{{- if (eq (index .chezmoi.osRelease "id") "debian") -}}
 
 # Set up the APT repository to get the latest version of git.
 # A1715D88E1DF1F24 is the signing key for the git PPA itself, the others
@@ -27,9 +24,13 @@ sudo add-apt-repository --yes ppa:git-core/ppa;
 # Update package lists again after adding repository
 sudo apt update;
 
+# Install packages.
+sudo apt install --yes --no-install-recommends \
+    git \
+    ssh;
+
 {{- end -}}
 
-sudo chsh -s $(which zsh);
 
 # Install fnm. --skip-shell because the .zshrc template already adds it
 # to the PATH.
