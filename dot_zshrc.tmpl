@@ -63,23 +63,28 @@ ZSH_THEME="alex"
 # HIST_STAMPS="mm/dd/yyyy"
 
 # Would you like to use another custom folder than $ZSH/custom?
-ZSH_CUSTOM=~/ohmyzsh-customizations
+# ZSH_CUSTOM=/path/to/new-custom-folder
 
 # Which plugins would you like to load?
 # Standard plugins can be found in $ZSH/plugins/
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
+plugins=(git npm zsh-autosuggestions)
+{{- if not .codespaces }}
+plugins+=(ssh-agent)
+{{- end }}
 {{- if eq .chezmoi.hostname "rpi4" }}
-plugins=(my-customizations git docker docker-compose ssh-agent npm)
-{{- else }}
-plugins=(my-customizations git ssh-agent npm)
+plugins+=(docker docker-compose)
+{{- else if .codespaces }}
+plugins+=(docker docker-compose)
 {{- end }}
 
 # Lazy loading for SSH keys into ssh-agent and expiration time
 zstyle :omz:plugins:ssh-agent lazy yes
-zstyle :omz:plugins:ssh-agent lifetime 10h
+zstyle :omz:plugins:ssh-agent lifetime ${SSH_AGENT_LIFETIME:-10h}
 
+# Make sure to set any plugin-specific options before calling this
 source $ZSH/oh-my-zsh.sh
 
 # User configuration
