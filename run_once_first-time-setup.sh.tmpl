@@ -6,11 +6,11 @@
 {{- if (eq (index .chezmoi.osRelease "id") "debian") -}}
 sudo apt update;
 
+# Update CA certificates.
+sudo apt install ca-certificates
+
 # Install zsh and set it as the default shell.
 sudo apt install --yes --no-install-recommends zsh;
-
-# Update package lists again after adding repository
-sudo apt update;
 
 # Install packages.
 sudo apt install --yes --no-install-recommends \
@@ -23,6 +23,9 @@ sudo apt install --yes --no-install-recommends \
 sudo apt-key adv --recv-keys --keyserver keyserver.ubuntu.com A1715D88E1DF1F24 40976EAF437D05B5 3B4FE6ACC0B21F32 A6616109451BBBF2;
 sudo apt install --yes software-properties-common; # Contains 'add-apt-repository'
 sudo add-apt-repository --yes ppa:git-core/ppa;
+
+# Update package lists again after adding repository
+sudo apt update;
 
 {{- end -}}
 
