@@ -10,8 +10,9 @@ for details on the line below. Needed for this script to run successfully in Git
 # Update package lists and install packages.
 sudo apt update;
 sudo apt install --yes --no-install-recommends \
-    zsh \
-    ssh;
+    fzf \
+    ssh \
+    zsh;
 
 {{/*
 Some environments do not support using the latest git, trying to install it
