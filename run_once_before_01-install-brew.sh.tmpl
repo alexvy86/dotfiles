@@ -1,0 +1,26 @@
+{{- /* Homebrew is not quite supported on ARM64, so skip installation in Windows and in that architecture. */ -}}
+{{- if (and (ne .chezmoi.os "windows") (ne .chezmoi.arch "arm64")) -}}
+{{- /*
+See https://www.chezmoi.io/user-guide/frequently-asked-questions/troubleshooting/#chezmoi-reports-forkexec-no-such-file-or-directory-when-running-scripts-on-termux
+for details on the line below. Needed for this script to run successfully in Github Codespaces.
+*/ -}} 
+#!{{- lookPath "bash" }}
+
+{{ if eq .chezmoi.os "linux" -}}
+# Install pre-requisites (https://docs.brew.sh/Homebrew-on-Linux#requirements).
+sudo apt install --yes --no-install-recommends \
+  build-essential \
+	procps \
+	curl \
+	file \
+	git;
+{{- end }}
+
+# Install Homebrew per the instructions in https://brew.sh/,
+# but using a fixed version of the install script that I've read and validated.
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/805136bcfcbc40b95e476639fb2407773ab26445/install.sh)"
+
+# Update Homebrew.
+brew update --force --quiet;
+
+{{- end }}

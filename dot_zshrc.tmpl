@@ -121,7 +121,17 @@ DISABLE_UPDATE_PROMPT=true
 
 # fnm
 export PATH=$HOME/.fnm:$PATH
-eval "`fnm env`"
+if [ "$(command -v fnm)" ]; then
+  eval "`fnm env`";
+fi
 
 # krew
-export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
+export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH";
+
+# Homebrew
+export PATH="$PATH:/home/linuxbrew/.linuxbrew/bin";
+
+# Enable the navi widget
+if [ "$(command -v navi)" ]; then
+  eval "$(navi widget zsh)";
+fi
