@@ -5,6 +5,7 @@ for details on the line below. Needed for this script to run successfully in Git
 */ -}} 
 #!{{- lookPath "bash" }}
 
-brew instal navi;
+# Install navi with validated fixed version of the install script.
+BIN_DIR=/usr/local/bin bash <(curl -sL https://github.com/denisidoro/navi/raw/9d862344e648b91be774e8ca633dc39990abc8fa/scripts/install)
 
 {{- end }}
