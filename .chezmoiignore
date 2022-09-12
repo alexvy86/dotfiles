@@ -3,3 +3,6 @@ README.md
 
 # Install script for Github Codespaces
 install.sh
+
+# Files under the 'ignored' folder
+ignored/**

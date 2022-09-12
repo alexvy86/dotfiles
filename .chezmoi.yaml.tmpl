@@ -6,3 +6,9 @@ data:
 edit:
   command: "code"
   args: ["-r", "--wait"]
+
+{{- if eq .chezmoi.os "windows" -}}
+sourceDir: "./windows"
+{{ else }}
+sourceDir: "./linux"
+{{- end }}

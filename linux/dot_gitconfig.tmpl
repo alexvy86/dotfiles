@@ -47,18 +47,14 @@
 #	 changed = green
 #	 untracked = cyan
 
-{{- if (eq .chezmoi.os "linux") -}}
+{{ if (eq .chezmoi.os "linux") -}}
 	{{ if (.chezmoi.kernel.osrelease | lower | contains "microsoft") }}
-[include]
-	path = {{ .chezmoi.homeDir }}/.config/git/wsl.gitconfig
+	  {{- include "../ignored/wsl.gitconfig" -}}
 	{{ else }}
-[include]
-	path = {{ .chezmoi.homeDir }}/.config/git/linux.gitconfig
+    {{- include "../ignored/linux.gitconfig" -}}
 	{{ end }}
 {{ else if (eq .chezmoi.os "darwin") }}
-[include]
-	path = {{ .chezmoi.homeDir }}/.config/git/mac.gitconfig
+  {{- include "../ignored/mac.gitconfig" -}}
 {{ else if (eq .chezmoi.os "windows") }}
-[include]
-	path = {{ ((splitList "\\" .chezmoi.homeDir) | join "\\\\" ) }}{{ "\\\\.config\\\\git\\\\windows.gitconfig" }}
+  {{- include "../ignored/windows.gitconfig" -}}
 {{ end -}}
