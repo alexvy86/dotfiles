@@ -3,7 +3,7 @@
 {{- /*
 See https://www.chezmoi.io/user-guide/frequently-asked-questions/troubleshooting/#chezmoi-reports-forkexec-no-such-file-or-directory-when-running-scripts-on-termux
 for details on the line below. Needed for this script to run successfully in Github Codespaces.
-*/ -}} 
+*/ -}}
 #!{{- lookPath "bash" }}
 
 {{ if eq .chezmoi.os "linux" -}}
@@ -20,7 +20,7 @@ sudo apt install --yes --no-install-recommends \
 # but using a fixed version of the install script that I've read and validated.
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/805136bcfcbc40b95e476639fb2407773ab26445/install.sh)"
 
-# Update Homebrew.
-brew update --force --quiet;
+# Update Homebrew. Use absolute path since at this point it's not in the PATH yet.
+/home/linuxbrew/.linuxbrew/bin/brew update --force --quiet;
 
 {{- end }}
