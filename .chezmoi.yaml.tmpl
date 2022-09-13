@@ -7,7 +7,7 @@ edit:
 
 {{ if eq .chezmoi.os "windows" -}}
 sourceDir: "{{- .chezmoi.workingTree -}}/windows"
-{{ else }}
+{{ else -}}
 sourceDir: "{{- .chezmoi.workingTree -}}/linux"
 {{ end }}
 
