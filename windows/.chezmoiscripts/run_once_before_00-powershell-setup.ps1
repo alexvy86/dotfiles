@@ -10,5 +10,5 @@ if (-Not ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdent
   }
 }
 
-Set-ExecutionPolicy AllSigned;
-Set-ExecutionPolicy RemoteSigned -scope CurrentUser;
+Set-ExecutionPolicy RemoteSigned -Scope LocalMachine;
+Set-ExecutionPolicy RemoteSigned -Scope CurrentUser;
