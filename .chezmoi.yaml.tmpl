@@ -1,8 +1,3 @@
-{{- $codespaces := env "CODESPACES" | not | not -}}
-
-data:
-  codespaces: {{ $codespaces }}
-
 edit:
   command: "code"
   args: ["-r", "--wait"]
@@ -12,6 +7,15 @@ edit:
 
 {{ if eq .chezmoi.os "windows" -}}
 sourceDir: "{{- .chezmoi.workingTree -}}/windows"
-{{- else -}}
+{{ else }}
 sourceDir: "{{- .chezmoi.workingTree -}}/linux"
+{{ end }}
+
+{{- $codespaces := env "CODESPACES" | not | not }}
+data:
+  codespaces: {{ $codespaces }}
+
+{{- if eq .chezmoi.os "windows" }}
+  {{- $winToolsPath := promptStringOnce . "win_tools_path" "Path where tools get installed in Windows" }}
+  win_tools_path: {{ $winToolsPath | quote }}
 {{- end }}

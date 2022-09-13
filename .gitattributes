@@ -1,5 +1,6 @@
 # Force syntax highlighting for chezmoi template files
 *gitconfig.tmpl   linguist-language=gitconfig
-*yaml.tmpl        linguist-language=yml
+*ps1.tmpl         linguist-language=pwsh
 *sh.tmpl          linguist-language=zsh
+*yaml.tmpl        linguist-language=yml
 *zshrc.tmpl       linguist-language=zsh
