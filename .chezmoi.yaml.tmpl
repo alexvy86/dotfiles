@@ -7,6 +7,9 @@ edit:
   command: "code"
   args: ["-r", "--wait"]
 
+"interpreters.ps1":
+  command: "pwsh.exe"
+
 {{ if eq .chezmoi.os "windows" -}}
 sourceDir: "{{- .chezmoi.workingTree -}}/windows"
 {{- else -}}
