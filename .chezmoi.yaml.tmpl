@@ -7,8 +7,8 @@ edit:
   command: "code"
   args: ["-r", "--wait"]
 
-{{- if eq .chezmoi.os "windows" -}}
-sourceDir: "./windows"
-{{ else }}
-sourceDir: "./linux"
+{{ if eq .chezmoi.os "windows" -}}
+sourceDir: "{{- .chezmoi.workingTree -}}/windows"
+{{- else -}}
+sourceDir: "{{- .chezmoi.workingTree -}}/linux"
 {{- end }}
