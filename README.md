@@ -33,3 +33,21 @@ The command will print where it installed the binary to.
 ```bash
 chezmoi init --apply --verbose https://github.com/alexvy86/dotfiles.git
 ```
+
+## Testing changes to the main chezmoi config template
+
+This command is useful for testing changes to the `.chezmoi.yaml.tmpl` file, since space-handling with the template syntax is a *pain* to use correctly.
+
+### Unix
+
+```bash
+cat /path/to/.chezmoi.yaml.tmpl | chezmoi execute-template --init
+```
+
+### Windows 
+
+```PowerShell
+Get-Content -Path /path/to/.chezmoi.yaml.tmpl | chezmoi execute-template --init
+```
+
+`chezmoi execute-template --init` can also take `--promptString <name>=<value>` but it also applies to the `promptString` function inside a template, not to `promptStringOnce`.
