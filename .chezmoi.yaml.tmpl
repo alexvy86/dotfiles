@@ -2,8 +2,10 @@ edit:
   command: "code"
   args: ["-r", "--wait"]
 
+{{- if eq .chezmoi.os "windows" }}
 "interpreters.ps1":
   command: "pwsh.exe"
+{{- end }}
 
 {{ if eq .chezmoi.os "windows" -}}
 sourceDir: "{{- .chezmoi.workingTree -}}/windows"
