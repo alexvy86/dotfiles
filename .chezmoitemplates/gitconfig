@@ -17,6 +17,7 @@
 	default = upstream
 [rebase]
 	autostash = true
+	updateRefs = true
 [core]
 	autocrlf = input
 	editor = code -r -w
