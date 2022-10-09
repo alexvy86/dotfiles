@@ -135,3 +135,7 @@ export PATH="$PATH:/home/linuxbrew/.linuxbrew/bin";
 if [ "$(command -v navi)" ]; then
   eval "$(navi widget zsh)";
 fi
+
+# Key bindings
+# Ctrl-backspace, delete word to the left of the cursor
+bindkey "^H" backward-kill-word
