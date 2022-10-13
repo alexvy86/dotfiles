@@ -30,8 +30,11 @@ The command will print where it installed the binary to.
 
 ### Unix and Windows
 
+NOTE: for my setup, I have to split the `init` and the `apply` commands so the `sourceDir` I override in the chezmoi config file takes effect during `apply`.
+
 ```bash
-chezmoi init --apply --verbose https://github.com/alexvy86/dotfiles.git
+chezmoi init --apply=false --verbose https://github.com/alexvy86/dotfiles.git
+chezmoi apply
 ```
 
 ## Testing changes to the main chezmoi config template
