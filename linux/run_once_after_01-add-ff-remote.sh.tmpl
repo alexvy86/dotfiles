@@ -9,7 +9,7 @@ for details on the line below. Needed for this script to run successfully in Git
 
 echo "Detected CODESPACE_NAME=$CODESPACE_NAME" ;
 
-if [[ "$CODESPACE_NAME" =~ '^alexvy86-microsoft-fluidframework' ]]; then
+if [[ "$CODESPACE_NAME" =~ 'alexvy86-microsoft-fluidframework' ]]; then
   cd /workspaces/FluidFramework ;
   git remote rename origin upstream ;
   git remote add origin "https://github.com/alexvy86/FluidFramework" ;
