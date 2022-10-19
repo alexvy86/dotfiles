@@ -12,5 +12,8 @@ if [[ $CODESPACE_NAME =~ '^alexvy86-microsoft-fluidframework' ]]; then
   git remote rename origin upstream ;
   git remote add origin "https://github.com/alexvy86/FluidFramework" ;
   git fetch origin ;
+  echo 'Github remotes configured successfully' ;
+else
+  echo 'Codespaces instance is not for FluidFramework. Github remotes will not be configured.' ;
 fi
 {{- end -}}
