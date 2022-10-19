@@ -7,7 +7,7 @@ for details on the line below. Needed for this script to run successfully in Git
 
 # If we are in a Codespaces instance for the FluidFramework repo, setup remotes the way I want them.
 
-echo "Detected CODESPACE_NAME=$$CODESPACE_NAME" ;
+echo "Detected CODESPACE_NAME=$CODESPACE_NAME" ;
 
 if [[ "$CODESPACE_NAME" =~ '^alexvy86-microsoft-fluidframework' ]]; then
   cd /workspaces/FluidFramework ;
