@@ -8,6 +8,7 @@ for details on the line below. Needed for this script to run successfully in Git
 # If we are in a Codespaces instance for the FluidFramework repo, setup remotes the way I want them.
 
 if [[ $CODESPACE_NAME =~ '^alexvy86-microsoft-fluidframework' ]]; then
+  cd /workspaces/FluidFramework ;
   git remote rename origin upstream ;
   git remote add origin "https://github.com/alexvy86/FluidFramework" ;
   git fetch origin ;
