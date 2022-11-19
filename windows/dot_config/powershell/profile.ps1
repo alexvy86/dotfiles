@@ -13,6 +13,7 @@
 # lives in another drive and I can't update it easily with chezmoi.
 
 Import-Module posh-git;
+Import-Module git-aliases -DisableNameChecking;
 
 ##
 # PSReadLine, see https://github.com/PowerShell/PSReadLine
@@ -26,3 +27,6 @@ Set-PSReadLineKeyHandler -Key UpArrow -Function HistorySearchBackward;
 Set-PSReadLineKeyHandler -Key DownArrow -Function HistorySearchForward;
 
 Set-PSReadLineOption -PredictionSource History;
+
+# Set up fnm. Assumes it was installed earlier.
+fnm env --use-on-cd | Out-String | Invoke-Expression;

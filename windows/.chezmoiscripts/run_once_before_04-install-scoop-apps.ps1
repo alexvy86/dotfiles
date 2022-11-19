@@ -11,12 +11,14 @@ refresh-path;
 
 # Error out if scoop is not installed
 if (Get-Command "scoop" -ErrorAction Stop) {
-  # Install desired scoop buckets
-  #scoop config aria2-enabled false
-  #scoop install git
-  #scoop bucket add extras
-  #scoop bucket add twpayne https://github.com/twpayne/scoop-bucket
-  #scoop bucket add nerd-fonts
+  scoop install fnm
+
+  scoop bucket add extras
+  scoop install posh-git
+  scoop install git-aliases
+
+  scoop bucket add nerd-fonts
+  scoop install FiraCode
 }
 
 Write-Host -ForegroundColor Green "$StepName - Done";
