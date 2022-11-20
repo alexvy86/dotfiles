@@ -26,6 +26,8 @@ If everything before the comma is ommitted, the default installation is to `$($e
 
 The command will print where it installed the binary to.
 
+NOTE: the same command can be used to update chezmoi in Windows, since `chezmoi upgrade` in Windows is apparently not fully functional.
+
 ## 2. Install the dotfiles
 
 ### Unix and Windows
@@ -47,7 +49,7 @@ This command is useful for testing changes to the `.chezmoi.yaml.tmpl` file, sin
 cat /path/to/.chezmoi.yaml.tmpl | chezmoi execute-template --init
 ```
 
-### Windows 
+### Windows
 
 ```PowerShell
 Get-Content -Path /path/to/.chezmoi.yaml.tmpl | chezmoi execute-template --init
