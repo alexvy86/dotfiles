@@ -4,4 +4,9 @@
 		"*.sh.tmpl": "shellscript",
 		"*.yaml.tmpl": "yaml"
   },
+
+	// Markdown Lint extension
+	"markdownlint.config": {
+		"no-duplicate-header": { "siblings_only": true }
+	},
 }
