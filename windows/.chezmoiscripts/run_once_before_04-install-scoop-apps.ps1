@@ -1,13 +1,13 @@
 $StepName = "Installing scoop buckets";
 Write-Host -ForegroundColor Cyan $StepName;
 
-function refresh-path {
+function Update-Path {
   $env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine") +
               ";" +
               [System.Environment]::GetEnvironmentVariable("Path","User")
 }
 
-refresh-path;
+Update-Path;
 
 # Error out if scoop is not installed
 if (Get-Command "scoop" -ErrorAction Stop) {
