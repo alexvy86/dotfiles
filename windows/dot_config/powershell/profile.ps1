@@ -1,4 +1,4 @@
-# This is intended to be sounced by the "Current user, all hosts" PowerShell profile file so it applies
+# This is intended to be sourced by the "Current user, all hosts" PowerShell profile file so it applies
 # to all host applications that host PowerShell (e.g. PowerShell ISE, VSCode).
 # In the actual file (which should be at $profile.CurrentUserAllHosts, almost certainly under your
 # user's Documents folder), source this file as follows:
@@ -7,7 +7,7 @@
 #
 # E.g.
 #
-# . "$HOME\.config\powershell\profile.ps1";.
+# . "$HOME\.config\powershell\profile.ps1";
 #
 # Done this way instead of directly creating the file because I have setups where the actual file
 # lives in another drive and I can't update it easily with chezmoi.
