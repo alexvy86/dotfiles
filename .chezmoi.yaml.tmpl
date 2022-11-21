@@ -2,9 +2,11 @@ edit:
   command: "code"
   args: ["-r", "--wait"]
 
-{{- if eq .chezmoi.os "windows" }}
-"interpreters.ps1":
-  command: "pwsh.exe"
+{{ if eq .chezmoi.os "windows" -}}
+interpreters:
+  ps1:
+    command: "pwsh.exe"
+    args: ["-NoLogo", "-NoProfile"]
 {{- end }}
 
 {{ if eq .chezmoi.os "windows" -}}
