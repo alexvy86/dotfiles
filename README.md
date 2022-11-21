@@ -32,6 +32,11 @@ NOTE: the same command can be used to update chezmoi in Windows, since `chezmoi 
 
 ### Unix and Windows
 
+> **Warning**
+> On **Windows**, make sure that the `App Installer` app in the Microsoft Store is installed, which includes the `winget` executable.
+> No way to automate its installation here, so need to do it manually.
+> Also convenient to run a command like `winget list --exact Microsoft.PowerShell` to get prompted to accept the source agreement terms.
+
 NOTE: for my setup, I have to split the `init` and the `apply` commands so the `sourceDir` I override in the chezmoi config file takes effect during `apply`.
 
 ```bash
