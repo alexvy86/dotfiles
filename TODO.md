@@ -7,6 +7,7 @@
 - Copy my script to create Edge cleanup task in Windows.
   - Even necessary still? Was it only because of Edge-Dev/Beta?
 - Use `scriptEnv` to avoid some `.tmpl` files. Example [here](https://www.chezmoi.io/user-guide/use-scripts-to-perform-actions/#understand-how-scripts-work#set-environment-variables).
+- Fix PowerShell setup. Maybe need to install `pwsh` as a separate step before `chezmoi apply`, because otherwise it's not being found in the path during during the same session where it gets installed.
 
 ## Maybe
 
