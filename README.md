@@ -38,9 +38,11 @@ NOTE: the same command can be used to update chezmoi in Windows, since `chezmoi 
 > Also convenient to run a command like `winget list --exact Microsoft.PowerShell` to get prompted to accept the source agreement terms.
 
 NOTE: for my setup, I have to split the `init` and the `apply` commands so the `sourceDir` I override in the chezmoi config file takes effect during `apply`.
+`--guess-repo-url=false` is necessary because otherwise chezmoi rewrites the repo URL in a way that tries to authenticate to the repo, which is public,
+so there is no need to authenticate.
 
 ```bash
-chezmoi init --apply=false --verbose https://github.com/alexvy86/dotfiles.git
+chezmoi init --apply=false --guess-repo-url=false --verbose https://github.com/alexvy86/dotfiles.git
 chezmoi apply
 ```
 
