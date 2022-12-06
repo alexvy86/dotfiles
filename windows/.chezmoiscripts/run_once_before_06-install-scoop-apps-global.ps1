@@ -4,9 +4,9 @@ $PowershellExecutable = "pwsh.exe"; # Use "powershell.exe" for Windows Powershel
 # Taken from chezmoi's documentation: https://www.chezmoi.io/user-guide/machines/windows/
 if (-Not ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] 'Administrator')) {
   if ([int](Get-CimInstance -Class Win32_OperatingSystem | Select-Object -ExpandProperty BuildNumber) -ge 6000) {
-    $CommandLine = "-NoExit -File `"" + $MyInvocation.MyCommand.Path + "`" " + $MyInvocation.UnboundArguments;
-    Start-Process -FilePath $PowershellExecutable -Verb Runas -ArgumentList $CommandLine;
-    Exit
+    $CommandLine = "-File `"" + $MyInvocation.MyCommand.Path + "`" " + $MyInvocation.UnboundArguments;
+    Start-Process -Wait -FilePath $PowershellExecutable -Verb Runas -ArgumentList $CommandLine;
+    Exit;
   }
 }
 
@@ -28,3 +28,5 @@ if (Get-Command "scoop" -ErrorAction Stop) {
 }
 
 Write-Host -ForegroundColor Green "$StepName - Done";
+Write-Host "Press ENTER to continue";
+Read-Host;
