@@ -18,7 +18,7 @@ sudo apt install --yes --no-install-recommends \
 
 # Install Homebrew per the instructions in https://brew.sh/,
 # but using a fixed version of the install script that I've read and validated.
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/805136bcfcbc40b95e476639fb2407773ab26445/install.sh)"
+NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/805136bcfcbc40b95e476639fb2407773ab26445/install.sh)"
 
 # Update Homebrew. Use absolute path since at this point it's not in the PATH yet.
 /home/linuxbrew/.linuxbrew/bin/brew update --force --quiet;
