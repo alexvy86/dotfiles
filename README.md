@@ -2,6 +2,25 @@
 
 My `dotfiles` repository, managed with [ChezMoi](https://www.chezmoi.io/).
 
+## 0. Pre-requisites
+
+### Unix
+
+The following packages should be installed with your package manager of choice:
+
+- `curl`
+
+### Windows
+
+Install from the Microsoft Store:
+
+- The `App Installer` app.
+  It includes the `winget` executable used by this `chezmoi` repo to install other apps.
+  I haven't found a way to automate its installation here, so it needs to be done manually beforehand.
+  - Also make sure to run a command like `winget list --exact Microsoft.PowerShell` to get prompted to accept the source agreement terms.
+- The `PowerShell` app.
+  It could be installed from a different source by `chezmoi` but it's preferrable to have it be managed and updated automatically by the Store.
+
 ## 1. Install chezmoi
 
 General instructions [here](https://www.chezmoi.io/install/).
@@ -31,11 +50,6 @@ NOTE: the same command can be used to update chezmoi in Windows, since `chezmoi 
 ## 2. Install the dotfiles
 
 ### Unix and Windows
-
-> **Warning**
-> On **Windows**, make sure that the `App Installer` app in the Microsoft Store is installed, which includes the `winget` executable.
-> No way to automate its installation here, so need to do it manually.
-> Also convenient to run a command like `winget list --exact Microsoft.PowerShell` to get prompted to accept the source agreement terms.
 
 NOTE: for my setup, I have to split the `init` and the `apply` commands so the `sourceDir` I override in the chezmoi config file takes effect during `apply`.
 `--guess-repo-url=false` is necessary because otherwise chezmoi rewrites the repo URL in a way that tries to authenticate to the repo, which is public,
