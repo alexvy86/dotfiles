@@ -12,6 +12,7 @@
 # Done this way instead of directly creating the file because I have setups where the actual file
 # lives in another drive and I can't update it easily with chezmoi.
 
+Import-Module Terminal-Icons;
 Import-Module posh-git;
 Import-Module git-aliases -DisableNameChecking;
 

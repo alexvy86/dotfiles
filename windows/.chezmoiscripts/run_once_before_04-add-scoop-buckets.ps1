@@ -11,8 +11,8 @@ Update-Path;
 
 # Error out if scoop is not installed
 if (Get-Command "scoop" -ErrorAction Stop) {
-  scoop bucket add extras
-  scoop bucket add nerd-fonts
+  scoop bucket --no-update-scoop add extras
+  scoop bucket --no-update-scoop add nerd-fonts
 }
 
 Write-Host -ForegroundColor Green "$StepName - Done";

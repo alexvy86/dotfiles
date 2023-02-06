@@ -24,7 +24,9 @@ Update-Path;
 # Error out if scoop is not installed
 if (Get-Command "scoop" -ErrorAction Stop) {
   # Fonts need to be installed system-wide. See https://github.com/matthewjberger/scoop-nerd-fonts/pull/200 for details.
-  scoop install -g FiraCode
+  # CascadiaCode-NF is the NerdFonts font we install for the Terminal-Icons module to display its icons.
+  scoop install --no-update-scoop -g FiraCode-NF
+  scoop install --no-update-scoop -g CascadiaCode-NF
 }
 
 Write-Host -ForegroundColor Green "$StepName - Done";
