@@ -44,6 +44,16 @@
                 "source": "Windows.Terminal.PowershellCore"
             },
             {
+                "colorScheme": "Campbell",
+                "commandline": "\"C:\\Program Files\\PowerShell\\7\\pwsh.exe\"",
+                "elevate": true,
+                "guid": "{c68f162c-b476-4632-ad0c-e5a921ea4237}",
+                "hidden": false,
+                "icon": "ms-appx:///ProfileIcons/pwsh.png",
+                "name": "PowerShell (Admin)",
+                "startingDirectory": "%USERPROFILE%"
+            },
+            {
                 "commandline": "%SystemRoot%\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
                 "guid": "{61c54bbd-c2c6-5271-96e7-009a87ff44bf}",
                 "hidden": false,
