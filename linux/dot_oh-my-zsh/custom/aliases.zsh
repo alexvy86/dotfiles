@@ -1,10 +1,6 @@
 # Show open port information.
 alias ports="ss --tcp --udp --all --processes"
 
-# Sync my fork of the FF repo with upstream.
-# Needs a separate git fetch to be reflected locally.
-alias grsff="gh repo sync alexvy86/FluidFramework"
-
 # List all (A) files and directories recursively (R), in human-readable (h) format,
 # with indicator suffix (F).
 alias lar="ls -lARFh"
@@ -20,3 +16,8 @@ alias path='echo -e ${PATH//:/\\n}'
 # Date/time shortcuts
 alias nowtime='date +"%T"'
 alias nowdate='date +"%Y-%m-%d"'
+
+# System management
+alias sau='sudo apt update'
+alias sauu='sudo apt upgrade'
+alias sausau='sudo apt update; sudo apt upgrade'
