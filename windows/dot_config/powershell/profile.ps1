@@ -23,9 +23,8 @@ Import-Module git-aliases -DisableNameChecking;
 ## Make Tab behave like Ctrl+space for autocomplete
 Set-PSReadlineKeyHandler -Key Tab -Function MenuComplete;
 
-## These are normally bound to F8 and Shift+F8. More convenient to just have them in the arrows.
-Set-PSReadLineKeyHandler -Key UpArrow -Function HistorySearchBackward;
-Set-PSReadLineKeyHandler -Key DownArrow -Function HistorySearchForward;
+# Make sure the cursor goes to the end of the line on history search
+Set-PSReadLineOption -HistorySearchCursorMovesToEnd;
 
 Set-PSReadLineOption -PredictionSource History;
 
