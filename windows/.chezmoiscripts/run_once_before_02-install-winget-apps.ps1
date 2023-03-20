@@ -1,7 +1,8 @@
 $Packages = @(
 	"Microsoft.PowerToys",
 	"Git.Git",
-	"GitHub.GitLFS"
+	"GitHub.GitLFS",
+	"JanDeDobbeleer.OhMyPosh"
 	# "Docker.DockerDesktop",
 	# "Google.Chrome",
 	# "PuTTY.PuTTY",
@@ -16,6 +17,6 @@ $Packages |% {
 		Write-Host "Package $_ is already installed";
 	} else {
 		Write-Host "Installing package $_";
-		winget install $_;
+		winget install $_ -s winget;
 	}
 }

@@ -30,3 +30,6 @@ Set-PSReadLineOption -PredictionSource History;
 
 # Set up fnm. Assumes it was installed earlier.
 fnm env --use-on-cd | Out-String | Invoke-Expression;
+
+# Initialize oh-my-posh
+oh-my-posh init pwsh --config "~/.config/alexvy86.omp.json" | Invoke-Expression;
