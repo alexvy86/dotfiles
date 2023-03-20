@@ -18,8 +18,10 @@ Install from the Microsoft Store:
   It includes the `winget` executable used by this `chezmoi` repo to install other apps.
   I haven't found a way to automate its installation here, so it needs to be done manually beforehand.
   - Also make sure to run a command like `winget list --exact Microsoft.PowerShell` to get prompted to accept the source agreement terms.
-- The `PowerShell` app.
-  It could be installed from a different source by `chezmoi` but it's preferrable to have it be managed and updated automatically by the Store.
+
+NOTE: at some point I suggested that the `PowerShell` app also be installed from the Microsof Store but
+then became aware of some [limitations](https://learn.microsoft.com/en-us/powershell/scripting/install/installing-powershell-on-windows?view=powershell-7.3#installing-from-the-microsoft-store).
+Now the chezmoi setup installs the `PowerShell` MSIX through `winget`.
 
 ## 1. Install chezmoi
 
@@ -77,3 +79,12 @@ Get-Content -Path /path/to/.chezmoi.yaml.tmpl | chezmoi execute-template --init
 ```
 
 `chezmoi execute-template --init` can also take `--promptString <name>=<value>` but it also applies to the `promptString` function inside a template, not to `promptStringOnce`.
+
+## Notes
+
+For Windows systems, [the Windows Terminal settings][windows-terminal-settings-file] assume that the Ubuntu distribution
+for WSL has been installed from the Microsoft Store.
+If that's not the case, the profile to launch Ubuntu might not show up in the profile dropdown in Windows Terminal.
+
+<!-- Links -->
+[windows-terminal-settings-file]: ./windows/AppData/Local/Packages/Microsoft.WindowsTerminal_8wekyb3d8bbwe/LocalState/settings.json
