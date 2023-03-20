@@ -5,7 +5,9 @@ edit:
 {{ if eq .chezmoi.os "windows" -}}
 interpreters:
   ps1:
-    command: "pwsh.exe"
+    # Using the absolute path for the case of a brand new machine where pwsh.exe is just getting installed, and
+    # its path won't be visible in the PATH variable in the same cmd process where chezmoi is running.
+    command: "C:/Program\ Files/PowerShell/7/pwsh.exe"
     args: ["-NoLogo", "-NoProfile"]
 {{- end }}
 
