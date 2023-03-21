@@ -7,7 +7,7 @@ for details on the line below. Needed for this script to run successfully in Git
 
 {{- if has (index .chezmoi.osRelease "id") (list "debian" "ubuntu") }}
 
-{{- if .codespaces -}}
+{{- if .codespaces }}
 
 # If we are in a Codespaces instance for the FluidFramework repo, OhMyZsh is already installed, skip installation.
 
