@@ -120,7 +120,7 @@ DISABLE_UPDATE_PROMPT=true
 {{- end }}
 
 # fnm
-export PATH=$HOME/.fnm:$PATH
+export PATH=$HOME/.local/share/fnm:$PATH
 if [ "$(command -v fnm)" ]; then
   eval "$(fnm env --use-on-cd)";
 fi
