@@ -1,0 +1,30 @@
+{{- if eq .chezmoi.os "linux" -}}
+{{- /*
+See https://www.chezmoi.io/user-guide/frequently-asked-questions/troubleshooting/#chezmoi-reports-forkexec-no-such-file-or-directory-when-running-scripts-on-termux
+for details on the line below. Needed for this script to run successfully in Github Codespaces.
+*/ -}}
+#!{{- lookPath "bash" }}
+
+{{- if has (index .chezmoi.osRelease "id") (list "debian" "ubuntu") }}
+
+# Update the list of packages
+sudo apt update;
+
+# Install pre-requisite packages.
+sudo apt install --yes wget apt-transport-https software-properties-common;
+
+# Download the Microsoft repository GPG keys
+wget -q "https://packages.microsoft.com/config/ubuntu/$(lsb_release -rs)/packages-microsoft-prod.deb";
+
+# Register the Microsoft repository GPG keys
+sudo dpkg -i packages-microsoft-prod.deb;
+
+# Update the list of packages after we added packages.microsoft.com
+sudo apt update;
+
+# Install PowerShell
+sudo apt install --yes powershell;
+
+{{- end }}
+
+{{- end }}
