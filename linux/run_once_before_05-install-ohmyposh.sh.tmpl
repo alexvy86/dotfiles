@@ -1,15 +1,18 @@
-{{- if eq .chezmoi.os "linux" -}}
 {{- /*
 See https://www.chezmoi.io/user-guide/frequently-asked-questions/troubleshooting/#chezmoi-reports-forkexec-no-such-file-or-directory-when-running-scripts-on-termux
 for details on the line below. Needed for this script to run successfully in Github Codespaces.
 */ -}}
 #!{{- lookPath "bash" }}
 
-{{- if has (index .chezmoi.osRelease "id") (list "debian" "ubuntu") }}
+# Original instructions: https://ohmyposh.dev/docs/installation/linux under the "manual" tab
 
-# Use full path to homebrew because at this point it's in the PATH environment variable yet
-/home/linuxbrew/.linuxbrew/bin/brew install jandedobbeleer/oh-my-posh/oh-my-posh;
+# Download the executable
+sudo wget https://github.com/JanDeDobbeleer/oh-my-posh/releases/latest/download/posh-linux-arm64 -O /usr/local/bin/oh-my-posh;
+sudo chmod +x /usr/local/bin/oh-my-posh;
 
-{{- end }}
-
-{{- end }}
+# Install themes
+mkdir ~/.poshthemes;
+wget https://github.com/JanDeDobbeleer/oh-my-posh/releases/latest/download/themes.zip -O ~/.poshthemes/themes.zip;
+unzip ~/.poshthemes/themes.zip -d ~/.poshthemes;
+chmod u+rw ~/.poshthemes/*.omp.*;
+rm ~/.poshthemes/themes.zip;
