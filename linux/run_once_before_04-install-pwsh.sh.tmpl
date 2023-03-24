@@ -1,11 +1,38 @@
-{{- if eq .chezmoi.os "linux" -}}
 {{- /*
 See https://www.chezmoi.io/user-guide/frequently-asked-questions/troubleshooting/#chezmoi-reports-forkexec-no-such-file-or-directory-when-running-scripts-on-termux
 for details on the line below. Needed for this script to run successfully in Github Codespaces.
 */ -}}
 #!{{- lookPath "bash" }}
 
-{{- if has (index .chezmoi.osRelease "id") (list "debian" "ubuntu") }}
+{{- /* Raspberry Pi */ -}}
+{{- if and (eq (index .chezmoi.osRelease "id") "debian") (eq .chezmoi.arch "arm64") }}
+
+# Original instructions: https://learn.microsoft.com/en-us/powershell/scripting/install/install-raspbian?view=powershell-7.3
+# NOTE: I updated the link to download the 64bit version instead of 32bit
+
+# Update package lists
+sudo apt-get update
+
+# Install libunwind8 and libssl1.0 - Regex is used to ensure that we don't
+# install libssl1.0-dev, as it is a variant that is not required
+sudo apt-get install '^libssl1.0.[0-9]$' libunwind8 -y
+
+# Grab the latest tar.gz
+wget https://github.com/PowerShell/PowerShell/releases/download/v7.3.3/powershell-7.3.3-linux-arm64.tar.gz
+
+# Make folder to put powershell
+mkdir ~/.local/share/powershell
+
+# Unpack the tar.gz file and remove it after
+tar -xvf ./powershell-7.3.3-linux-arm32.tar.gz -C ~/.local/share/powershell
+rm ./powershell-7.3.3-linux-arm32.tar.gz
+
+sudo ln -s ~/.local/share/powershell/pwsh /usr/bin/pwsh
+
+{{- /* Ubuntu */ -}}
+{{- else if eq (index .chezmoi.osRelease "id") "ubuntu" }}
+
+# Original instructions: https://learn.microsoft.com/en-us/powershell/scripting/install/install-ubuntu?view=powershell-7.3
 
 # Update the list of packages
 sudo apt update;
@@ -25,6 +52,9 @@ sudo apt update;
 # Install PowerShell
 sudo apt install --yes powershell;
 
-{{- end }}
+{{- else }}
+
+>&2 echo "Unexpected OS/architecture. Cannot install Powershell.";
+exit 1;
 
 {{- end }}
