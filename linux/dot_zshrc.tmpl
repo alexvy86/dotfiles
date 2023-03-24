@@ -84,8 +84,12 @@ plugins+=(docker docker-compose)
 zstyle :omz:plugins:ssh-agent lazy yes
 zstyle :omz:plugins:ssh-agent lifetime ${SSH_AGENT_LIFETIME:-10h}
 
+# Use Oh-My-Zsh
 # Make sure to set any plugin-specific options before calling this
 source $ZSH/oh-my-zsh.sh
+
+# Use Oh-My-Posh
+#eval "$(oh-my-posh init zsh --config "~/.config/alexvy86.omp.json")"
 
 # User configuration
 
