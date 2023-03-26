@@ -2,14 +2,16 @@ edit:
   command: "code"
   args: ["-r", "--wait"]
 
-{{ if eq .chezmoi.os "windows" -}}
 interpreters:
   ps1:
     # Using the absolute path for the case of a brand new machine where pwsh.exe is just getting installed, and
     # its path won't be visible in the PATH variable in the same cmd process where chezmoi is running.
+{{- if eq .chezmoi.os "windows" }}
     command: "C:/Program\ Files/PowerShell/7/pwsh.exe"
-    args: ["-NoLogo", "-NoProfile"]
+{{- else }}
+    command: "/usr/bin/pwsh"
 {{- end }}
+    args: ["-NoLogo", "-NoProfile"]
 
 {{ if eq .chezmoi.os "windows" -}}
 sourceDir: "{{- .chezmoi.workingTree -}}/windows"
