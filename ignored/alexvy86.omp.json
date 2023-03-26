@@ -52,12 +52,6 @@
           }
         },
         {
-          "type": "os",
-          "style": "plain",
-          "foreground": "p:white",
-          "template": " {{ if .WSL }}WSL at {{ end }}{{.Icon}} "
-        },
-        {
           "type": "time",
           "style": "plain",
           "foreground": "p:orange",
@@ -65,6 +59,18 @@
           "properties": {
             "time_format": "15:04:05"
           }
+        },
+        {
+          "type": "os",
+          "style": "plain",
+          "foreground": "p:white",
+          "template": "{{ if .WSL }}WSL at {{ end }}{{.Icon}} "
+        },
+        {
+          "type": "shell",
+          "style": "plain",
+          "foreground": "p:white",
+          "template": "<p:blue>{{ .Name }}</> "
         },
         {
           "type": "session",
@@ -94,28 +100,15 @@
             "fetch_upstream_icon": true,
             "github_icon": "\uf7a3" // Smaller version, occupies less horizontal space
           }
-        }
-      ]
-    },
-    {
-      "type": "rprompt",
-      "segments": [
+        },
         {
           "type": "node",
           "style": "plain",
           "foreground": "p:green",
-          "background": "transparent",
-          "template": "\uf898 \uE718 {{ .Full }}",
+          "template": "\uf898 {{ .Full }}",
           "properties": {
             "display_mode": "files"
           }
-        },
-        {
-          "type": "shell",
-          "style": "plain",
-          "foreground": "p:white",
-          "background": "transparent",
-          "template": "in <p:blue><b>{{ .Name }}</b></> "
         }
       ]
     },
