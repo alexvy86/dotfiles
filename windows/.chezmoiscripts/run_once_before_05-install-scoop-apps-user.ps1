@@ -13,11 +13,6 @@ Update-Path;
 if (Get-Command "scoop" -ErrorAction Stop) {
   # From "main" bucket
   scoop install --no-update-scoop fnm
-
-  # From "extras" bucket
-  scoop install --no-update-scoop posh-git
-  scoop install --no-update-scoop git-aliases
-  scoop install --no-update-scoop terminal-icons # Note: Terminal-Icons requires a font from https://www.nerdfonts.com/
 }
 
 Write-Host -ForegroundColor Green "$StepName - Done";
