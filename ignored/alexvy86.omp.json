@@ -1,22 +1,25 @@
 {
   "$schema": "https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/schema.json",
   "palette": {
-    "transient-foreground": "#AAAAAA",
-    "transient-background": "#BBBBBB",
-    "background": "#2f2f2f",
-    "blue": "#4B95E9",
+    "background": "#1f1f1f",
+    "separator": "#7a7a7a",
     "success": "#59C9A5",
     "error": "#D81E5B",
-    "green": "#00FF00",
-    "cyan": "#00FFFF",
+    "white": "#fafafa",
+    "light-gray": "#B5B2C2",
     "orange": "#F07623",
-    "white": "#E0DEF4",
-    "yellow": "#F3AE35",
+    "yellow": "#ffeb3b",
+    "node-green": "#6CA35E",
+    "green": "#00FF00",
+    "teal": "#2EC4B6",
+    "cyan": "#00FFFF",
+    "ocean-blue": "#26C6DA",
+    "blue": "#0077c2",
     "magenta": "#FF00FF",
-    "purple": "#8800dd"
+    "purple": "#8A4FFF"
   },
   "var": {
-    "Separator": "<#7a7a7a> \ue0b1 </>"
+    "Separator": "<p:separator> \ue0b1 </>"
   },
   "blocks": [
     {
@@ -24,38 +27,44 @@
       "segments": [
         {
           "type": "exit",
-          "style": "diamond",
-          "leading_diamond": "\u256d\u2500\ue0b6",
-          "foreground": "p:white",
-          "background": "p:success",
-          "background_templates": [
-            "{{ if gt .Code 0 }}p:error{{ end }}"
-          ],
-          "template": "{{ if gt .Code 0 }}\uf00d{{ else }}\uf00c{{ end }} ",
+          "style": "plain",
+          "template": " {{ if gt .Code 0 }}<p:error>\uf00d</>{{ else }}<p:success>\uf00c</>{{ end }} ",
           "properties": {
             "always_enabled": true
           }
         },
         {
           "type": "executiontime",
-          "style": "diamond",
-          "foreground": "p:white",
-          "background": "p:success",
-          "background_templates": [
+          "style": "plain",
+          "foreground": "p:success",
+          "foreground_templates": [
             "{{ if gt .Code 0 }}p:error{{ end }}"
           ],
-          "template": " {{ .FormattedMs }} ",
-          "trailing_diamond": "\ue0b4 ",
+          "template": "{{ .FormattedMs }}",
           "properties": {
             "always_enabled": true,
             "style": "austin"
           }
+        }
+      ],
+      "type": "prompt"
+    },
+    {
+      "alignment": "left",
+      "newline": true,
+      "segments": [
+        {
+          "type": "text",
+          "style": "plain",
+          "foreground": "p:ocean-blue",
+          "template": "\u256d\u2500"
         },
         {
           "type": "os",
           "style": "diamond",
           "background": "p:background",
-          "foreground": "#26C6DA",
+          "foreground": "p:ocean-blue",
+          "leading_diamond": "\ue0b6",
           "properties": {
             "alpine": "\uf300",
             "arch": "\uf303",
@@ -73,64 +82,44 @@
             "ubuntu": "\uf31c",
             "windows": "\ue70f"
           },
-          "template": "{{ if .WSL }}\ue712 on {{ end }}{{ .Icon }} "
+          "template": "{{ .Icon }}{{ if .WSL }} (WSL){{ end }}"
+        },
+        {
+          "type": "shell",
+          "style": "plain",
+          "foreground": "p:blue",
+          "background": "p:background",
+          "template": "{{ .Var.Separator }}{{ .Name }}"
+        },
+        {
+          "type": "session",
+          "style": "plain",
+          "foreground": "p:white",
+          "background": "p:background",
+          "template": "{{ .Var.Separator }}{{ if ne .Env.POSH_SESSION_DEFAULT_USER .UserName }}<p:green>{{ .UserName }}</> @ {{ end }}<p:magenta>{{ .HostName }}</>"
+        },
+        {
+          "type": "root",
+          "style": "plain",
+          "foreground": "p:yellow",
+          "background": "p:background",
+          "template": " \uf0e7"
         },
         {
           "type": "path",
-          "style": "diamond",
+          "style": "plain",
           "background": "p:background",
-          "foreground": "#fafafa",
+          "foreground": "p:white",
           "properties": {
-            "folder_icon": "<#B5B2C2>\ue5fe </>",
+            "folder_icon": "<p:light-grey>\ue5fe </>",
             "style": "full"
           },
-          "template": "{{ .Var.Separator }}<#f2f200>\ue5ff </>{{ .Path }}"
-        },
-        {
-          "type": "git",
-          "style": "diamond",
-          "background": "p:background",
-          "foreground": "#ffeb3b",
-          "foreground_templates": [
-            "{{ if or (.Working.Changed) (.Staging.Changed) }}#ffeb3b{{ end }}",
-            "{{ if gt .Ahead 0 }}#2EC4B6{{ end }}",
-            "{{ if gt .Behind 0 }}#8A4FFF{{ end }}"
-          ],
-          "template": "{{ .Var.Separator }}{{ if .UpstreamURL }}{{ url .UpstreamIcon .UpstreamURL }} {{ end }}{{ .HEAD }}{{ if .BranchStatus }} {{ .BranchStatus }}{{ end }}{{ if .Working.Changed }}<#E84855> \uf044 {{ .Working.String }}</>{{ end }}{{ if and (.Working.Changed) (.Staging.Changed) }} |{{ end }}{{ if .Staging.Changed }}<#2FDA4E> \uf046 {{ .Staging.String }}</>{{ end }} ",
-          "properties": {
-            "branch_max_length": 25,
-            "fetch_status": true,
-            "fetch_upstream_icon": true,
-            "github_icon": "\uf7a3" // Smaller version, occupies less horizontal space
-          }
-        },
-        {
-          "type": "text",
-          "style": "diamond",
-          "background": "p:background",
-          "foreground": "#fafafa",
-          "trailing_diamond": "\ue0b0"
-        }
-      ],
-      "type": "prompt"
-    },
-    {
-      "alignment": "right",
-      "segments": [
-        {
-          "type": "time",
-          "style": "plain",
-          "foreground": "p:orange",
-          "background": "p:background",
-          "template": " {{ .CurrentDate | date .Format }}",
-          "properties": {
-            "time_format": "15:04:05"
-          }
+          "template": "{{ .Var.Separator }}<p:yellow>\ue5ff </>{{ .Path }}"
         },
         {
           "type": "node",
           "style": "plain",
-          "foreground": "#6CA35E",
+          "foreground": "p:node-green",
           "background": "p:background",
           "template": "{{ .Var.Separator }}\uf898 {{ .Full }}",
           "properties": {
@@ -138,27 +127,23 @@
           }
         },
         {
-          "type": "session",
+          "type": "git",
           "style": "diamond",
-          "foreground": "#fafafa",
           "background": "p:background",
-          "template": "{{ .Var.Separator }}{{ if ne .Env.POSH_SESSION_DEFAULT_USER .UserName }}<p:green>{{ .UserName }}</>\uf1fa{{ end }}<p:magenta>{{ .HostName }}</>"
-        },
-        {
-          "type": "root",
-          "style": "diamond",
-          "foreground": "#ffff66",
-          "background": "p:background",
-          "template": " \uf0e7"
-        },
-        {
-          "type": "shell",
-          "style": "diamond",
-          "foreground": "#ffffff",
-          "background": "#0077c2",
-          "leading_diamond": "\ue0b6",
+          "foreground": "p:yellow",
+          "foreground_templates": [
+            "{{ if or (.Working.Changed) (.Staging.Changed) }}p:yellow{{ end }}",
+            "{{ if gt .Ahead 0 }}p:teal{{ end }}",
+            "{{ if gt .Behind 0 }}p:purple{{ end }}"
+          ],
           "trailing_diamond": "\ue0b4",
-          "template": " {{ .Name }} "
+          "template": "{{ .Var.Separator }}{{ if .UpstreamURL }}{{ url .UpstreamIcon .UpstreamURL }} {{ end }}{{ .HEAD }}{{ if .BranchStatus }} {{ .BranchStatus }}{{ end }}{{ if .Working.Changed }}<p:orange> \uf044 {{ .Working.String }}</>{{ end }}{{ if and (.Working.Changed) (.Staging.Changed) }} |{{ end }}{{ if .Staging.Changed }}<p:green> \uf046 {{ .Staging.String }}</>{{ end }} ",
+          "properties": {
+            "branch_max_length": 25,
+            "fetch_status": true,
+            "fetch_upstream_icon": true,
+            "github_icon": "\uf7a3" // Smaller version, occupies less horizontal space
+          }
         }
       ],
       "type": "prompt"
@@ -168,25 +153,10 @@
       "newline": true,
       "segments": [
         {
-          "foreground": "#21c7c7",
-          "foreground_templates": [
-            "{{ if gt .Code 0 }}p:error{{ end }}"
-          ],
+          "type": "text",
           "style": "plain",
-          "template": "\u2570\u2500",
-          "type": "text"
-        },
-        {
-          "foreground": "p:white",
-          "foreground_templates": [
-            "{{ if gt .Code 0 }}p:error{{ end }}"
-          ],
-          "properties": {
-            "always_enabled": true
-          },
-          "style": "plain",
-          "template": "\u276f",
-          "type": "exit"
+          "foreground": "p:ocean-blue",
+          "template": "\u2570\u2500 {{ .PromptCount }} <p:white>\u276f</>"
         }
       ],
       "type": "prompt"
@@ -196,7 +166,7 @@
   "final_space": true,
   "transient_prompt": {
     "foreground": "p:white",
-    "template": " {{ if gt .Code 0 }}<p:error>\uf00d</>{{ else }}<p:success>\uf00c</>{{ end }} <p:transient-background>\ue0b6</><p:transient-foreground,p:transient-background>{{ .Segments.Executiontime.FormattedMs }} @ {{ .Segments.Time.CurrentDate | date .Segments.Time.Format }}</><p:transient-background>\ue0b4</>\n\u276f "
+    "template": " {{ if gt .Code 0 }}<p:error>\uf00d{{ else }}<p:success>\uf00c{{ end }} {{ .Segments.Executiontime.FormattedMs }}</>\n[<p:ocean-blue>{{ .PromptCount }}</>][<p:orange>{{ now | date \"15:04:05\" }}</>] "
   },
   "version": 2
 }
