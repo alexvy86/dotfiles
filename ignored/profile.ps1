@@ -8,6 +8,16 @@ Import-Module git-aliases -DisableNameChecking;
 #----------------------------------------------------------
 # PSReadLine, see https://github.com/PowerShell/PSReadLine
 #----------------------------------------------------------
+
+# Windows-style default key handlers.
+Set-PSReadLineOption -EditMode Windows;
+
+# Make sure the cursor goes to the end of the line on history search.
+Set-PSReadLineOption -HistorySearchCursorMovesToEnd;
+
+Set-PSReadLineOption -PredictionSource HistoryAndPlugin;
+Set-PSReadLineOption -PredictionViewStyle ListView;
+
 # Trying to make Linux and Windows as similar as possible for the things I use.
 # REMEMBER KEY HANDLERS ARE CASE SENSITIVE. Ctrl+v and Ctrl+V are different handlers.
 
@@ -32,9 +42,6 @@ Set-PSReadLineKeyHandler -Chord PageDown        -Function ScrollDisplayDown;
 Set-PSReadLineKeyHandler -Chord Ctrl+PageDown   -Function ScrollDisplayDownLine;
 Set-PSReadLineKeyHandler -Chord PageUp          -Function ScrollDisplayUp;
 Set-PSReadLineKeyHandler -Chord Ctrl+PageUp     -Function ScrollDisplayUpLine;
-
-# Make sure the cursor goes to the end of the line on history search
-Set-PSReadLineOption -HistorySearchCursorMovesToEnd;
 
 #----------------------------------------------------------
 # FNM
