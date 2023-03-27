@@ -9,8 +9,8 @@ for details on the line below. Needed for this script to run successfully in Git
 {{- /* Raspberry Pi */ -}}
 {{- if and (eq (index .chezmoi.osRelease "id") "debian") (eq .chezmoi.arch "arm64") }}
 URL=https://github.com/JanDeDobbeleer/oh-my-posh/releases/latest/download/posh-linux-arm64
-{{- /* Ubuntu */ -}}
-{{- else if eq (index .chezmoi.osRelease "id") "ubuntu" }}
+{{- /* Ubuntu and Debian */ -}}
+{{- else if has (index .chezmoi.osRelease "id") (list "ubuntu" "debian") }}
 URL=https://github.com/JanDeDobbeleer/oh-my-posh/releases/latest/download/posh-linux-amd64
 {{- else }}
 >&2 echo "Unexpected OS/architecture. Cannot install OhMyPosh.";
