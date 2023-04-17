@@ -26,6 +26,10 @@ alias sau='sudo apt update'
 alias sauu='sudo apt upgrade'
 alias sausau='sudo apt update; sudo apt upgrade'
 
+# Process management
+alias psd='ps -ww -fjp'
+alias psall='ps -ww -efjH'
+
 # Diff between current commit and common ancestor between it and the specified branch
 function gdtool() {
     if [ "$#" -ne 1 ]; then
