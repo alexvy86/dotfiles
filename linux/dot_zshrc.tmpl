@@ -15,9 +15,6 @@ HIST_STAMPS="yyyy-mm-dd"
 
 # Define plugins to load. Standard plugins can be found in $ZSH/plugins/ .
 plugins=(git npm)
-{{- if not .codespaces }}
-plugins+=(ssh-agent)
-{{- end }}
 {{- if eq .chezmoi.hostname "rpi4" }}
 plugins+=(docker docker-compose)
 {{- else if .codespaces }}

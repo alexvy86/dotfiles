@@ -17,6 +17,9 @@ alias dus="du -sh"
 # Print PATH entries, one per line
 alias path='echo -e ${PATH//:/\\n}'
 
+# Use ssh-ident
+alias ssh="~/.local/bin/ssh-ident"
+
 # Date/time shortcuts
 alias nowtime='date +"%T"'
 alias nowdate='date +"%Y-%m-%d"'
