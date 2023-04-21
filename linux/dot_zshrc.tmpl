@@ -6,6 +6,7 @@ source ~/.config/zsh/directories-and-navigation.sh;
 source ~/.config/zsh/system-management.sh;
 source ~/.config/zsh/misc.sh;
 source ~/.config/zsh/fluid-framework.sh;
+source ~/.config/zsh/history.sh;
 
 ###############################
 # Configure PATH
@@ -23,6 +24,18 @@ export PATH=$PATH:/home/linuxbrew/.linuxbrew/bin; # Homebrew
 
 # Ctrl-backspace, delete word to the left of the cursor
 bindkey "^H" backward-kill-word
+
+# Ctrl + left/right arrows, move forward or backwards in the line
+bindkey "^[[1;5C" forward-word
+bindkey "^[[1;5D" backward-word
+
+# Ctrl + up/down arrows, search through matching history
+autoload -U up-line-or-beginning-search
+autoload -U down-line-or-beginning-search
+zle -N up-line-or-beginning-search
+zle -N down-line-or-beginning-search
+bindkey "^[[A" up-line-or-beginning-search # Up
+bindkey "^[[B" down-line-or-beginning-search # Down
 
 ###############################
 # Tools & applications
