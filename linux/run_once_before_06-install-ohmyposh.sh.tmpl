@@ -6,12 +6,14 @@ for details on the line below. Needed for this script to run successfully in Git
 
 # Original instructions: https://ohmyposh.dev/docs/installation/linux under the "manual" tab
 
+VERSION="v14.31.4";
+
 {{- /* Raspberry Pi */ -}}
 {{- if and (eq (index .chezmoi.osRelease "id") "debian") (eq .chezmoi.arch "arm64") }}
-URL=https://github.com/JanDeDobbeleer/oh-my-posh/releases/latest/download/posh-linux-arm64
+URL=https://github.com/JanDeDobbeleer/oh-my-posh/releases/download/$VERSION/posh-linux-arm64
 {{- /* Ubuntu and Debian */ -}}
 {{- else if has (index .chezmoi.osRelease "id") (list "ubuntu" "debian") }}
-URL=https://github.com/JanDeDobbeleer/oh-my-posh/releases/latest/download/posh-linux-amd64
+URL=https://github.com/JanDeDobbeleer/oh-my-posh/releases/download/$VERSION/posh-linux-amd64
 {{- else }}
 >&2 echo "Unexpected OS/architecture. Cannot install OhMyPosh.";
 exit 1;
@@ -23,7 +25,7 @@ sudo chmod +x /usr/local/bin/oh-my-posh;
 
 # Install themes
 mkdir ~/.poshthemes;
-wget https://github.com/JanDeDobbeleer/oh-my-posh/releases/latest/download/themes.zip -O ~/.poshthemes/themes.zip;
+wget https://github.com/JanDeDobbeleer/oh-my-posh/releases/download/$VERSION/themes.zip -O ~/.poshthemes/themes.zip;
 unzip ~/.poshthemes/themes.zip -d ~/.poshthemes;
 chmod u+rw ~/.poshthemes/*.omp.*;
 rm ~/.poshthemes/themes.zip;
