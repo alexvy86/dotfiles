@@ -4,6 +4,7 @@
 Import-Module Terminal-Icons;
 Import-Module posh-git;
 Import-Module git-aliases -DisableNameChecking;
+Import-Module DockerCompletion;
 
 #----------------------------------------------------------
 # PSReadLine, see https://github.com/PowerShell/PSReadLine

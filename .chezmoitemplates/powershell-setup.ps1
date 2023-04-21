@@ -15,3 +15,5 @@ Write-Host "Installing module posh-git";
 Install-Module posh-git -Scope CurrentUser -Force;
 Write-Host "Installing module Terminal-Icons";
 Install-Module Terminal-Icons; # Note: Terminal-Icons requires a font from https://www.nerdfonts.com/
+Write-Host "Installing module DockerCompletion";
+Install-Module DockerCompletion;
