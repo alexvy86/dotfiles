@@ -1,0 +1,35 @@
+###############################
+# Oh-My-Zsh configuration
+###############################
+
+# Path to oh-my-zsh installation.
+export ZSH="$HOME/.oh-my-zsh"
+
+# Set name of the theme to load --- if set to "random", it will
+# load a random theme each time oh-my-zsh is loaded, in which case,
+# to know which specific one was loaded, run: echo $RANDOM_THEME
+# See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
+ZSH_THEME="alex"
+
+# Include date when running 'history' command.
+HIST_STAMPS="yyyy-mm-dd"
+
+# Define plugins to load. Standard plugins can be found in $ZSH/plugins/ .
+plugins=(git npm)
+{{- if eq .chezmoi.hostname "rpi4" }}
+plugins+=(docker docker-compose)
+{{- else if .codespaces }}
+plugins+=(docker docker-compose)
+{{- end }}
+
+# Lazy loading for SSH keys into ssh-agent and expiration time
+zstyle :omz:plugins:ssh-agent lazy yes
+zstyle :omz:plugins:ssh-agent lifetime ${SSH_AGENT_LIFETIME:-10h}
+
+{{- if .codespaces }}
+# Disable auto-update prompt; only print reminder when new version is available.
+zstyle ':omz:update' mode reminder
+{{- end }}
+
+# Make sure to set any plugin-specific options before calling this
+source $ZSH/oh-my-zsh.sh

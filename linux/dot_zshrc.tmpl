@@ -1,71 +1,49 @@
 ###############################
-# ZSH configuration
-###############################
-# Path to your oh-my-zsh installation.
-export ZSH="$HOME/.oh-my-zsh"
-
-# Set name of the theme to load --- if set to "random", it will
-# load a random theme each time oh-my-zsh is loaded, in which case,
-# to know which specific one was loaded, run: echo $RANDOM_THEME
-# See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
-ZSH_THEME="alex"
-
-# Include date when running 'history' command.
-HIST_STAMPS="yyyy-mm-dd"
-
-# Define plugins to load. Standard plugins can be found in $ZSH/plugins/ .
-plugins=(git npm)
-{{- if eq .chezmoi.hostname "rpi4" }}
-plugins+=(docker docker-compose)
-{{- else if .codespaces }}
-plugins+=(docker docker-compose)
-{{- end }}
-
-# Lazy loading for SSH keys into ssh-agent and expiration time
-zstyle :omz:plugins:ssh-agent lazy yes
-zstyle :omz:plugins:ssh-agent lifetime ${SSH_AGENT_LIFETIME:-10h}
-
-# Use Oh-My-Zsh
-# Make sure to set any plugin-specific options before calling this
-source $ZSH/oh-my-zsh.sh
-
-# Use Oh-My-Posh
-#eval "$(oh-my-posh init zsh --config "~/.config/alexvy86.omp.json")"
-
-###############################
-# User configuration
+# Base configuration
 ###############################
 
-# Extra entries for PATH
-export PATH=$HOME/bin:/usr/local/bin:$PATH
+source ~/.config/zsh/directories-and-navigation.sh;
+source ~/.config/zsh/system-management.sh;
+source ~/.config/zsh/misc.sh;
+source ~/.config/zsh/fluid-framework.sh;
 
-# Set up aliases
-source $HOME/.aliases.sh
+###############################
+# Configure PATH
+###############################
 
-{{- if .codespaces }}
+export PATH=$HOME/bin:$PATH;
+export PATH=/usr/local/bin:$PATH;
+export PATH=$HOME/.local/share/fnm:$PATH;         # fnm
+export PATH=${KREW_ROOT:-$HOME/.krew}/bin:$PATH;  # krew
+export PATH=$PATH:/home/linuxbrew/.linuxbrew/bin; # Homebrew
 
-# Disable auto-update prompt; only print reminder when new version is available.
-zstyle ':omz:update' mode reminder
+###############################
+# Key bindings
+###############################
 
-{{- end }}
+# Ctrl-backspace, delete word to the left of the cursor
+bindkey "^H" backward-kill-word
+
+###############################
+# Tools & applications
+###############################
 
 # Enable fnm auto-use when opening a folder with a .node-version or .nvmrc file.
-export PATH=$HOME/.local/share/fnm:$PATH
 if [ "$(command -v fnm)" ]; then
   eval "$(fnm env --use-on-cd)";
 fi
-
-# krew
-export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH";
-
-# Homebrew
-export PATH="$PATH:/home/linuxbrew/.linuxbrew/bin";
 
 # Enable the navi widget
 if [ "$(command -v navi)" ]; then
   eval "$(navi widget zsh)";
 fi
 
-# Key bindings
-# Ctrl-backspace, delete word to the left of the cursor
-bindkey "^H" backward-kill-word
+###############################
+# Prompt
+###############################
+
+# Use Oh-My-Zsh
+#source ~/.config/use-ohmyzsh.sh
+
+# Use Oh-My-Posh
+eval "$(oh-my-posh init zsh --config "~/.config/alexvy86.omp.json")"
