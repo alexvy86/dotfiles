@@ -62,10 +62,3 @@ oh-my-posh init pwsh --config "~/.config/alexvy86.omp.json" | Invoke-Expression;
 #oh-my-posh init pwsh --config "~/.poshthemes/lambdageneration.omp.json" | Invoke-Expression;
 #oh-my-posh init pwsh --config "~/.poshthemes/multiverse-neon.omp.json" | Invoke-Expression;
 #oh-my-posh init pwsh --config "~/.poshthemes/stelbent-compact.minimal.omp.json" | Invoke-Expression;
-
-#----------------------------------------------------------
-# Aliases
-#----------------------------------------------------------
-
-# Use ssh-ident
-Function ssh {~/.local/bin/ssh-ident}

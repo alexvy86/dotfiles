@@ -2,3 +2,41 @@
 # PowerShell (e.g. PowerShell ISE, VSCode).
 
 {{ include "../ignored/profile.ps1" -}}
+
+#----------------------------------------------------------
+# Aliases
+#----------------------------------------------------------
+
+# Use ssh-ident
+Function ssh {~/.local/bin/ssh-ident}
+
+# Colorize ls output
+Function ls { ls --color=tty }
+# List almost all (A) files and directories, in human-readable (h) format, with indicator suffix (F).
+# Also recursive (R) version.
+Function la { ls -lAFh $args }
+Function lar { ls -lARFh $args }
+
+# Show open port information.
+Function ports { ss --tcp --udp --all --processes }
+
+# Display the size of each file/folder at depth 1 in current location in human-readable form.
+Function dud { du -d 1 -h $args }
+# Display the total size of all files/folders in current location in human-readable form.
+Function dus { du -sh $args }
+
+# Print PATH entries, one per line
+Function path { $env:PATH.Split(":") }
+
+# Date/time shortcuts
+Function nowtime { date +"%T" }
+Function nowdate { date +"%Y-%m-%d" }
+
+# System management
+Function sau { sudo apt update }
+Function sauu { sudo apt upgrade }
+Function sausau { sudo apt update; sudo apt upgrade }
+
+# Process management
+Function psd { ps -ww -fjp }
+Function psall { ps -ww -efjH }
