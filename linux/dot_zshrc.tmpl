@@ -29,19 +29,18 @@ bindkey "^H" backward-kill-word
 bindkey "^[[1;5C" forward-word
 bindkey "^[[1;5D" backward-word
 
-# Ctrl + up/down arrows, search through matching history
-autoload -U up-line-or-beginning-search
-autoload -U down-line-or-beginning-search
-zle -N up-line-or-beginning-search
-zle -N down-line-or-beginning-search
-bindkey "^[[A" up-line-or-beginning-search # Up
-bindkey "^[[B" down-line-or-beginning-search # Down
-
 ###############################
 # Tools & applications
 ###############################
 
-# OhMyZsh's git plugin
+# Use fzf
+source /usr/share/doc/fzf/examples/key-bindings.zsh
+#source /usr/share/doc/fzf/examples/completion.zsh
+
+# Use zsh-autocomplete
+source ~/.config/zsh/zsh-autocomplete.sh
+
+# Use OhMyZsh's git plugin
 source ~/.config/zsh/ohmyzsh-git-plugin.sh
 
 # Enable fnm auto-use when opening a folder with a .node-version or .nvmrc file.
@@ -53,10 +52,6 @@ fi
 if [ "$(command -v navi)" ]; then
   eval "$(navi widget zsh)";
 fi
-
-# Use fzf
-source /usr/share/doc/fzf/examples/key-bindings.zsh
-source /usr/share/doc/fzf/examples/completion.zsh
 
 ###############################
 # Prompt
