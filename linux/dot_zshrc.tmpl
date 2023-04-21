@@ -41,6 +41,9 @@ bindkey "^[[B" down-line-or-beginning-search # Down
 # Tools & applications
 ###############################
 
+# OhMyZsh's git plugin
+source ~/.config/zsh/ohmyzsh-git-plugin.sh
+
 # Enable fnm auto-use when opening a folder with a .node-version or .nvmrc file.
 if [ "$(command -v fnm)" ]; then
   eval "$(fnm env --use-on-cd)";
