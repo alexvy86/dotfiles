@@ -23,9 +23,9 @@ exit 1;
 sudo wget $URL -O /usr/local/bin/oh-my-posh;
 sudo chmod +x /usr/local/bin/oh-my-posh;
 
-# Install themes
+# Install themes. Will overwrite all files when extracting the zip.
 mkdir ~/.poshthemes;
 wget https://github.com/JanDeDobbeleer/oh-my-posh/releases/download/$VERSION/themes.zip -O ~/.poshthemes/themes.zip;
-unzip ~/.poshthemes/themes.zip -d ~/.poshthemes;
+unzip -o ~/.poshthemes/themes.zip -d ~/.poshthemes;
 chmod u+rw ~/.poshthemes/*.omp.*;
 rm ~/.poshthemes/themes.zip;
