@@ -1,3 +1,3 @@
 # Necessary for zsh-autocomplete
 # See https://github.com/marlonrichert/zsh-autocomplete#additional-step-for-ubuntu
-skip_global_compinit=1
+# skip_global_compinit=1

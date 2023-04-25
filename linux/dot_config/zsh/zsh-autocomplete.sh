@@ -1,6 +1,6 @@
-# Use fzf completion; then fall back to zsh's
+# Use fzf completion; then fall back to zsh's.
 # ⚠️ NOTE: This setting can NOT be changed at runtime and requires that you have installed Fzf's shell extensions.
-zstyle ':autocomplete:*' fzf-completion yes
+#zstyle ':autocomplete:*' fzf-completion yes
 
 # Start each new command line in live history search mode.
 zstyle ':autocomplete:*' default-context history-incremental-search-backward
@@ -13,12 +13,13 @@ zstyle ':autocomplete:*' min-input 1  # int
 # Applies to autocompletion, history search, and history menu.
 zstyle ':autocomplete:*' list-lines 8  # int
 
-# When completing, skip using the common prefix first as a result if there are several possible matches.
+# In completion mode, skip using the common prefix first as a result if there are several possible matches.
+# This inserts the first match instead.
 zstyle ':autocomplete:*' insert-unambiguous no
 
-# zsh-autocomplete
+# Source the plugin.
 source ~/.config/zsh/zsh-autocomplete/zsh-autocomplete.plugin.zsh
 
 # Make Tab go straight to the menu and cycle there
-bindkey '\t' menu-select "$terminfo[kcbt]" menu-select
-bindkey -M menuselect '\t' menu-complete "$terminfo[kcbt]" reverse-menu-complete
+#bindkey '\t' menu-select "$terminfo[kcbt]" menu-select
+#bindkey -M menuselect '\t' menu-complete "$terminfo[kcbt]" reverse-menu-complete
