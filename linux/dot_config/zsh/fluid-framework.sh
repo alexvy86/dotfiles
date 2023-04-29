@@ -29,3 +29,10 @@ function toggle-ff-upstream-push() {
     echo "Setting upstream push URL to '$NEW_PUSH_URL'";
     git remote set-url --push upstream $NEW_PUSH_URL;
 }
+
+# Pushes the current branch to a branch named test/alejandrovi/<current-branch-name>
+# in the 'upstream' remote.
+function push-test-branch() {
+    local CURRENT_BRANCH_NAME=$(git rev-parse --abbrev-ref HEAD)
+    git push upstream $CURRENT_BRANCH_NAME:test/alejandrovi/$CURRENT_BRANCH_NAME;
+}
