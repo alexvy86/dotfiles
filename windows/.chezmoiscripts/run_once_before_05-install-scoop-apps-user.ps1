@@ -12,7 +12,8 @@ Update-Path;
 # Error out if scoop is not installed
 if (Get-Command "scoop" -ErrorAction Stop) {
   # From "main" bucket
-  scoop install --no-update-scoop fnm
+  scoop install --no-update-scoop fnm;
+  scoop install --no-update-scoop deno;
 }
 
 Write-Host -ForegroundColor Green "$StepName - Done";
