@@ -2,8 +2,10 @@
 # Modules
 #----------------------------------------------------------
 Import-Module Terminal-Icons;
-Import-Module posh-git;
 Import-Module git-aliases -DisableNameChecking;
+
+# Arguments: $ForcePoshGitPrompt, $UseLegacyTabExpansion, $EnableProxyFunctionExpansion
+Import-Module posh-git -ArgumentList @($false, $false, $true);
 Import-Module DockerCompletion;
 
 #----------------------------------------------------------
