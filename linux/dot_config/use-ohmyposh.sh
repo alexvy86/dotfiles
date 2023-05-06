@@ -5,9 +5,5 @@ zstyle ':completion:*' matcher-list 'm:{[:lower:][:upper:]-_}={[:upper:][:lower:
 # Autoselect the first completion entry.
 setopt menu_complete
 
-# Prep so completion system can init correctly.
-# Copied from OhMyZsh's main script.
-autoload -U compaudit compinit zrecompile
-
 # Use Oh-My-Posh
 eval "$(oh-my-posh init zsh --config "~/.config/alexvy86.omp.json")"

@@ -2,6 +2,12 @@
 # Base configuration
 ###############################
 
+# Prep so completion system (and potentially other plugins) can init correctly.
+# Copied from OhMyZsh's main script.
+autoload -U compaudit compinit zrecompile
+# Need to actually call compinit so RaspiOS doesn't complain about compdef not being defined when sourcing zsh's git plugin.
+compinit
+
 source ~/.config/zsh/directories-and-navigation.sh;
 source ~/.config/zsh/system-management.sh;
 source ~/.config/zsh/misc.sh;
