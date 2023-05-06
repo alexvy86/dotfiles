@@ -17,6 +17,7 @@
 	default = upstream
 [rebase]
 	autostash = true
+	autosquash = true
 	updateRefs = true
 [core]
 	autocrlf = input
