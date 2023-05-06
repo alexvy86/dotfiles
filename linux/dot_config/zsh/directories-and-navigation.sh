@@ -38,7 +38,7 @@ alias md='mkdir -p'
 
 # Colorize ls output
 alias ls="ls --color=tty"
-# List almost all (A) files and directories, in human-readable (h) format, with indicator suffix (F).
+# List almost all (A) files and directories, in human-readable (h) format, with indicator suffix (F), following symlinks (H).
 # Also recursive (R) version.
-alias la="ls -lAFh"
-alias lar="ls -lARFh"
+alias la="ls -lAFHh"
+alias lar="ls -lARFHh"
