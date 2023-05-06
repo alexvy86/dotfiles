@@ -23,12 +23,12 @@ $Packages = @(
 	);
 
 $Packages | ForEach-Object {
-	winget list --exact $_ > $null;
+	winget list --exact --id $_ --source winget > $null;
 	if ($LastExitCode -eq 0) {
 		Write-Host "Package $_ is already installed";
 	} else {
 		Write-Host "Installing package $_";
 		# TODO: Use --override to do automated installations of everything, e.g. with /SILENT for VSCode or -passive for PowerToys
-		winget install $_ --exact --source winget;
+		winget install --exact --id $_ --source winget;
 	}
 }
