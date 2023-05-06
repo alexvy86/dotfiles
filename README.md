@@ -51,6 +51,8 @@ NOTE: the same command can be used to update chezmoi in Windows, since `chezmoi 
 
 ## 2. Install the dotfiles
 
+Regardless of the OS, make sure the path where `chezmoi` was installed is in your PATH.
+
 ### Unix and Windows
 
 NOTE: for my setup, I have to split the `init` and the `apply` commands so the `sourceDir` I override in the chezmoi config file takes effect during `apply`.
