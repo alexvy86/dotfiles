@@ -1,0 +1,9 @@
+{{- if (and (eq .chezmoi.os "linux") (.chezmoi.kernel.osrelease | lower | contains "microsoft")) -}}
+#!{{- lookPath "bash" }}
+
+WIN_SSH_DIR=/mnt/c/Users/alexv/.ssh;
+
+cp --target-directory=$HOME/.ssh $WIN_SSH_DIR/config $WIN_SSH_DIR/id*;
+chmod 600 $HOME/.ssh/*;
+
+{{ end -}}
