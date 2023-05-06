@@ -13,3 +13,17 @@
 # lives in another drive and I can't update it easily with chezmoi.
 
 {{ include "../ignored/profile.ps1" -}}
+
+#----------------------------------------------------------
+# Aliases
+#----------------------------------------------------------
+
+# NOTE: seems like the default version of OpenSSH that comes with Windows 11 has issues communicating with the ssh-agent
+# to auto-add keys. The one in development in Github (https://github.com/powershell/Win32-OpenSSH) would probably work
+# but I don't want to get into the trouble of overriding the default and configuring the new one.
+# For now I'll live with dealing with authenticating the keys on every execution of SSH.
+#
+# Alias for SSH to auto-load ssh keys on first use and keep them in the agent for 10 hrs.
+# function private:ssh {param($params);
+# 	(ssh-add -l | Out-Null || (ssh-add -t 10h && Write-Host -ForegroundColor Green "ssh-key(s) are now available in ssh-agent for 10 hrs!`n")) && ssh $params;
+# }
