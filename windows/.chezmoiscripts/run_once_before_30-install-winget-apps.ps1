@@ -11,7 +11,7 @@ $Packages = @(
 	# "VideoLAN.VLC",
 	);
 
-$Packages |% {
+$Packages | ForEach-Object {
 	winget list --exact $_ > $null;
 	if ($LastExitCode -eq 0) {
 		Write-Host "Package $_ is already installed";
