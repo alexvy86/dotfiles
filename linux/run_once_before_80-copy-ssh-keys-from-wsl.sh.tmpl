@@ -1,9 +1,18 @@
 {{- if (and (eq .chezmoi.os "linux") (.chezmoi.kernel.osrelease | lower | contains "microsoft")) -}}
 #!{{- lookPath "bash" }}
 
+SSH_DIR=$HOME/.ssh;
+
+if ls -A1q $SSH_DIR | grep -q . ;
+then
+  echo "'$SSH_DIR' is not empty. Skipping copy of SSH keys from Windows.";
+	exit 0;
+fi
+
 WIN_SSH_DIR=/mnt/c/Users/alexv/.ssh;
 
-cp --target-directory=$HOME/.ssh $WIN_SSH_DIR/config $WIN_SSH_DIR/id*;
-chmod 600 $HOME/.ssh/*;
+echo "Copying SSH keys from '$WIN_SSH_DIR' to '$SSH_DIR'.";
+cp --target-directory=$SSH_DIR $WIN_SSH_DIR/config $WIN_SSH_DIR/id*;
+chmod 600 $SSH_DIR/*;
 
 {{ end -}}
