@@ -34,5 +34,5 @@ function toggle-ff-upstream-push() {
 # in the 'upstream' remote.
 function push-test-branch() {
     local CURRENT_BRANCH_NAME=$(git rev-parse --abbrev-ref HEAD)
-    git push upstream $CURRENT_BRANCH_NAME:test/alejandrovi/$CURRENT_BRANCH_NAME;
+    git push upstream $CURRENT_BRANCH_NAME\:test/alejandrovi/$CURRENT_BRANCH_NAME;
 }
