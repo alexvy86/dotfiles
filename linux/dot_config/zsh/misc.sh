@@ -2,6 +2,10 @@
 # Misc
 #############################################################
 
+# Make / (or any non-alphanumeric character) a stopping point for backward-kill-word and forward-kill-word
+autoload -U select-word-style;
+select-word-style bash;
+
 # Use ssh-ident.
 # Needs to be a symlink from a file called 'ssh' accessible in PATH so when git and others call 'ssh' they call this.
 SSH_SHIM=$HOME/bin/ssh;
