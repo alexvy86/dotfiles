@@ -1,6 +1,9 @@
 # TODO: figure out why this didn't work (in Windows 11)
 # DevToys and WhatsApp always complained of "Verifying/Requesting package acquisition failed: server error"
 
+# $StepName = "Installing regular applications with winget";
+# Write-Host -ForegroundColor Cyan $StepName;
+
 # $Packages = @(
 # 	@{Id="9NBLGGH4NNS1"; Name="App Installer"},
 # 	@{Id="9PGCV4V3BK4W"; Name="Dev Toys"},
@@ -16,3 +19,5 @@
 # 		winget install --exact --id $_.Id --source msstore --accept-package-agreements --accept-source-agreements;
 # 	}
 # }
+
+# Write-Host -ForegroundColor Green "$StepName - Done";

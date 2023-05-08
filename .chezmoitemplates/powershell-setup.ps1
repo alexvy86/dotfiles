@@ -1,3 +1,6 @@
+$StepName = "General PowerShell setup";
+Write-Host -ForegroundColor Cyan $StepName;
+
 {{ if eq .chezmoi.os "windows" -}}
 
 Write-Host "Set execution policy for CurrentUser to RemoteSigned";
@@ -17,3 +20,5 @@ Write-Host "Installing module Terminal-Icons";
 Install-Module Terminal-Icons; # Note: Terminal-Icons requires a font from https://www.nerdfonts.com/
 Write-Host "Installing module DockerCompletion";
 Install-Module DockerCompletion;
+
+Write-Host -ForegroundColor Green "$StepName - Done";

@@ -1,3 +1,6 @@
+$StepName = "Installing regular applications with winget";
+Write-Host -ForegroundColor Cyan $StepName;
+
 $Packages = @(
 	"7zip.7zip",                      # Has UAC prompt
 	"Microsoft.PowerToys",
@@ -32,3 +35,5 @@ $Packages | ForEach-Object {
 		winget install --exact --id $_ --source winget;
 	}
 }
+
+Write-Host -ForegroundColor Green "$StepName - Done";

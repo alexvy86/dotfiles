@@ -1,3 +1,6 @@
+$StepName = "Updating registry settings";
+Write-Host -ForegroundColor Cyan $StepName;
+
 $settingsToChange = @();
 
 # Disable browser tabs showing up in Alt-Tab. Applies to Windows 10 and 11.
@@ -49,12 +52,11 @@ $settingsToChange += @{
 	DesiredValue = 0;
 };
 
-
 # Apply registry changes
-Write-Host "Updating registry settings";
-
 $settingsToChange | ForEach-Object {
 	$currentValue = Get-ItemPropertyValue -Path $_.Path -Name $_.Name;
 	Write-Host "$($_.Path)/$($_.Name) - Current value: $currentValue - New value: $($_.DesiredValue)";
 	Set-ItemProperty -Path $_.Path -Name $_.Name -Value $_.DesiredValue;
 }
+
+Write-Host -ForegroundColor Green "$StepName - Done";

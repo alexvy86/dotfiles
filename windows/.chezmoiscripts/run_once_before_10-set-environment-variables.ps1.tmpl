@@ -1,3 +1,6 @@
+$StepName = "Set environment variables";
+Write-Host -ForegroundColor Cyan $StepName;
+
 $script:tools_path = "{{- .win_tools_path -}}";
 
 $script:current_path = [Environment]::GetEnvironmentVariable("PATH", [System.EnvironmentVariableTarget]::User);
@@ -5,6 +8,7 @@ $script:current_path = [Environment]::GetEnvironmentVariable("PATH", [System.Env
 # Consider when it's at the beginning/middle, or at the end (no trailing semicolon)
 if ($script:current_path.Contains("$script:tools_path;") -Or $script:current_path.EndsWith($script:tools_path)) {
     Write-Host "'$script:tools_path' is already in the user's PATH";
+    Write-Host -ForegroundColor Green "$StepName - Done";
     exit 0;
 }
 
@@ -20,3 +24,5 @@ Write-Host "Adding '$script:tools_path' to the beginning of the user's PATH";
 # - NUGET_PLUGINS_CACHE_PATH : "plugins-cache" (https://learn.microsoft.com/en-us/nuget/consume-packages/managing-the-global-packages-and-cache-folders)
 # - PIP_CACHE_DIR            : (https://pip.pypa.io/en/stable/cli/pip/#cmdoption-cache-dir and https://pip.pypa.io/en/stable/topics/configuration/#environment-variables)
 # - PIPENV_CACHE_DIR         : https://pipenv.pypa.io/en/stable/configuration/#changing-cache-location
+
+Write-Host -ForegroundColor Green "$StepName - Done";

@@ -10,7 +10,9 @@ if (-Not ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdent
   }
 }
 
-Write-Host "Setting 'ssh-agent' Windows service to automatic startup.";
+$StepName = "Setting 'ssh-agent' Windows service to automatic startup.";
+Write-Host -ForegroundColor Cyan $StepName;
+
 Set-Service -Name "ssh-agent" -StartupType Automatic;
 Start-Service -Name "ssh-agent";
 
