@@ -1,3 +1,14 @@
+$StepName = "Setting 'ssh-agent' Windows service to automatic startup.";
+Write-Host -ForegroundColor Cyan $StepName;
+
+$service = Get-Service -Name "ssh-agent";
+
+if (($service.StartupType -eq "Automatic") -and ($service.Status -eq "Running")) {
+  Write-Host "ssh-agent service already running and configured for automatic startup.";
+  Write-Host -ForegroundColor Green "$StepName - Done";
+  exit 0;
+}
+
 $PowershellExecutable = "pwsh.exe"; # Use "powershell.exe" for Windows Powershell (<= 5.0). Might need to update the interpreters.ps1.command in .chezmoi.yaml.tmpl
 
 # Self-elevate the script if required
@@ -9,9 +20,6 @@ if (-Not ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdent
     Exit;
   }
 }
-
-$StepName = "Setting 'ssh-agent' Windows service to automatic startup.";
-Write-Host -ForegroundColor Cyan $StepName;
 
 Set-Service -Name "ssh-agent" -StartupType Automatic;
 Start-Service -Name "ssh-agent";
