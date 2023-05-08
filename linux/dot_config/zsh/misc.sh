@@ -4,7 +4,16 @@
 
 # Use ssh-ident.
 # Needs to be a symlink from a file called 'ssh' accessible in PATH so when git and others call 'ssh' they call this.
-ln -s $HOME/.local/bin/ssh-ident $HOME/bin/ssh;
+SSH_SHIM=$HOME/bin/ssh;
+SSH_SHIM_TARGET=$HOME/.local/bin/ssh-ident;
+if [[ -e $SSH_SHIM ]]; then
+    CURRENT_TARGET=$(readlink -f $SSH_SHIM);
+    if [[ $CURRENT_TARGET != $SSH_SHIM_TARGET ]]; then
+        echo "'ssh' shim at '$SSH_SHIM' points to '$CURRENT_TARGET' (expected '$SSH_SHIM_TARGET')" 1>&2;
+    fi
+else
+    ln -s $SSH_SHIM_TARGET $SSH_SHIM;
+fi
 
 # Show open port information.
 alias ports="ss --tcp --udp --all --processes"
