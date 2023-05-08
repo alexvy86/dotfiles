@@ -1,1 +1,4 @@
 SSH_ADD_DEFAULT_OPTIONS = "-t ${SSH_AGENT_LIFETIME:-36000}"
+
+# Silence "All keys already loaded" message
+VERBOSITY = LOG_WARN

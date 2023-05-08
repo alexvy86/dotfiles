@@ -2,8 +2,9 @@
 # Misc
 #############################################################
 
-# Use ssh-ident
-alias ssh="~/.local/bin/ssh-ident"
+# Use ssh-ident.
+# Needs to be a symlink from a file called 'ssh' accessible in PATH so when git and others call 'ssh' they call this.
+ln -s $HOME/.local/bin/ssh-ident $HOME/bin/ssh;
 
 # Show open port information.
 alias ports="ss --tcp --udp --all --processes"
