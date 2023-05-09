@@ -1,3 +1,31 @@
+$StepName = "Installing scoop apps - global scope";
+Write-Host -ForegroundColor Cyan $StepName;
+
+# Error out if scoop is not installed
+Get-Command "scoop" -ErrorAction Stop > $null;
+
+$ScoopAppsToInstall = @();
+
+# Fonts need to be installed system-wide. See https://github.com/matthewjberger/scoop-nerd-fonts/pull/200 for details.
+# CascadiaCode-NF is the NerdFonts font we install for the Terminal-Icons module to display its icons.
+$ScoopAppsToInstall += "FiraCode-NF";
+$ScoopAppsToInstall += "CascadiaCode-NF";
+
+$EverythingInstalled = $true;
+
+foreach ($app in $ScoopAppsToInstall){
+  if ($null -eq (scoop info $app).Installed) {
+    $EverythingInstalled = $false;
+    break;
+  }
+}
+
+if ($EverythingInstalled -eq $true) {
+  Write-Host "All apps for global scope are already installed.";
+  Write-Host -ForegroundColor Green "$StepName - Done";
+  Exit;
+}
+
 $PowershellExecutable = "pwsh.exe"; # Use "powershell.exe" for Windows Powershell (<= 5.0). Might need to update the interpreters.ps1.command in .chezmoi.yaml.tmpl
 
 # Self-elevate the script if required
@@ -11,9 +39,6 @@ if (-Not ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdent
   }
 }
 
-$StepName = "Installing scoop apps - global scope";
-Write-Host -ForegroundColor Cyan $StepName;
-
 function Update-Path {
   $env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine") +
               ";" +
@@ -22,12 +47,8 @@ function Update-Path {
 
 Update-Path;
 
-# Error out if scoop is not installed
-if (Get-Command "scoop" -ErrorAction Stop) {
-  # Fonts need to be installed system-wide. See https://github.com/matthewjberger/scoop-nerd-fonts/pull/200 for details.
-  # CascadiaCode-NF is the NerdFonts font we install for the Terminal-Icons module to display its icons.
-  scoop install --no-update-scoop -g FiraCode-NF
-  scoop install --no-update-scoop -g CascadiaCode-NF
+foreach ($app in $ScoopAppsToInstall){
+  scoop install --no-update-scoop -g $app;
 }
 
 Write-Host -ForegroundColor Green "$StepName - Done";
