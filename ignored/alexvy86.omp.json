@@ -28,7 +28,7 @@
         {
           "type": "exit",
           "style": "plain",
-          "template": " {{ if gt .Code 0 }}<p:error>\uf00d</>{{ else }}<p:success>\uf00c</>{{ end }} ",
+          "template": " {{ if gt .Code 0 }}<p:error>\uf00d ({{ .Code }})</>{{ else }}<p:success>\uf00c</>{{ end }} ",
           "properties": {
             "always_enabled": true
           }
@@ -166,7 +166,7 @@
   "final_space": true,
   "transient_prompt": {
     "foreground": "p:white",
-    "template": " {{ if gt .Code 0 }}<p:error>\uf00d{{ else }}<p:success>\uf00c{{ end }} {{ .Segments.Executiontime.FormattedMs }}</>\n[<p:ocean-blue>{{ .PromptCount }}</>][<p:orange>{{ now | date \"15:04:05\" }}</>] "
+    "template": " {{ if gt .Code 0 }}<p:error>\uf00d ({{ .Code }}){{ else }}<p:success>\uf00c{{ end }} {{ .Segments.Executiontime.FormattedMs }}</>\n[<p:ocean-blue>{{ .PromptCount }}</>][<p:orange>{{ now | date \"15:04:05\" }}</>] "
   },
   "version": 2
 }
