@@ -53,7 +53,7 @@
             "closeOnExit": "graceful",
             "font":
             {
-                "face": "CaskaydiaCove NF"
+                "face": "CaskaydiaCove Nerd Font"
             }
         },
         "list":
