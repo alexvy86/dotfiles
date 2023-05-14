@@ -1,0 +1,7 @@
+% ffmpeg
+
+# Download m3u8 with ffmpeg
+ffmpeg.exe -i <url> -c copy <output_filename>
+
+# Extract a piece of an audio file with fadeout
+ffmpeg.exe -ss <seek_seconds_to_start> -t <duration_seconds> -i "<input_filename>" -filter:a "afade=t=out:st=<fadeout_start_seconds>:d=<fadeout_duration_seconds>" <output_filename>
