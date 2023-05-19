@@ -121,9 +121,10 @@
           "background": "p:background",
           "leading_diamond": "\ue0b6",
           "trailing_diamond": "\ue0b4",
-          "template": "\uf898 {{ .Full }}",
+          "template": "{{ .PackageManagerIcon }} {{ .Full }}",
           "properties": {
-            "display_mode": "files"
+            "display_mode": "files",
+            "fetch_package_manager": true
           }
         },
         {
