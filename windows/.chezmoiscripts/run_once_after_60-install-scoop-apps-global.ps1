@@ -13,7 +13,7 @@ $ScoopAppsToInstall += "CascadiaCode-NF";
 
 $EverythingInstalled = $true;
 
-foreach ($app in $ScoopAppsToInstall){
+foreach ($app in $ScoopAppsToInstall) {
   if ($null -eq (scoop info $app).Installed) {
     $EverythingInstalled = $false;
     break;
@@ -47,7 +47,7 @@ function Update-Path {
 
 Update-Path;
 
-foreach ($app in $ScoopAppsToInstall){
+foreach ($app in $ScoopAppsToInstall) {
   scoop install --no-update-scoop -g $app;
 }
 

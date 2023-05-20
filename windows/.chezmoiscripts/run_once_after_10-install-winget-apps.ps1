@@ -31,14 +31,11 @@ foreach ($app in $ApplicationsToInstall) {
 	winget list --exact --id $app.Id --source winget > $null;
 	if ($LastExitCode -eq 0) {
 		Write-Host "Package $($app.Id) is already installed";
-	}
- else {
+	} else {
 		Write-Host "Installing package $($app.Id)";
-		# TODO: Use --override to do automated installations of everything, e.g. with /SILENT for VSCode or -passive for PowerToys
 		if ($null -eq $app.Args) {
 			winget install --exact --id $app.Id --source winget;
-		}
-		else {
+		} else {
 			winget install --exact --id $app.Id --source winget --override "$($app.Args)";
 		}
 	}

@@ -5,50 +5,50 @@ $settingsToChange = @();
 
 # Disable browser tabs showing up in Alt-Tab. Applies to Windows 10 and 11.
 $settingsToChange += @{
-	Path = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced";
-	Name = "MultiTaskingAltTabFilter";
+	Path         = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced";
+	Name         = "MultiTaskingAltTabFilter";
 	DesiredValue = 3;
 };
 
 # Hide the "Widgets" button in the taskbar. Applies to Windows 11.
 $settingsToChange += @{
-	Path = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced";
-	Name = "TaskbarDa";
+	Path         = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced";
+	Name         = "TaskbarDa";
 	DesiredValue = 0;
 };
 
 # Hide the "TaskView" button in the taskbar. Applies to Windows 10 and 11.
 $settingsToChange += @{
-	Path = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced";
-	Name = "ShowTaskViewButton";
+	Path         = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced";
+	Name         = "ShowTaskViewButton";
 	DesiredValue = 0;
 };
 
 # Hide the "Chat" button in the taskbar. Applies to Windows 11.
 $settingsToChange += @{
-	Path = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced";
-	Name = "TaskbarMn";
+	Path         = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced";
+	Name         = "TaskbarMn";
 	DesiredValue = 0;
 };
 
 # Left-align the Start Menu. Applies to Windows 11.
 $settingsToChange += @{
-	Path = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced";
-	Name = "TaskbarAl";
+	Path         = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced";
+	Name         = "TaskbarAl";
 	DesiredValue = 0;
 };
 
 # Show hidden files in Windows Explorer. Applies to Windows 10 and 11.
 $settingsToChange += @{
-	Path = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced";
-	Name = "Hidden";
+	Path         = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced";
+	Name         = "Hidden";
 	DesiredValue = 1;
 };
 
 # Show file extensions in Windows Explorer. Applies to Windows 10 and 11.
 $settingsToChange += @{
-	Path = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced";
-	Name = "HideFileExt";
+	Path         = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced";
+	Name         = "HideFileExt";
 	DesiredValue = 0;
 };
 
