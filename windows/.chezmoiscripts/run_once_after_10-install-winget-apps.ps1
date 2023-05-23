@@ -2,6 +2,7 @@ $StepName = "Installing regular applications with winget";
 Write-Host -ForegroundColor Cyan $StepName;
 
 $PathToGitInstallerSettings = Join-Path -Path $env:USERPROFILE -ChildPath ".config/git-for-windows-installer-settings.ini";
+$PathToVsCodeInstallerSettings = Join-Path -Path $env:USERPROFILE -ChildPath ".config/vscode-installer-settings.ini";
 
 $ApplicationsToInstall = @(
 	@{Id = "7zip.7zip"; },
@@ -9,7 +10,7 @@ $ApplicationsToInstall = @(
 	@{Id = "Git.Git"; Args = "/SILENT /LOADINF=$PathToGitInstallerSettings" },
 	@{Id = "GitHub.GitLFS"; },
 	@{Id = "JanDeDobbeleer.OhMyPosh"; },
-	@{Id = "Microsoft.VisualStudioCode"; }, # Args = "/SILENT"
+	@{Id = "Microsoft.VisualStudioCode"; Args = "/SILENT /LOADINF=$PathToVsCodeInstallerSettings" },
 	@{Id = "Microsoft.Edge.Dev"; },
 	@{Id = "Google.Chrome"; },
 	@{Id = "AgileBits.1Password"; },
