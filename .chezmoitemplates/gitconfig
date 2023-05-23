@@ -49,6 +49,12 @@
 #	 changed = green
 #	 untracked = cyan
 
+[filter "lfs"]
+	required = true
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	clean = git-lfs clean -- %f
+
 {{ if (eq .chezmoi.os "linux") -}}
 	{{ if (.chezmoi.kernel.osrelease | lower | contains "microsoft") }}
 	  {{- include "../ignored/wsl.gitconfig" -}}
