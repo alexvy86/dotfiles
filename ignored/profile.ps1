@@ -1,7 +1,11 @@
 #----------------------------------------------------------
 # Modules
 #----------------------------------------------------------
-Import-Module Terminal-Icons;
+# Disabling Terminal-Icons until they fix their performance issues.
+# It adds ~800ms to my profile load time on Windows (didn't check Linux since I use zsh there).
+# See https://github.com/devblackops/Terminal-Icons/issues/76
+# Import-Module Terminal-Icons;
+
 Import-Module git-aliases -DisableNameChecking;
 
 # Arguments: $ForcePoshGitPrompt, $UseLegacyTabExpansion, $EnableProxyFunctionExpansion
