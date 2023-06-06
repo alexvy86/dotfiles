@@ -6,6 +6,7 @@
 autoload -U select-word-style;
 select-word-style bash;
 
+{{- if not (.codespaces) }}
 # Use ssh-ident.
 # Needs to be a symlink from a file called 'ssh' accessible in PATH so when git and others call 'ssh' they call this.
 SSH_SHIM=$HOME/bin/ssh;
@@ -18,6 +19,7 @@ if [[ -e $SSH_SHIM ]]; then
 else
     ln -s $SSH_SHIM_TARGET $SSH_SHIM;
 fi
+{{- end }}
 
 # Show open port information.
 alias ports="ss --tcp --udp --all --processes"
