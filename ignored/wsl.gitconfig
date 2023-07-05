@@ -13,6 +13,9 @@
 [difftool "BeyondCompare4"]
 	cmd = '/mnt/c/Program Files/Beyond Compare 4/BComp.exe' "$(wslpath -aw $LOCAL)" "$(wslpath -aw $REMOTE)"
 
-# Keeping template for when needed, but mostly I should be using SSH
-# [credential]
-# 	helper = /mnt/c/Program\\ Files/Git/mingw64/libexec/git-core/git-credential-manager-core.exe
+# Needed to work with the some ADO repos that use git-lfs so *have* to use https instead of ssh
+# Following instructions from https://github.com/git-ecosystem/git-credential-manager/blob/release/docs/wsl.md#windows-subsystem-for-linux-wsl
+[credential]
+	helper = /mnt/c/Program\\ Files/Git/mingw64/bin/git-credential-manager.exe
+[credential "https://dev.azure.com"]
+	useHttpPath = true
