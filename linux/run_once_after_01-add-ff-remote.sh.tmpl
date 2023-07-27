@@ -15,7 +15,13 @@ if [[ "$GITHUB_REPOSITORY" == 'microsoft/FluidFramework' ]]; then
   git remote add origin "https://github.com/alexvy86/FluidFramework" ;
   git fetch origin ;
   echo 'Github remotes configured successfully' ;
+elif [[ "$GITHUB_REPOSITORY" =~ FluidFramework$ ]]; then
+  cd /workspaces/FluidFramework ;
+  git remote rename origin upstream ;
+  git remote add origin "https://github.com/$GITHUB_REPOSITORY" ;
+  git fetch origin ;
+  echo 'Github remotes configured successfully' ;
 else
-  echo 'Codespaces instance is not for microsoft/FluidFramework. Github remotes will not be configured.' ;
+  echo 'Codespaces instance is not for microsoft/FluidFramework or one of its forks. Github remotes will not be configured.' ;
 fi
 {{- end -}}
