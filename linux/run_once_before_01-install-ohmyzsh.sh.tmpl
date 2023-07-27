@@ -13,11 +13,11 @@ for details on the line below. Needed for this script to run successfully in Git
 
 echo "Detected GITHUB_REPOSITORY=$GITHUB_REPOSITORY" ;
 
-if [[ "$GITHUB_REPOSITORY" == 'microsoft/FluidFramework' ]]; then
-	echo 'This is a Codespaces instance for the microsoft/FluidFramework repository. Skipping oh-my-zsh installation.';
+if [[ "$GITHUB_REPOSITORY" =~ FluidFramework$ ]]; then
+	echo 'This is a Codespaces instance for the microsoft/FluidFramework repository or one of its forks. Skipping oh-my-zsh installation.';
 	exit;
 else
-	echo 'Codespaces instance is not for microsoft/FluidFramework. Proceeding with oh-my-zsh installation.';
+	echo 'Codespaces instance is not for microsoft/FluidFramework or one of its forks. Proceeding with oh-my-zsh installation.';
 fi
 
 {{- end }}
