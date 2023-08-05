@@ -26,7 +26,7 @@
       "alignment": "left",
       "segments": [
         {
-          "type": "exit",
+          "type": "status",
           "style": "plain",
           "template": " {{ if gt .Code 0 }}<p:error>\uf00d ({{ .Code }})</>{{ else }}<p:success>\uf00c</>{{ end }} ",
           "properties": {
