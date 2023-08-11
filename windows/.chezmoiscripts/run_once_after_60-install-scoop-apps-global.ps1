@@ -1,6 +1,14 @@
 $StepName = "Installing scoop apps - global scope";
 Write-Host -ForegroundColor Cyan $StepName;
 
+function Update-Path {
+  $env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine") +
+              ";" +
+              [System.Environment]::GetEnvironmentVariable("Path","User")
+}
+
+Update-Path;
+
 # Error out if scoop is not installed
 Get-Command "scoop" -ErrorAction Stop > $null;
 
@@ -38,14 +46,6 @@ if (-Not ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdent
     Exit;
   }
 }
-
-function Update-Path {
-  $env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine") +
-              ";" +
-              [System.Environment]::GetEnvironmentVariable("Path","User")
-}
-
-Update-Path;
 
 foreach ($app in $ScoopAppsToInstall) {
   scoop install --no-update-scoop -g $app;
