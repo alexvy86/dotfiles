@@ -11,6 +11,9 @@ alias ffb='npm run build'
 alias ffbc='npm run build:compile'
 alias ffbf='npm run build:fast'
 
+# Create a new Github Codespaces
+alias new-codespace='gh codespace create --repo microsoft/FluidFramework --branch main --machine largePremiumLinux'
+
 # Toggles the push URL for the "upstream" remote between blank and the fetch URL.
 # This is useful in repos where the expected workflow is to always work in a
 # personal fork and then do a Pull Request to upstream, to minimize the chance of
