@@ -1,3 +1,7 @@
+Set-StrictMode -Version Latest;
+
+# TODO: There might be something interesting we can do with $PSDefaultParameterValues
+
 #----------------------------------------------------------
 # Modules
 #----------------------------------------------------------
