@@ -52,10 +52,24 @@ $settingsToChange += @{
 	DesiredValue = 0;
 };
 
+# Disable new context menu in Windows 11.
+# Not a fan, plus it might be related to crashes of explorer.exe I've experienced in my personal computer.
+$settingsToChange += @{
+	Path         = "HKCU:\Software\Classes\CLSID\{86CA1AA0-34AA-4E8B-A509-50C905BAE2A2}\InprocServer32";
+	Name         = "(default)";
+	DesiredValue = "";
+};
+
 # Apply registry changes
 $settingsToChange | ForEach-Object {
-	$currentValue = Get-ItemPropertyValue -Path $_.Path -Name $_.Name;
-	Write-Host "$($_.Path)/$($_.Name) - Current value: $currentValue - New value: $($_.DesiredValue)";
+	$entryExists = Test-Path -Path $_.Path;
+	if ($True -eq $entryExists) {
+		$currentValue = Get-ItemPropertyValue -Path $_.Path -Name $_.Name;
+		Write-Host "$($_.Path) -> $($_.Name) - Current value: '$currentValue' - New value: '$($_.DesiredValue)'";
+	} else {
+		Write-Host "Creating new registry entry at $($_.Path) -> $($_.Name) with value '$($_.DesiredValue)'";
+		New-Item -Path $_.Path -Force;
+	}
 	Set-ItemProperty -Path $_.Path -Name $_.Name -Value $_.DesiredValue;
 }
 
