@@ -7,26 +7,11 @@ for details on the line below. Needed for this script to run successfully in Git
 
 {{- if has (index .chezmoi.osRelease "id") (list "debian" "ubuntu") }}
 
-{{- if .codespaces }}
-
-# If we are in a Codespaces instance for the FluidFramework repo, OhMyZsh is already installed, skip installation.
-
-echo "Detected GITHUB_REPOSITORY=$GITHUB_REPOSITORY" ;
-
-if [[ "$GITHUB_REPOSITORY" =~ FluidFramework$ ]]; then
-	echo 'This is a Codespaces instance for the microsoft/FluidFramework repository or one of its forks. Skipping oh-my-zsh installation.';
-	exit;
+# Skip installation if $ZSH is not empty or the default oh-my-zsh directory exists
+if [ "$ZSH" ] || [ -d "$HOME/.oh-my-zsh" ] ; then
+	echo "OhMyZsh seems to be installed already at '${ZSH:-$HOME/.oh-my-zsh}'. Skipping installation.";
 else
-	echo 'Codespaces instance is not for microsoft/FluidFramework or one of its forks. Proceeding with oh-my-zsh installation.';
-fi
-
-{{- end }}
-
-# Only install if $ZSH is empty
-if [[ -z "$ZSH" ]]; then
 	sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/b2313ec7493dc127c9712f20654579221d0bcce6/tools/install.sh)" "" --unattended;
-else
-	echo "OhMyZsh seems to be installed already at '$ZSH'. Skipping installation.";
 fi
 
 {{- end }}
