@@ -5,6 +5,7 @@ $PathToGitInstallerSettings = Join-Path -Path $env:USERPROFILE -ChildPath ".conf
 $PathToVsCodeInstallerSettings = Join-Path -Path $env:USERPROFILE -ChildPath ".config/vscode-installer-settings.ini";
 
 $ApplicationsToInstall = @(
+	@{Id = "Microsoft.WindowsTerminal"; },
 	@{Id = "7zip.7zip"; },
 	@{Id = "Microsoft.PowerToys"; }, # Args = "/passive" - Will this work? Not sure if winget uses the correct installer executable that can take this arg
 	@{Id = "Git.Git"; Args = "/SILENT /LOADINF=$PathToGitInstallerSettings" },
