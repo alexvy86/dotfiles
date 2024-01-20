@@ -1,3 +1,5 @@
+<!-- markdownlint-configure-file { "MD024": { "siblings_only": true } } -->
+
 # Dotfiles
 
 My `dotfiles` repository, managed with [ChezMoi](https://www.chezmoi.io/).
