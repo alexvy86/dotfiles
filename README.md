@@ -28,6 +28,8 @@ Now the chezmoi setup installs the `PowerShell` MSIX through `winget`.
 ## 1. Install chezmoi
 
 General instructions [here](https://www.chezmoi.io/install/).
+Remember to make sure the path where `chezmoi` was installed is in your active PATH, which probably requires a restart
+of your terminal after running either command below.
 
 ### Unix
 
@@ -39,21 +41,11 @@ sh -c "$(curl -fsLS https://chezmoi.io/get)";
 
 ### Windows
 
-Run the following line exactly as is (just replace the `<target-path-for-chezmoi.exe>` with the desired location, e.g. `D:\Users\alexv\Tools`) on a PowerShell console.
-
 ```PowerShell
-'$params = "-BinDir <target-path-for-chezmoi.exe>"', (Invoke-RestMethod -UseBasicParsing https://chezmoi.io/get.ps1) | powershell -Command - ;
+winget install --exact --id twpayne.chezmoi --source winget;
 ```
 
-If everything before the comma is ommitted, the default installation is to `$($env:USERPROFILE)/bin`.
-
-The command will print where it installed the binary to.
-
-NOTE: the same command can be used to update chezmoi in Windows, since `chezmoi upgrade` in Windows is apparently not fully functional.
-
 ## 2. Install the dotfiles
-
-Regardless of the OS, make sure the path where `chezmoi` was installed is in your PATH.
 
 ### Unix and Windows
 
