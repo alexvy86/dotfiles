@@ -7,14 +7,6 @@ for details on the line below. Needed for this script to run successfully in Git
 
 {{- if has (index .chezmoi.osRelease "id") (list "debian" "ubuntu") }}
 
-# Update package lists and install packages.
-sudo apt update;
-sudo apt install --yes --no-install-recommends \
-    fzf \
-    ssh \
-    zsh \
-    unzip;
-
 {{/*
 Some environments do not support using the latest git, trying to install it
 throws an error like this (for Codespaces):
@@ -40,18 +32,4 @@ sudo apt update;
 sudo apt install --yes --no-install-recommends git;
 {{- end }}
 {{- end }}
-
-# Change default shell to ZSH.
-sudo chsh -s $(which zsh);
-
-# Install fnm. --skip-shell because the .zshrc template already adds it
-# to the PATH.
-curl -fsSL https://fnm.vercel.app/install | bash -s -- --skip-shell;
-
-# Create .ssh directory if it doesn't exist. Mainly so OhMyZsh's ssh-agent plugin doesn't complain when it starts.
-if [[ ! -e $HOME/.ssh ]]; then
-  mkdir $HOME/.ssh;
-  chmod 700 $HOME/.ssh;
-fi
-
 {{- end }}

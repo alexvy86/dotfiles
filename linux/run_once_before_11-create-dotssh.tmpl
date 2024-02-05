@@ -1,9 +1,14 @@
+{{- if eq .chezmoi.os "linux" -}}
 {{- /*
 See https://www.chezmoi.io/user-guide/frequently-asked-questions/troubleshooting/#chezmoi-reports-forkexec-no-such-file-or-directory-when-running-scripts-on-termux
 for details on the line below. Needed for this script to run successfully in Github Codespaces.
 */ -}}
 #!{{- lookPath "bash" }}
 
-sudo apt install --yes --no-install-recommends \
-    python3 \
-    python-is-python3;
+# Create .ssh directory if it doesn't exist. Mainly so OhMyZsh's ssh-agent plugin doesn't complain when it starts.
+if [[ ! -e $HOME/.ssh ]]; then
+  mkdir $HOME/.ssh;
+  chmod 700 $HOME/.ssh;
+fi
+
+{{- end }}

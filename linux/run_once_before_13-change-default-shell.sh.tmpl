@@ -1,0 +1,11 @@
+{{- if eq .chezmoi.os "linux" -}}
+{{- /*
+See https://www.chezmoi.io/user-guide/frequently-asked-questions/troubleshooting/#chezmoi-reports-forkexec-no-such-file-or-directory-when-running-scripts-on-termux
+for details on the line below. Needed for this script to run successfully in Github Codespaces.
+*/ -}}
+#!{{- lookPath "bash" }}
+
+# Change default shell to ZSH.
+sudo chsh -s $(which zsh);
+
+{{- end }}
