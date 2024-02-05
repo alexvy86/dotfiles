@@ -4,6 +4,9 @@ for details on the line below. Needed for this script to run successfully in Git
 */ -}}
 #!{{- lookPath "bash" }}
 
+# Note: need to provide the absolute path to 'brew' because profile files are not read by chezmoi when starting shells
+# to execute scripts, so it won't be in the PATH.
+
 # Need to install fzf with brew instead of apt because the version in apt (0.20.0) is too old
 # and not compatible with navi. See https://github.com/denisidoro/navi/issues/447.
-brew install fzf;
+/home/linuxbrew/.linuxbrew/bin/brew install fzf;

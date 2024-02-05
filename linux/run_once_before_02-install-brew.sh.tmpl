@@ -23,16 +23,4 @@ NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Ho
 # Update Homebrew. Use absolute path since at this point it's not in the PATH yet.
 /home/linuxbrew/.linuxbrew/bin/brew update --force --quiet;
 
-# The commands below are (kind of) output by the Homebrew installer as "Next steps" but I'm including them
-# here because I install it in a non-interactive way above.
-
-# Note: I don't really use the ~/.profile file, but it's probably getting used when chezmoi runs scripts,
-# so it's convenient to update it to allow next steps to call brew (which I do to install some things).
-# More importantly, .zshrc also runs this eval so the Homebrew env variable updates (including to PATH)
-# are in effect when I'm actually creating shells myself.
-echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"' >> ~/.profile
-# This gives this "session" (the execution of this script) access to brew.
-# Not currently used, but just in case.
-eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
-
 {{- end }}
