@@ -20,9 +20,10 @@ source ~/.config/zsh/history.sh;
 
 export PATH=$HOME/bin:$PATH;
 export PATH=/usr/local/bin:$PATH;
-export PATH=$HOME/.local/share/fnm:$PATH;         # fnm
-export PATH=${KREW_ROOT:-$HOME/.krew}/bin:$PATH;  # krew
-export PATH=$PATH:/home/linuxbrew/.linuxbrew/bin; # Homebrew
+# krew
+export PATH=${KREW_ROOT:-$HOME/.krew}/bin:$PATH;
+# fnm
+export PATH=$HOME/.local/share/fnm:$PATH;
 
 ###############################
 # Key bindings
@@ -53,6 +54,12 @@ export FZF_CTRL_T_COMMAND=$FZF_DEFAULT_COMMAND
 
 # Use OhMyZsh's git plugin
 source ~/.config/zsh/ohmyzsh-git-plugin.sh
+
+# Set variables and update PATH for Homebrew.
+# Need to use absolute path because this command adds 'brew' to PATH.
+if [ -f "/home/linuxbrew/.linuxbrew/bin/brew" ]; then
+  eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+fi
 
 # Enable fnm auto-use when opening a folder with a .node-version or .nvmrc file.
 if [ "$(command -v fnm)" ]; then
