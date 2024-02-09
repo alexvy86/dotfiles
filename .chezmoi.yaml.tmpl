@@ -23,7 +23,8 @@ sourceDir: "{{- .chezmoi.workingTree -}}/linux"
 data:
   codespaces: {{ $codespaces }}
 
+scriptEnv:
 {{- if eq .chezmoi.os "windows" }}
   {{- $winToolsPath := promptStringOnce . "win_tools_path" "Path where tools get installed in Windows. This will be added to the user's PATH." }}
-  win_tools_path: {{ $winToolsPath | quote }}
+  WIN_TOOLS_PATH: {{ $winToolsPath }}
 {{- end }}

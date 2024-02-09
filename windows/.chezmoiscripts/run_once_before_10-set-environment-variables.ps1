@@ -1,7 +1,7 @@
 $StepName = "Set environment variables";
 Write-Host -ForegroundColor Cyan $StepName;
 
-$script:tools_path = "{{- .win_tools_path -}}";
+$script:tools_path = $env:WIN_TOOLS_PATH;
 
 $script:current_path = [Environment]::GetEnvironmentVariable("PATH", [System.EnvironmentVariableTarget]::User);
 
