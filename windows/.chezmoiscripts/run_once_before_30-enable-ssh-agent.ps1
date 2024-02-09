@@ -1,3 +1,4 @@
+$ErrorActionPreference = "Stop";
 $StepName = "Setting 'ssh-agent' Windows service to automatic startup.";
 Write-Host -ForegroundColor Cyan $StepName;
 
@@ -16,7 +17,11 @@ $PowershellExecutable = "pwsh.exe"; # Use "powershell.exe" for Windows Powershel
 if (-Not ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] 'Administrator')) {
   if ([int](Get-CimInstance -Class Win32_OperatingSystem | Select-Object -ExpandProperty BuildNumber) -ge 6000) {
     $CommandLine = "-File `"" + $MyInvocation.MyCommand.Path + "`" " + $MyInvocation.UnboundArguments;
-    Start-Process -Wait -FilePath $PowershellExecutable -Verb Runas -ArgumentList $CommandLine;
+    $process = Start-Process -Wait -PassThru -FilePath $PowershellExecutable -Verb Runas -ArgumentList $CommandLine;
+    if ($process.ExitCode -ne 0) {
+      Write-Host -ForegroundColor Red "$StepName - Error running elevated script";
+      Exit $process.ExitCode;
+    }
     Write-Host -ForegroundColor Green "$StepName - Done";
     Exit;
   }
