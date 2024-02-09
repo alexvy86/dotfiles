@@ -13,6 +13,7 @@ Update-Path;
 if (Get-Command "scoop" -ErrorAction Stop) {
   scoop bucket add extras
   scoop bucket add nerd-fonts
+  scoop update
 }
 
 Write-Host -ForegroundColor Green "$StepName - Done";
