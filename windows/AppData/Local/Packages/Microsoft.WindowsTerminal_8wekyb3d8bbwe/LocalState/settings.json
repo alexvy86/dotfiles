@@ -94,10 +94,8 @@
             },
             // NOTE: this profile assumes that the Ubuntu distribution for WSL was installed through the Microsoft Store
             // Other ways of installing it might result in this profile not showing up in Windows Terminal.
-            // NOTE2: this will prevent Ubuntu from opening because zsh won't be installed by default.
-            // Open it manually with that piece removed and configure the environment with Chezmoi so this starts working.
             {
-                "commandline": "wsl.exe -d Ubuntu --cd ~ zsh",
+                "commandline": "wsl.exe -d Ubuntu --cd ~",
                 "guid": "{51855cb2-8cce-5362-8f54-464b92b32386}",
                 "hidden": false,
                 "name": "Ubuntu",
