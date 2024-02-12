@@ -3,16 +3,20 @@
 
 SSH_DIR=$HOME/.ssh;
 
-if ls -A1q $SSH_DIR | grep -q . ;
-then
+if ls -A1q $SSH_DIR | grep -q . ; then
   echo "'$SSH_DIR' is not empty. Skipping copy of SSH keys from Windows.";
 	exit 0;
 fi
 
-WIN_SSH_DIR=/mnt/c/Users/alexv/.ssh;
+WIN_SSH_DIR=/mnt/c/Users/$WIN_USERNAME/.ssh;
 
-echo "Copying SSH keys from '$WIN_SSH_DIR' to '$SSH_DIR'.";
-cp --target-directory=$SSH_DIR $WIN_SSH_DIR/config $WIN_SSH_DIR/id*;
-chmod 600 $SSH_DIR/*;
+if [ ! -d "$WIN_SSH_DIR" ]; then
+  echo "'$WIN_SSH_DIR' does not exist. Skipping SSH keys copy.";
+	exit 0;
+else
+  echo "Copying SSH keys from '$WIN_SSH_DIR' to '$SSH_DIR'.";
+  cp --target-directory=$SSH_DIR $WIN_SSH_DIR/config $WIN_SSH_DIR/id*;
+  chmod 600 $SSH_DIR/*;
+fi
 
 {{ end -}}

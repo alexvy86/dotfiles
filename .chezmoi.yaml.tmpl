@@ -24,7 +24,11 @@ data:
   codespaces: {{ $codespaces }}
 
 scriptEnv:
+{{- if (and (eq .chezmoi.os "linux") (.chezmoi.kernel.osrelease | lower | contains "microsoft")) }}
+  {{- $winUsername := promptStringOnce . "winUsername" "Windows username. We'll attempt to copy SSH keys from its home folder." }}
+  WIN_USERNAME: {{ $winUsername }}
+{{- end }}
 {{- if eq .chezmoi.os "windows" }}
-  {{- $winToolsPath := promptStringOnce . "win_tools_path" "Path where tools get installed in Windows. This will be added to the user's PATH." }}
+  {{- $winToolsPath := promptStringOnce . "winToolsPath" "Path where tools get installed in Windows. This will be added to the user's PATH." }}
   WIN_TOOLS_PATH: {{ $winToolsPath }}
 {{- end }}
