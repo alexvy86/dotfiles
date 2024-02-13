@@ -1,0 +1,24 @@
+% chezmoi
+
+# Upgrade chezmoi
+chezmoi upgrade
+
+# Pull latest changes to dotfiles but don't apply them
+chezmoi update --apply=false
+
+# Pull latest changes to dotfiles and apply them
+chezmoi update
+
+# See changes in local dotfiles repo that haven't been applied
+chezmoi diff
+
+# Run template parsing for file (other than config file)
+{{ if (eq .chezmoi.os "linux") -}}
+cat <path_to_template_file> | chezmoi execute-template
+$ path_to_template_file: find {{ .chezmoi.sourceDir }} -iname '*.tmpl'
+{{ end -}}
+
+# Run template parsing for config file
+{{ if (eq .chezmoi.os "linux") -}}
+cat {{ .chezmoi.sourceDir }}/../.chezmoi.yaml.tmpl | chezmoi execute-template --init
+{{ end -}}
