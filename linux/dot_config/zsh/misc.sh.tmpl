@@ -35,6 +35,9 @@ alias nowdate='date +"%Y-%m-%d"'
 alias egrep='grep -E --color=auto --exclude-dir={.bzr,CVS,.git,.hg,.svn,.idea,.tox}'
 alias fgrep='grep -F --color=auto --exclude-dir={.bzr,CVS,.git,.hg,.svn,.idea,.tox}'
 
+# Chezmoi commands
+alias cuaf='chezmoi update --apply=false'
+
 # Diff between current commit and common ancestor between it and the specified branch
 function gdtool() {
     if [ "$#" -ne 1 ]; then
