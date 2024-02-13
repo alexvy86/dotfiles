@@ -20,3 +20,8 @@
 # function private:ssh {param($params);
 # 	(ssh-add -l | Out-Null || (ssh-add -t 10h && Write-Host -ForegroundColor Green "ssh-key(s) are now available in ssh-agent for 10 hrs!`n")) && ssh $params;
 # }
+
+# Chezmoi commmands
+function private:cuaf {
+	chezmoi update --apply=false;
+}
