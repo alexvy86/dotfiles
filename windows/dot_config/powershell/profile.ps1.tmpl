@@ -25,3 +25,8 @@
 function private:cuaf {
 	chezmoi update --apply=false;
 }
+
+# Winget commands
+function private:wlua {
+	winget list --upgrade-available;
+}
