@@ -16,9 +16,14 @@ chezmoi diff
 {{ if (eq .chezmoi.os "linux") -}}
 cat <path_to_template_file> | chezmoi execute-template
 $ path_to_template_file: find {{ .chezmoi.sourceDir }} -iname '*.tmpl'
-{{ end -}}
+{{- else if (eq .chezmoi.os "windows") -}}
+Get-Content -Path {{ .chezmoi.sourceDir }}/<path_to_template_file> | chezmoi execute-template
+$ path_to_template_file: Get-ChildItem -Recurse -Path {{ .chezmoi.sourceDir }} -Filter "*.tmpl" -Name
+{{- end }}
 
 # Run template parsing for config file
 {{ if (eq .chezmoi.os "linux") -}}
 cat {{ .chezmoi.sourceDir }}/../.chezmoi.yaml.tmpl | chezmoi execute-template --init
+{{- else if (eq .chezmoi.os "windows") -}}
+Get-Content -Path {{ .chezmoi.sourceDir }}/../.chezmoi.yaml.tmpl | chezmoi execute-template --init
 {{ end -}}

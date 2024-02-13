@@ -1,2 +1,5 @@
 shell:
-  command: cmd
+  # Need to use -NoProfile to avoid issues when navi runs commands to list
+  # possible completions. Something about the default predictions engine
+  # not interacting well with the way navi runs commands.
+  command: pwsh -NoProfile
