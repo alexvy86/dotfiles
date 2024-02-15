@@ -5,10 +5,12 @@ for details on the line below. Needed for this script to run successfully in Git
 */ -}}
 #!{{- lookPath "bash" }}
 
-# Change default shell for root to ZSH.
-sudo chsh -s $(which zsh);
+# Change default shell for current user to ZSH.
+echo "Updating default shell for user '$(whoami)'";
+sudo chsh -s $(which zsh) $(whoami);
 
-# Change default shell for user to ZSH.
-chsh -s $(which zsh);
+# Change default shell for root to ZSH.
+echo "Updating default shell for root";
+sudo chsh -s $(which zsh);
 
 {{- end }}
