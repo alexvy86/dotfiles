@@ -49,6 +49,13 @@
 #	 changed = green
 #	 untracked = cyan
 
+[column]
+	ui = auto
+
+# https://git-scm.com/book/en/v2/Git-Tools-Rerere
+[rerere]
+	enabled = true
+
 [filter "lfs"]
 	required = true
 	smudge = git-lfs smudge -- %f
