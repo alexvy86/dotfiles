@@ -7,9 +7,9 @@
 alias grsff="gh repo sync alexvy86/FluidFramework"
 
 # Common build commands
-alias ffb='npm run build'
-alias ffbc='npm run build:compile'
-alias ffbf='npm run build:fast'
+alias b='npm run build'
+alias bc='npm run build:compile'
+alias bf='npm run build:fast'
 
 # Create a new Github Codespaces
 alias new-codespace='gh codespace create --repo microsoft/FluidFramework --branch main --machine largePremiumLinux'
