@@ -19,12 +19,15 @@
 	autostash = true
 	autosquash = true
 	updateRefs = true
+	missingCommitsCheck = error
 [core]
 	autocrlf = input
 	editor = code -r -w
 [status]
 	# Show status of git submodules in git status output
 	submoduleSummary = true
+[log]
+	date = iso
 [diff]
 	# Show submodules changes in diffs as a list of commits like `git log` shows
 	submodule = log
