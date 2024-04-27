@@ -1,0 +1,71 @@
+#	@{Id = "Git.Git"; Args = "/SILENT /LOADINF=$PathToGitInstallerSettings" },
+#	@{Id = "GitHub.GitLFS"; },
+#	@{Id = "Microsoft.VisualStudioCode"; Args = "/SILENT /LOADINF=$PathToVsCodeInstallerSettings" },
+
+properties:
+  resources:
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
+      directives:
+        description: Install Windows Terminal
+      settings:
+        id: Microsoft.WindowsTerminal
+        source: winget
+
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
+      directives:
+        description: Install 7zip
+      settings:
+        id: 7zip.7zip
+        source: winget
+
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
+      directives:
+        description: Install OhMyPosh
+      settings:
+        id: JanDeDobbeleer.OhMyPosh
+        source: winget
+
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
+      directives:
+        description: Install Edge Dev
+      settings:
+        id: Microsoft.Edge.Dev
+        source: winget
+
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
+      directives:
+        description: Install Chrome
+      settings:
+        id: Google.Chrome
+        source: winget
+
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
+      directives:
+        description: Install 1Password
+      settings:
+        id: AgileBits.1Password
+        source: winget
+
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
+      directives:
+        description: Install Beyond Compare
+      settings:
+        id: ScooterSoftware.BeyondCompare4
+        source: winget
+
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
+      directives:
+        description: Install Windows Terminal
+      settings:
+        id: Microsoft.WindowsTerminal
+        source: winget
+
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
+      directives:
+        description: Install Windows Terminal
+      settings:
+        id: Microsoft.WindowsTerminal
+        source: winget
+
+
+  configurationVersion: 0.2.0
