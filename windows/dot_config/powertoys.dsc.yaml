@@ -1,5 +1,10 @@
 properties:
   resources:
+    # Installing PowerToys like this seems to install the module in a location that might not match the one used
+    # by other installers of PowerToys and then applying the configuration complains with this error:
+    #  "The module for the configuration unit is available in multiple locations with the same version."
+    # Check the folders reported by `$env:PSModulePath -split ';'` to see if Microsoft.PowerToys.Configure is installed
+    # in several locations and remove it from all other than the user's Documents/PowerShell/Modules directory.
     - resource: Microsoft.WinGet.DSC/WinGetPackage
       id: installPowerToys
       directives:
