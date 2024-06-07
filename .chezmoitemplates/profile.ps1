@@ -58,7 +58,11 @@ Set-PSReadLineKeyHandler -Chord Ctrl+PageUp     -Function ScrollDisplayUpLine;
 # FNM
 #----------------------------------------------------------
 # Assumes it was installed earlier.
+{{ if (eq .chezmoi.os "windows") -}}
+fnm env --use-on-cd --shell "power-shell" | Out-String | Invoke-Expression;
+{{- else -}}
 fnm env --use-on-cd | Out-String | Invoke-Expression;
+{{- end }}
 
 #----------------------------------------------------------
 # Prompt
