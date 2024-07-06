@@ -15,6 +15,8 @@ if (Get-Command "scoop" -ErrorAction Stop) {
   scoop install --no-update-scoop fnm;
   scoop install --no-update-scoop deno;
   scoop install --no-update-scoop navi;
+  # From "extras" bucket
+  scoop install --no-update-scoop beyondcompare;
 }
 
 Write-Host -ForegroundColor Green "$StepName - Done";

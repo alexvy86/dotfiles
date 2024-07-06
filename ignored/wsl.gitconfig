@@ -8,10 +8,10 @@
 	trustExitCode = true
 
 [mergetool "BeyondCompare4"]
-	cmd='/mnt/c/Program Files/Beyond Compare 4/BComp.exe' "$(wslpath -aw $LOCAL)" "$(wslpath -aw $REMOTE)" "$(wslpath -aw $BASE)" "$(wslpath -aw $MERGED)"
+	cmd='BComp.exe' "$(wslpath -aw $LOCAL)" "$(wslpath -aw $REMOTE)" "$(wslpath -aw $BASE)" "$(wslpath -aw $MERGED)"
 
 [difftool "BeyondCompare4"]
-	cmd = '/mnt/c/Program Files/Beyond Compare 4/BComp.exe' "$(wslpath -aw $LOCAL)" "$(wslpath -aw $REMOTE)"
+	cmd = 'BComp.exe' "$(wslpath -aw $LOCAL)" "$(wslpath -aw $REMOTE)"
 
 # Needed to work with the some ADO repos that use git-lfs so *have* to use https instead of ssh
 # Following instructions from https://github.com/git-ecosystem/git-credential-manager/blob/release/docs/wsl.md#windows-subsystem-for-linux-wsl

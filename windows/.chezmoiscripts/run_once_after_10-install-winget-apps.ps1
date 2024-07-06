@@ -13,8 +13,8 @@ $ApplicationsToInstall = @(
 	@{Id = "Microsoft.VisualStudioCode"; Args = "/SILENT /LOADINF=$PathToVsCodeInstallerSettings" },
 	@{Id = "Microsoft.Edge.Dev"; },
 	@{Id = "Google.Chrome"; },
-	@{Id = "AgileBits.1Password"; },
-	@{Id = "ScooterSoftware.BeyondCompare4"; }
+	@{Id = "AgileBits.1Password"; }
+	# @{Id = "ScooterSoftware.BeyondCompare4"; }
 	# @{Id="Docker.DockerDesktop",
 	# @{Id="Microsoft.AzureCLI",
 	# @{Id="PuTTY.PuTTY",
