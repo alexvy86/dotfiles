@@ -62,10 +62,17 @@ $settingsToChange += @{
 
 # Apply registry changes
 $settingsToChange | ForEach-Object {
-	$entryExists = Test-Path -Path $_.Path;
-	if ($True -eq $entryExists) {
-		$currentValue = Get-ItemPropertyValue -Path $_.Path -Name $_.Name;
-		Write-Host "$($_.Path) -> $($_.Name) - Current value: '$currentValue' - New value: '$($_.DesiredValue)'";
+	$pathExists = Test-Path -Path $_.Path;
+	if ($True -eq $pathExists) {
+		$propertyExists = (Get-ItemProperty -Path $_.Path -Name $_.Name -ErrorAction SilentlyContinue) -ne $null;
+		if ($True -eq $propertyExists) {
+			$currentValue = Get-ItemPropertyValue -Path $_.Path -Name $_.Name;
+			if ($currentValue -eq $_.DesiredValue) {
+				Write-Host "$($_.Path) -> $($_.Name) already has the desired value '$($_.DesiredValue)'";
+				return;
+			}
+			Write-Host "$($_.Path) -> $($_.Name) - Current value: '$currentValue' - New value: '$($_.DesiredValue)'";
+		}
 	} else {
 		Write-Host "Creating new registry entry at $($_.Path) -> $($_.Name) with value '$($_.DesiredValue)'";
 		New-Item -Path $_.Path -Force;
