@@ -5,3 +5,8 @@
 [mergetool "BeyondCompare4"]
 	path=C:/Program Files/Beyond Compare 4/bcomp.exe
 	cmd="C:/Program Files/Beyond Compare 4/bcomp.exe" "$LOCAL" "$REMOTE" "$BASE" "$MERGED"
+
+# In Windows, changes to the permissions of a file (e.g. 755 -> 644) sometimes happen
+# and I don't know why. This will make it so git ignores those changes.
+[core]
+	filemode = false
