@@ -3,21 +3,24 @@
 # chezmoi install script for codespaces
 # https://www.chezmoi.io/user-guide/machines/containers-and-vms/
 
-set -e # -e: exit on error
+# -e: exit on error
+# -u: exit on unset variables
+set -eu
 
-if [ ! "$(command -v chezmoi)" ]; then
-  bin_dir="$HOME/.local/bin"
-  chezmoi="$bin_dir/chezmoi"
-  if [ "$(command -v curl)" ]; then
-    sh -c "$(curl -fsLS https://chezmoi.io/get)" -- -b "$bin_dir"
-  elif [ "$(command -v wget)" ]; then
-    sh -c "$(wget -qO- https://chezmoi.io/get)" -- -b "$bin_dir"
+if ! chezmoi="$(command -v chezmoi)"; then
+  bin_dir="${HOME}/.local/bin"
+  chezmoi="${bin_dir}/chezmoi"
+  echo "Installing chezmoi to '${chezmoi}'" >&2
+  if command -v curl >/dev/null; then
+    chezmoi_install_script="$(curl -fsSL https://chezmoi.io/get)"
+  elif command -v wget >/dev/null; then
+    chezmoi_install_script="$(wget -qO- https://chezmoi.io/get)"
   else
     echo "To install chezmoi, you must have curl or wget installed." >&2
     exit 1
   fi
-else
-  chezmoi=chezmoi
+  sh -c "${chezmoi_install_script}" -- -b "${bin_dir}"
+  unset chezmoi_install_script bin_dir
 fi
 
 # POSIX way to get script's dir: https://stackoverflow.com/a/29834779/12156188
