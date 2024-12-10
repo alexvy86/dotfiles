@@ -2,69 +2,69 @@
   "$schema": "https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/schema.json",
   "palette": {
     "background": "#1f1f1f",
+    "blue": "#0077c2",
+    "cyan": "#00FFFF",
+    "error": "#D81E5B",
+    "green": "#00FF00",
+    "light-gray": "#B5B2C2",
+    "magenta": "#FF00FF",
+    "node-green": "#6CA35E",
+    "ocean-blue": "#26C6DA",
+    "orange": "#F07623",
+    "purple": "#8A4FFF",
     "separator": "#7a7a7a",
     "success": "#59C9A5",
-    "error": "#D81E5B",
-    "white": "#fafafa",
-    "light-gray": "#B5B2C2",
-    "orange": "#F07623",
-    "yellow": "#ffeb3b",
-    "node-green": "#6CA35E",
-    "green": "#00FF00",
     "teal": "#2EC4B6",
-    "cyan": "#00FFFF",
-    "ocean-blue": "#26C6DA",
-    "blue": "#0077c2",
-    "magenta": "#FF00FF",
-    "purple": "#8A4FFF"
+    "white": "#fafafa",
+    "yellow": "#ffeb3b"
   },
   "var": {
     "Separator": "<p:separator> \ue0b1 </>"
   },
+  "transient_prompt": {
+    "template": " {{ if gt .Code 0 }}<p:error>\uf00d ({{ .Code }}){{ else }}<p:success>\uf00c{{ end }} {{ .Segments.Executiontime.FormattedMs }}</>\n[<p:ocean-blue>{{ .PromptCount }}</>][<p:orange>{{ now | date \"15:04:05\" }}</>] ",
+    "foreground": "p:white"
+  },
+  "console_title_template": "{{if .Root}}root :: {{end}}{{.Shell}} :: {{.Folder}}",
   "blocks": [
     {
+      "type": "prompt",
       "alignment": "left",
       "segments": [
         {
-          "type": "status",
-          "style": "plain",
-          "template": " {{ if gt .Code 0 }}<p:error>\uf00d ({{ .Code }})</>{{ else }}<p:success>\uf00c</>{{ end }} ",
           "properties": {
             "always_enabled": true
-          }
+          },
+          "style": "plain",
+          "template": " {{ if gt .Code 0 }}<p:error>\uf00d ({{ .Code }})</>{{ else }}<p:success>\uf00c</>{{ end }} ",
+          "type": "status"
         },
         {
-          "type": "executiontime",
-          "style": "plain",
-          "foreground": "p:success",
-          "foreground_templates": [
-            "{{ if gt .Code 0 }}p:error{{ end }}"
-          ],
-          "template": "{{ .FormattedMs }}",
           "properties": {
             "always_enabled": true,
             "style": "austin"
-          }
+          },
+          "style": "plain",
+          "template": "{{ .FormattedMs }}",
+          "foreground": "p:success",
+          "type": "executiontime",
+          "foreground_templates": [
+            "{{ if gt .Code 0 }}p:error{{ end }}"
+          ]
         }
-      ],
-      "type": "prompt"
+      ]
     },
     {
+      "type": "prompt",
       "alignment": "left",
-      "newline": true,
       "segments": [
         {
-          "type": "text",
           "style": "plain",
+          "template": "\u256d",
           "foreground": "p:ocean-blue",
-          "template": "\u256d"
+          "type": "text"
         },
         {
-          "type": "os",
-          "style": "diamond",
-          "background": "p:background",
-          "foreground": "p:ocean-blue",
-          "leading_diamond": "\ue0b6",
           "properties": {
             "alpine": "\uf300",
             "arch": "\uf303",
@@ -82,92 +82,92 @@
             "ubuntu": "\uf31c",
             "windows": "\ue70f"
           },
-          "template": "{{ .Icon }}{{ if .WSL }} (WSL){{ end }} "
+          "style": "diamond",
+          "leading_diamond": "\ue0b6",
+          "template": "{{ .Icon }}{{ if .WSL }} (WSL){{ end }} ",
+          "foreground": "p:ocean-blue",
+          "background": "p:background",
+          "type": "os"
         },
         {
-          "type": "shell",
           "style": "diamond",
+          "trailing_diamond": "\ue0b4",
+          "template": "{{ .Name }}",
           "foreground": "p:blue",
           "background": "p:background",
-          "trailing_diamond": "\ue0b4",
-          "template": "{{ .Name }}"
+          "type": "shell"
         },
         {
-          "type": "session",
           "style": "diamond",
-          "foreground": "p:white",
-          "background": "p:background",
           "leading_diamond": "\ue0b6",
           "trailing_diamond": "\ue0b4",
-          "template": "{{ if ne .Env.POSH_SESSION_DEFAULT_USER .UserName }}<p:green>{{ .UserName }}</> @ {{ end }}<p:magenta>{{ .HostName }}</>{{ if .Root }} <p:yellow>\uf0e7</>{{ end }}"
+          "template": "{{ if ne .Env.POSH_SESSION_DEFAULT_USER .UserName }}<p:green>{{ .UserName }}</> @ {{ end }}<p:magenta>{{ .HostName }}</>{{ if .Root }} <p:yellow>\uf0e7</>{{ end }}",
+          "foreground": "p:white",
+          "background": "p:background",
+          "type": "session"
         },
         {
-          "type": "path",
-          "style": "diamond",
-          "background": "p:background",
-          "foreground": "p:white",
-          "leading_diamond": "\ue0b6",
-          "trailing_diamond": "\ue0b4",
           "properties": {
             "folder_icon": "<p:light-grey>\ue5fe </>",
             "style": "full"
           },
-          "template": "<p:yellow>\ue5ff </>{{ .Path }}"
-        },
-        {
-          "type": "node",
           "style": "diamond",
-          "foreground": "p:node-green",
-          "background": "p:background",
           "leading_diamond": "\ue0b6",
           "trailing_diamond": "\ue0b4",
-          "template": "{{ .PackageManagerIcon }} {{ .Full }}",
+          "template": "<p:yellow>\ue5ff </>{{ .Path }}",
+          "foreground": "p:white",
+          "background": "p:background",
+          "type": "path"
+        },
+        {
           "properties": {
             "display_mode": "files",
             "fetch_package_manager": true
-          }
-        },
-        {
-          "type": "git",
+          },
           "style": "diamond",
-          "background": "p:background",
-          "foreground": "p:yellow",
-          "foreground_templates": [
-            "{{ if or (.Working.Changed) (.Staging.Changed) }}p:yellow{{ end }}",
-            "{{ if gt .Ahead 0 }}p:teal{{ end }}",
-            "{{ if gt .Behind 0 }}p:purple{{ end }}"
-          ],
           "leading_diamond": "\ue0b6",
           "trailing_diamond": "\ue0b4",
-          "template": "{{ if .UpstreamURL }}{{ url .UpstreamIcon .UpstreamURL }} {{ end }}{{ .HEAD }}{{ if .BranchStatus }} {{ .BranchStatus }}{{ end }}{{ if .Working.Changed }}<p:orange> \uf044 {{ .Working.String }}</>{{ end }}{{ if and (.Working.Changed) (.Staging.Changed) }} |{{ end }}{{ if .Staging.Changed }}<p:green> \uf046 {{ .Staging.String }}</>{{ end }}",
+          "template": "{{ .PackageManagerIcon }} {{ .Full }}",
+          "foreground": "p:node-green",
+          "background": "p:background",
+          "type": "node"
+        },
+        {
           "properties": {
             "branch_max_length": 35,
             "fetch_status": true,
             "fetch_upstream_icon": true
-          }
+          },
+          "style": "diamond",
+          "leading_diamond": "\ue0b6",
+          "trailing_diamond": "\ue0b4",
+          "template": "{{ if .UpstreamURL }}{{ url .UpstreamIcon .UpstreamURL }} {{ end }}{{ .HEAD }}{{ if .BranchStatus }} {{ .BranchStatus }}{{ end }}{{ if .Working.Changed }}<p:orange> \uf044 {{ .Working.String }}</>{{ end }}{{ if and (.Working.Changed) (.Staging.Changed) }} |{{ end }}{{ if .Staging.Changed }}<p:green> \uf046 {{ .Staging.String }}</>{{ end }}",
+          "foreground": "p:yellow",
+          "background": "p:background",
+          "type": "git",
+          "foreground_templates": [
+            "{{ if or (.Working.Changed) (.Staging.Changed) }}p:yellow{{ end }}",
+            "{{ if gt .Ahead 0 }}p:teal{{ end }}",
+            "{{ if gt .Behind 0 }}p:purple{{ end }}"
+          ]
         }
       ],
-      "type": "prompt"
+      "newline": true
     },
     {
+      "type": "prompt",
       "alignment": "left",
-      "newline": true,
       "segments": [
         {
-          "type": "text",
           "style": "plain",
+          "template": "\u2570 {{ .PromptCount }} <p:white>❯</>",
           "foreground": "p:ocean-blue",
-          "template": "\u2570 {{ .PromptCount }} <p:white>\u276f</>"
+          "type": "text"
         }
       ],
-      "type": "prompt"
+      "newline": true
     }
   ],
-  "console_title_template": "{{if .Root}}root :: {{end}}{{.Shell}} :: {{.Folder}}",
-  "final_space": true,
-  "transient_prompt": {
-    "foreground": "p:white",
-    "template": " {{ if gt .Code 0 }}<p:error>\uf00d ({{ .Code }}){{ else }}<p:success>\uf00c{{ end }} {{ .Segments.Executiontime.FormattedMs }}</>\n[<p:ocean-blue>{{ .PromptCount }}</>][<p:orange>{{ now | date \"15:04:05\" }}</>] "
-  },
-  "version": 2
+  "version": 3,
+  "final_space": true
 }
