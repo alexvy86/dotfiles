@@ -60,6 +60,14 @@ $settingsToChange += @{
 	DesiredValue = "";
 };
 
+# Disable transparency effects in Windows 11
+# Just don't like it, plus it seems to imagine things or cache backgrounds that aren't there anymore.
+$settingsToChange += @{
+	Path         = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize";
+	Name         = "EnableTransparency";
+	DesiredValue = 0;
+};
+
 # Apply registry changes
 $settingsToChange | ForEach-Object {
 	$pathExists = Test-Path -Path $_.Path;
