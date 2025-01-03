@@ -27,3 +27,8 @@ cat {{ .chezmoi.sourceDir }}/../.chezmoi.yaml.tmpl | chezmoi execute-template --
 {{- else if (eq .chezmoi.os "windows") -}}
 Get-Content -Path {{ .chezmoi.sourceDir }}/../.chezmoi.yaml.tmpl | chezmoi execute-template --init
 {{ end -}}
+
+% git
+
+# Search for commits that contain a specific string
+git log -S <string_to_search> --source -- <path_to_search>
