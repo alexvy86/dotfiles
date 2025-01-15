@@ -7,3 +7,6 @@ install.sh
 
 # Files under the 'ignored' folder
 ignored/**
+
+# '.keep' files, just for the purpose of having empty directories
+**/.keep
