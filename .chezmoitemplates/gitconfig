@@ -52,6 +52,14 @@
 #	 changed = green
 #	 untracked = cyan
 
+# Alias to register repositories for maintenance in a custom file so the main .gitconfig doesn't keep
+# changing in different machines.
+
+[alias]
+	start-maintenance = !git maintenance register --config-file ~/.gitconfig-maintenance && git maintenance start
+[include]
+	path = .gitconfig-maintenance
+
 [column]
 	ui = auto
 
