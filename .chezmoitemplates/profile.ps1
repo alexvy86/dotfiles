@@ -10,6 +10,10 @@ Set-StrictMode -Version Latest;
 # See https://github.com/devblackops/Terminal-Icons/issues/76
 # Import-Module Terminal-Icons;
 
+# Load this module explicitly before git-aliases so it creates the gcb alias (Get-Clipboard),
+# and git-aliases can override it.
+Import-Module Microsoft.PowerShell.Management;
+
 Import-Module git-aliases -DisableNameChecking;
 
 # Arguments: $ForcePoshGitPrompt, $UseLegacyTabExpansion, $EnableProxyFunctionExpansion
