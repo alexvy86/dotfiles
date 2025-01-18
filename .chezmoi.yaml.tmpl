@@ -19,6 +19,11 @@ sourceDir: "{{- .chezmoi.workingTree -}}/windows"
 sourceDir: "{{- .chezmoi.workingTree -}}/linux"
 {{ end }}
 
+# Do not show scripts in the output of 'chezmoi diff'
+diff:
+  exclude:
+    - scripts
+
 {{- $codespaces := env "CODESPACES" | not | not }}
 data:
   codespaces: {{ $codespaces }}
