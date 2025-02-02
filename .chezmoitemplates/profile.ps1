@@ -1,5 +1,7 @@
 Set-StrictMode -Version Latest;
 
+{{ if eq .chezmoi.os "windows" -}}
+
 # Auto-completions for Winget
 # https://learn.microsoft.com/en-us/windows/package-manager/winget/tab-completion
 Register-ArgumentCompleter -Native -CommandName winget -ScriptBlock {
@@ -11,6 +13,8 @@ Register-ArgumentCompleter -Native -CommandName winget -ScriptBlock {
 					[System.Management.Automation.CompletionResult]::new($_, $_, 'ParameterValue', $_)
 			}
 }
+
+{{ end -}}
 
 # TODO: There might be something interesting we can do with $PSDefaultParameterValues
 
