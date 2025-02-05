@@ -1,9 +1,9 @@
-{{ $windows := eq .chezmoi.os "windows" }}
-{{ $linux := eq .chezmoi.os "linux" }}
-{{ $macOS := eq .chezmoi.os "darwin" }}
-{{ $wsl := and ($linux) (or (env "WSL_DISTRO_NAME" | not | not) (.chezmoi.kernel.osrelease | lower | contains "microsoft")) }}
-{{ $ubuntu := eq (index .chezmoi.osRelease "id") "ubuntu" }}
-{{ $debian := eq (index .chezmoi.osRelease "id") "debian" }}
+{{- $windows := eq .chezmoi.os "windows" -}}
+{{- $linux := eq .chezmoi.os "linux" -}}
+{{- $macOS := eq .chezmoi.os "darwin" -}}
+{{- $wsl := and ($linux) (or (env "WSL_DISTRO_NAME" | not | not) (.chezmoi.kernel.osrelease | lower | contains "microsoft")) -}}
+{{- $ubuntu := eq (index .chezmoi.osRelease "id") "ubuntu" -}}
+{{- $debian := eq (index .chezmoi.osRelease "id") "debian" -}}
 
 edit:
   command: "code"
@@ -22,9 +22,9 @@ interpreters:
 
 {{ if $windows -}}
 sourceDir: "{{- .chezmoi.workingTree -}}/windows"
-{{ else -}}
+{{- else -}}
 sourceDir: "{{- .chezmoi.workingTree -}}/linux"
-{{ end }}
+{{- end }}
 
 # Do not show scripts in the output of 'chezmoi diff'
 diff:
