@@ -1,16 +1,16 @@
 [difftool]
 	prompt = false
 
-[difftool "BeyondCompare4"]
+[difftool "BeyondCompare"]
 	trustExitCode = true
 
-[mergetool "BeyondCompare4"]
+[mergetool "BeyondCompare"]
 	trustExitCode = true
 
-[mergetool "BeyondCompare4"]
+[mergetool "BeyondCompare"]
 	cmd='BComp.exe' "$(wslpath -aw $LOCAL)" "$(wslpath -aw $REMOTE)" "$(wslpath -aw $BASE)" "$(wslpath -aw $MERGED)"
 
-[difftool "BeyondCompare4"]
+[difftool "BeyondCompare"]
 	cmd = 'BComp.exe' "$(wslpath -aw $LOCAL)" "$(wslpath -aw $REMOTE)"
 
 # Needed to work with the some ADO repos that use git-lfs so *have* to use https instead of ssh

@@ -31,11 +31,11 @@
 [diff]
 	# Show submodules changes in diffs as a list of commits like `git log` shows
 	submodule = log
-	tool=BeyondCompare4
-	guitool=BeyondCompare4
+	tool=BeyondCompare
+	guitool=BeyondCompare
 [merge]
-	tool=BeyondCompare4
-	guitool=BeyondCompare4
+	tool=BeyondCompare
+	guitool=BeyondCompare
 [color]
 	ui = auto
 # [color "diff-highlight"]
@@ -82,5 +82,5 @@
 {{ else if (eq .chezmoi.os "darwin") }}
   {{- include "../ignored/mac.gitconfig" -}}
 {{ else if (eq .chezmoi.os "windows") }}
-  {{- include "../ignored/windows.gitconfig" -}}
+  {{- includeTemplate "../.chezmoitemplates/windows.gitconfig" . -}}
 {{ end -}}

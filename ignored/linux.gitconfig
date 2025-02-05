@@ -1,8 +1,8 @@
 [difftool]
 	prompt = false
 
-[difftool "BeyondCompare4"]
+[difftool "BeyondCompare"]
 	trustExitCode = true
 
-[mergetool "BeyondCompare4"]
+[mergetool "BeyondCompare"]
 	trustExitCode = true

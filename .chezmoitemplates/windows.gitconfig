@@ -1,0 +1,15 @@
+{{- $bcompPath := (joinPath .chezmoi.config.scriptEnv.WIN_TOOLS_PATH "/scoop/shims/bcomp.exe") | replaceAllRegex "\\\\" "/" -}}
+
+# NOTE: need to use forward slashes in paths or git will complain about invalid lines
+[difftool "BeyondCompare"]
+	path={{ $bcompPath }}
+	cmd="{{ $bcompPath }}" "$LOCAL" "$REMOTE"
+
+[mergetool "BeyondCompare"]
+	path={{ $bcompPath }}
+	cmd="{{ $bcompPath }}" "$LOCAL" "$REMOTE" "$BASE" "$MERGED"
+
+# In Windows, changes to the permissions of a file (e.g. 755 -> 644) sometimes happen
+# and I don't know why. This will make it so git ignores those changes.
+[core]
+	filemode = false
