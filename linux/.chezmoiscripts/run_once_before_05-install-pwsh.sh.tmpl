@@ -7,31 +7,33 @@ for details on the line below. Needed for this script to run successfully in Git
 {{- /* Raspberry Pi */ -}}
 {{- if and (eq (index .chezmoi.osRelease "id") "debian") (eq .chezmoi.arch "arm64") }}
 
-# Original instructions: https://learn.microsoft.com/en-us/powershell/scripting/install/install-raspbian?view=powershell-7.3
-# NOTE: I updated the link to download the 64bit version instead of 32bit
+# Original instructions: https://learn.microsoft.com/en-us/powershell/scripting/install/community-support?view=powershell-7.5#raspberry-pi-os
+
+# Target location to install PowerShell. No trailing slashes.
+TARGET_LOCATION=~/.local/share/powershell
 
 # Update package lists
 sudo apt update;
 
 # Install dependencies.
-# The official instructions ask for libssl1.0 but based on some research, 1.1 should work for the latest version of PS.
-# https://github.com/dotnet/runtime/issues/27792
-# https://github.com/dotnet/corefx/pull/34443
-sudo apt install libssl1.1 libunwind8 -y;
+sudo apt install jq libssl1.1 libunwind8 -y;
 
 # Grab the latest tar.gz
-wget https://github.com/PowerShell/PowerShell/releases/download/v7.3.3/powershell-7.3.3-linux-arm64.tar.gz;
+bits=$(getconf LONG_BIT)
+release=$(curl -sL https://api.github.com/repos/PowerShell/PowerShell/releases/latest)
+package=$(echo $release | jq -r ".assets[].browser_download_url" | grep "linux-arm${bits}.tar.gz")
+wget $package
 
 # Make folder to put powershell
-mkdir ~/.local/share/powershell;
+mkdir $TARGET_LOCATION;
 
-# Unpack the tar.gz file and remove it after
-tar -xvf ./powershell-7.3.3-linux-arm64.tar.gz -C ~/.local/share/powershell;
-rm ./powershell-7.3.3-linux-arm64.tar.gz;
+# Unpack the tar.gz file
+tar -xvf "./${package##*/}" -C $TARGET_LOCATION;
+rm "./${package##*/}";
 
 # (Re)create symlink
 sudo rm /usr/bin/pwsh;
-sudo ln -s ~/.local/share/powershell/pwsh /usr/bin/pwsh;
+sudo ln -s $TARGET_LOCATION/pwsh /usr/bin/pwsh;
 
 {{- /* Ubuntu */ -}}
 {{- else if eq (index .chezmoi.osRelease "id") "ubuntu" }}
