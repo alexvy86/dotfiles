@@ -58,7 +58,7 @@ if [ "$(command -v fnm)" ]; then
 fi
 
 # Use fzf
-{{ if eq .chezmoi.arch "arm64" -}}
+{{ if .is_raspberryPi -}}
 source /usr/share/doc/fzf/examples/key-bindings.zsh
 source /usr/share/doc/fzf/examples/completion.zsh
 {{- else -}}

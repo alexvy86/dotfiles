@@ -73,14 +73,14 @@
 	process = git-lfs filter-process
 	clean = git-lfs clean -- %f
 
-{{ if (eq .chezmoi.os "linux") -}}
-	{{ if (.chezmoi.kernel.osrelease | lower | contains "microsoft") }}
+{{ if .is_linux -}}
+	{{ if .is_wsl }}
 	  {{- include "../ignored/wsl.gitconfig" -}}
 	{{ else }}
-      {{- include "../ignored/linux.gitconfig" -}}
+    {{- include "../ignored/linux.gitconfig" -}}
 	{{ end }}
-{{ else if (eq .chezmoi.os "darwin") }}
+{{ else if .is_macOS }}
   {{- include "../ignored/mac.gitconfig" -}}
-{{ else if (eq .chezmoi.os "windows") }}
+{{ else if .is_windows }}
   {{- includeTemplate "../.chezmoitemplates/windows.gitconfig" . -}}
 {{ end -}}

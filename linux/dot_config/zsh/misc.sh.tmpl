@@ -6,7 +6,7 @@
 autoload -U select-word-style;
 select-word-style bash;
 
-{{- if not (.codespaces) }}
+{{- if not .is_codespaces }}
 # Use ssh-ident.
 # Needs to be a symlink from a file called 'ssh' accessible in PATH so when git and others call 'ssh' they call this.
 SSH_SHIM=$HOME/bin/ssh;

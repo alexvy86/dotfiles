@@ -5,7 +5,7 @@ for details on the line below. Needed for this script to run successfully in Git
 #!{{- lookPath "bash" }}
 
 {{- /* Raspberry Pi - install manually since homebrew is not supported in arm64 */ -}}
-{{- if and (eq (index .chezmoi.osRelease "id") "debian") (eq .chezmoi.arch "arm64") }}
+{{- if .is_raspberryPi }}
 
 # Original instructions: https://ohmyposh.dev/docs/installation/linux under the "manual" tab
 
@@ -25,7 +25,7 @@ chmod u+rw ~/.poshthemes/*.omp.*;
 rm ~/.poshthemes/themes.zip;
 
 {{- /* Ubuntu and Debian - install with homebrew (easier to maintain updated) */ -}}
-{{- else if has (index .chezmoi.osRelease "id") (list "ubuntu" "debian") }}
+{{- else if (or .is_ubuntu .is_debian) }}
 
 # Note: need to provide the absolute path to 'brew' because profile files are not read by chezmoi when starting shells
 # to execute scripts, so it won't be in the PATH.

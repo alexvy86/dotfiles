@@ -1,4 +1,3 @@
-{{- if eq .chezmoi.os "linux" -}}
 {{- /*
 See https://www.chezmoi.io/user-guide/frequently-asked-questions/troubleshooting/#chezmoi-reports-forkexec-no-such-file-or-directory-when-running-scripts-on-termux
 for details on the line below. Needed for this script to run successfully in Github Codespaces.
@@ -8,5 +7,3 @@ for details on the line below. Needed for this script to run successfully in Git
 # Install fnm. --skip-shell because the .zshrc template already adds it
 # to the PATH.
 curl -fsSL https://fnm.vercel.app/install | bash -s -- --skip-shell;
-
-{{- end }}

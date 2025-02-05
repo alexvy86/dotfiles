@@ -4,7 +4,7 @@ Write-Host -ForegroundColor Cyan $StepName;
 Write-Host "Trust PSGallery repository";
 Set-PSRepository -InstallationPolicy Trusted -Name PSGallery;
 
-{{ if eq .chezmoi.os "windows" -}}
+{{ if .is_windows -}}
 
 Write-Host "Set execution policy for CurrentUser to RemoteSigned";
 Set-ExecutionPolicy RemoteSigned -Scope CurrentUser;

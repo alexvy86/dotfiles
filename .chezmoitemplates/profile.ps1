@@ -1,6 +1,6 @@
 Set-StrictMode -Version Latest;
 
-{{ if eq .chezmoi.os "windows" -}}
+{{ if .is_windows -}}
 
 # Auto-completions for Winget
 # https://learn.microsoft.com/en-us/windows/package-manager/winget/tab-completion
@@ -78,7 +78,7 @@ Set-PSReadLineKeyHandler -Chord Ctrl+PageUp     -Function ScrollDisplayUpLine;
 # FNM
 #----------------------------------------------------------
 # Assumes it was installed earlier.
-{{ if (eq .chezmoi.os "windows") -}}
+{{ if .is_windows -}}
 fnm env --use-on-cd --shell "power-shell" | Out-String | Invoke-Expression;
 {{- else -}}
 fnm env --use-on-cd | Out-String | Invoke-Expression;

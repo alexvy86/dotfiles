@@ -1,3 +1,10 @@
+{{ $windows := eq .chezmoi.os "windows" }}
+{{ $linux := eq .chezmoi.os "linux" }}
+{{ $macOS := eq .chezmoi.os "darwin" }}
+{{ $wsl := and ($linux) (or (env "WSL_DISTRO_NAME" | not | not) (.chezmoi.kernel.osrelease | lower | contains "microsoft")) }}
+{{ $ubuntu := eq (index .chezmoi.osRelease "id") "ubuntu" }}
+{{ $debian := eq (index .chezmoi.osRelease "id") "debian" }}
+
 edit:
   command: "code"
   args: ["-r", "--wait"]
@@ -6,14 +13,14 @@ interpreters:
   ps1:
     # Using the absolute path for the case of a brand new machine where pwsh.exe is just getting installed, and
     # its path won't be visible in the PATH variable in the same cmd process where chezmoi is running.
-{{- if eq .chezmoi.os "windows" }}
+{{- if $windows }}
     command: "C:/Program\ Files/PowerShell/7/pwsh.exe"
 {{- else }}
     command: "/usr/bin/pwsh"
 {{- end }}
     args: ["-NoLogo", "-NoProfile"]
 
-{{ if eq .chezmoi.os "windows" -}}
+{{ if $windows -}}
 sourceDir: "{{- .chezmoi.workingTree -}}/windows"
 {{ else -}}
 sourceDir: "{{- .chezmoi.workingTree -}}/linux"
@@ -24,16 +31,24 @@ diff:
   exclude:
     - scripts
 
-{{- $codespaces := env "CODESPACES" | not | not }}
+{{/* 'data' "exports" the variables, so we can use them in templates outside this file */ -}}
 data:
-  codespaces: {{ $codespaces }}
+  is_windows: {{ $windows }}
+  is_linux: {{ $linux }}
+  is_macOS: {{ $macOS }}
+  is_wsl: {{ $wsl }}
+  is_codespaces: {{ env "CODESPACES" | not | not }}
+  is_ubuntu: {{ $ubuntu }}
+  is_debian: {{ $debian }}
+  is_apt_distro: {{ or $ubuntu $debian }}
+  is_raspberryPi: {{ and $debian (eq .chezmoi.arch "arm64") }}
 
 scriptEnv:
-{{- if (and (eq .chezmoi.os "linux") (.chezmoi.kernel.osrelease | lower | contains "microsoft")) }}
+{{- if $wsl }}
   {{- $winUsername := promptStringOnce . "winUsername" "Windows username. We'll attempt to copy SSH keys from its home folder." }}
   WIN_USERNAME: {{ $winUsername }}
 {{- end }}
-{{- if eq .chezmoi.os "windows" }}
+{{- if $windows }}
   {{- $winToolsPath := promptStringOnce . "winToolsPath" "Path where tools get installed in Windows. This will be added to the user's PATH." }}
   WIN_TOOLS_PATH: {{ $winToolsPath }}
 {{- end }}

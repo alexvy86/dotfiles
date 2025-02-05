@@ -16,9 +16,9 @@ HIST_STAMPS="yyyy-mm-dd"
 
 # Define plugins to load. Standard plugins can be found in $ZSH/plugins/ .
 plugins=(git npm)
-{{- if eq .chezmoi.hostname "rpi4" }}
+{{- if .is_raspberryPi }}
 plugins+=(docker docker-compose)
-{{- else if .codespaces }}
+{{- else if .is_codespaces }}
 plugins+=(docker docker-compose)
 {{- end }}
 
@@ -26,7 +26,7 @@ plugins+=(docker docker-compose)
 zstyle :omz:plugins:ssh-agent lazy yes
 zstyle :omz:plugins:ssh-agent lifetime ${SSH_AGENT_LIFETIME:-10h}
 
-{{- if .codespaces }}
+{{- if .is_codespaces }}
 # Disable auto-update prompt; only print reminder when new version is available.
 zstyle ':omz:update' mode reminder
 {{- end }}
