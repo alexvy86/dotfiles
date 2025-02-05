@@ -36,36 +36,60 @@ sudo ln -s $TARGET_LOCATION/pwsh /usr/bin/pwsh;
 
 {{- else if .is_ubuntu }}
 
-# Original instructions: https://learn.microsoft.com/en-us/powershell/scripting/install/install-ubuntu?view=powershell-7.3
+# Original instructions: https://learn.microsoft.com/en-us/powershell/scripting/install/install-ubuntu?view=powershell-7.5
 
-# Install pre-requisites.
-sudo apt update && sudo apt install --yes wget apt-transport-https software-properties-common;
+# Update the list of packages
+sudo apt-get update;
 
-# Download the Microsoft repository GPG keys
-wget -q "https://packages.microsoft.com/config/ubuntu/$(lsb_release -rs)/packages-microsoft-prod.deb";
+# Install pre-requisite packages.
+sudo apt-get install -y wget apt-transport-https software-properties-common;
 
-# Register the Microsoft repository GPG keys
+# Get the version of Ubuntu
+source /etc/os-release;
+
+# Download the Microsoft repository keys
+wget -q https://packages.microsoft.com/config/ubuntu/$VERSION_ID/packages-microsoft-prod.deb;
+
+# Register the Microsoft repository keys
 sudo dpkg -i packages-microsoft-prod.deb;
 
-# Refresh packages and install PowerShell.
-sudo apt update && sudo apt install --yes powershell;
+# Delete the Microsoft repository keys file
+rm packages-microsoft-prod.deb;
+
+# Update the list of packages after we added packages.microsoft.com
+sudo apt-get update;
+
+# Install PowerShell
+sudo apt-get install -y powershell;
 
 {{- /* Debian */ -}}
 {{- else if and (.is_debian) (not .is_raspberryPi) }}
 
-# Original instructions: https://learn.microsoft.com/en-us/powershell/scripting/install/install-ubuntu?view=powershell-7.3
+# Original instructions: https://learn.microsoft.com/en-us/powershell/scripting/install/install-debian?view=powershell-7.5
 
-# Install pre-requisites.
-sudo apt update && sudo apt install --yes curl gnupg apt-transport-https;
+# Update the list of packages
+sudo apt-get update;
 
-# Import the public repository GPG keys.
-curl https://packages.microsoft.com/keys/microsoft.asc | sudo apt-key add - ;
+# Install pre-requisite packages.
+sudo apt-get install -y wget;
 
-# Register the Microsoft Product feed.
-sudo sh -c 'echo "deb [arch=amd64] https://packages.microsoft.com/repos/microsoft-debian-bullseye-prod bullseye main" > /etc/apt/sources.list.d/microsoft.list'
+# Get the version of Debian
+source /etc/os-release;
 
-# Refresh packages and install PowerShell.
-sudo apt update && sudo apt install --yes powershell;
+# Download the Microsoft repository GPG keys
+wget -q https://packages.microsoft.com/config/debian/$VERSION_ID/packages-microsoft-prod.deb;
+
+# Register the Microsoft repository GPG keys
+sudo dpkg -i packages-microsoft-prod.deb;
+
+# Delete the Microsoft repository GPG keys file
+rm packages-microsoft-prod.deb;
+
+# Update the list of packages after we added packages.microsoft.com
+sudo apt-get update;
+
+# Install PowerShell
+sudo apt-get install -y powershell;
 
 {{- else }}
 
