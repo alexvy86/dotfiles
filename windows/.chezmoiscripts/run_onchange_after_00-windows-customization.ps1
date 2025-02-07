@@ -68,6 +68,9 @@ $settingsToChange += @{
 	DesiredValue = 0;
 };
 
+# TODO: set key to cause SSH connections into a PC to run bash.exe instead of cmd.exe, i.e. conncet to WSL2
+# New-ItemProperty -Path "HKLM:\SOFTWARE\OpenSSH" -Name DefaultShell -Value "C:\WINDOWS\System32\bash.exe" -PropertyType String -Force
+
 # Apply registry changes
 $settingsToChange | ForEach-Object {
 	$pathExists = Test-Path -Path $_.Path;
