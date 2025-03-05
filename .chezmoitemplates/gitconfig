@@ -5,6 +5,8 @@
 	defaultBranch = main
 [fetch]
 	prune = true
+	pruneTags = true
+	all = true
 [pull]
 	rebase = true
 [push]
@@ -31,13 +33,24 @@
 [diff]
 	# Show submodules changes in diffs as a list of commits like `git log` shows
 	submodule = log
-	tool=BeyondCompare
-	guitool=BeyondCompare
+	tool = BeyondCompare
+	guitool = BeyondCompare
+	algorithm = histogram
+	colorMoved = plain
+	mnemonicPrefix = true
+	renames = true
 [merge]
-	tool=BeyondCompare
-	guitool=BeyondCompare
+	tool = BeyondCompare
+	guitool = BeyondCompare
+	confilctstyle = zdiff3
+[branch]
+	sort = committerdate
+[tag]
+	sort = version:refname
 [color]
 	ui = auto
+[help]
+	autocorrect = prompt
 # [color "diff-highlight"]
 #	 oldNormal = red bold
 #	 oldHighlight = red bold 52
