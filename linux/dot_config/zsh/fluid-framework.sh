@@ -4,7 +4,7 @@
 
 # Sync my fork of the FF repo with upstream.
 # Note that 'gh repo sync' does not sync tags, so we need to do that manually.
-alias grsff="gh repo sync alexvy86/FluidFramework && git push --tags origin && git fetch origin"
+alias grsff="git fetch upstream && git fetch origin && git push --tags origin && gh repo sync alexvy86/FluidFramework"
 
 # Common build commands
 alias b='npm run build'
