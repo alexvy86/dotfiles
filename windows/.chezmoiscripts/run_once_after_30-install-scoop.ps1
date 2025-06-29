@@ -5,7 +5,7 @@ Write-Host -ForegroundColor Cyan $StepName;
 if (-not (Get-Command "scoop" -ErrorAction SilentlyContinue)) {
   $TmpPathToInstallScript = "$($env:TEMP)\install.ps1";
   # Use fixed version of the install script
-  Invoke-RestMethod https://raw.githubusercontent.com/ScoopInstaller/Install/d389cb126d1f4c9487ed4f84330961f700765fe2/install.ps1 -OutFile $TmpPathToInstallScript;
+  Invoke-RestMethod https://raw.githubusercontent.com/ScoopInstaller/Install/ff4eedda58d832b8225d7697510f097ebe8ab071/install.ps1 -OutFile $TmpPathToInstallScript;
   Invoke-Expression "& $TmpPathToInstallScript -ScoopDir '$env:WIN_TOOLS_PATH/scoop'";
   Remove-Item -Path $TmpPathToInstallScript;
 }
