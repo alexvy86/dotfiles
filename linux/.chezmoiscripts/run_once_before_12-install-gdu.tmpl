@@ -17,7 +17,7 @@ wget -c $URL -O - | tar xz
 # Make executable, change ownership, and move to right place
 chmod +x gdu_linux_arm64
 # Note: renamed as gdu-go to match the way that Homebrew installs it
-mv gdu_linux_arm64 /usr/bin/gdu-go
+sudo mv gdu_linux_arm64 /usr/bin/gdu-go
 
 {{- /* Ubuntu and Debian - install with homebrew (easier to maintain updated) */ -}}
 {{- else if (or .is_ubuntu .is_debian) }}
