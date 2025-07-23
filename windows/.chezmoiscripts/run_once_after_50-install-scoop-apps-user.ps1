@@ -15,7 +15,9 @@ Update-Path;
 # Error out if scoop is not installed
 if (Get-Command "scoop" -ErrorAction Stop) {
   # From "main" bucket
+  scoop install --no-update-scoop eza;
   scoop install --no-update-scoop deno;
+  scoop install --no-update-scoop duf;
   scoop install --no-update-scoop ffmpeg;
   scoop install --no-update-scoop fnm;
   scoop install --no-update-scoop fzf;
