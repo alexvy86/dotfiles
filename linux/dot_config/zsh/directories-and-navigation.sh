@@ -42,3 +42,7 @@ alias ls="ls --color=tty"
 # Also recursive (R) version.
 alias la="ls -lAFHh"
 alias lar="ls -lARFHh"
+
+# Eza: better file listing tool
+alias eza="eza --long --almost-all --links --header --follow-symlinks --total-size --time-style long-iso"
+alias ezat="eza --tree"

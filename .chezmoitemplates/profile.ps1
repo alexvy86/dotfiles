@@ -75,6 +75,21 @@ Set-PSReadLineKeyHandler -Chord PageUp          -Function ScrollDisplayUp;
 Set-PSReadLineKeyHandler -Chord Ctrl+PageUp     -Function ScrollDisplayUpLine;
 
 #----------------------------------------------------------
+# Aliases
+#----------------------------------------------------------
+
+# Eza: better file listing tool
+# Note: since I'm creating a function with the same name as the command it invokes,
+# it needs to be defined as 'Private:' to not cause infinite recursion.
+# I think the way this works is that the function exists in the scope where it is
+# defined but not inside the function body, so inside the function `eza` refers
+# to the actual command, not the function.
+# By the same token, `eza` inside the `ezat` function refers to the `eza` command,
+# not the function, so I need to specify all parameters again
+function Private:eza { eza --long --almost-all --links --header --follow-symlinks --total-size --time-style long-iso @args; }
+function Private:ezat {	eza --long --almost-all --links --header --follow-symlinks --total-size --time-style long-iso -tree @args; }
+
+#----------------------------------------------------------
 # FNM
 #----------------------------------------------------------
 # Assumes it was installed earlier.
