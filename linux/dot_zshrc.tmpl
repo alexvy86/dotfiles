@@ -54,7 +54,11 @@ fi
 
 # Enable fnm auto-use when opening a folder with a .node-version or .nvmrc file.
 if [ "$(command -v fnm)" ]; then
-  eval "$(fnm env --use-on-cd)";
+  # After upgrading WSL2 to Ubuntu 22, the `/run/user/1000` folder that fnm seems to use
+  # is not created anymore. Using this as a workaround, since fnm uses XDG_RUNTIME_DIR if provided.
+  # See https://github.com/Schniz/fnm/issues/1119 for details.
+  eval "$(XDG_RUNTIME_DIR=/tmp/run/user/$(id -u) fnm env --use-on-cd)"
+  # eval "$(fnm env --use-on-cd)";
 fi
 
 # Use fzf
