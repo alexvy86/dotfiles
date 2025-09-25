@@ -1,4 +1,4 @@
-# shellcheck shell=sh
+# shellcheck shell=bash
 # chezmoi:template:left-delimiter="# {{" right-delimiter=}}
 
 #############################################################
@@ -13,14 +13,14 @@ select-word-style bash;
 # Use ssh-ident.
 # Needs to be a symlink from a file called 'ssh' accessible in PATH so when git and others call 'ssh' they call this.
 SSH_SHIM=${HOME}/bin/ssh;
-SSH_SHIM_TARGET=$HOME/.local/bin/ssh-ident;
-if [[ -e $SSH_SHIM ]]; then
-    CURRENT_TARGET=$(readlink -f $SSH_SHIM);
-    if [[ $CURRENT_TARGET != $SSH_SHIM_TARGET ]]; then
-        echo "'ssh' shim at '$SSH_SHIM' points to '$CURRENT_TARGET' (expected '$SSH_SHIM_TARGET')" 1>&2;
+SSH_SHIM_TARGET=${HOME}/.local/bin/ssh-ident;
+if [[ -e ${SSH_SHIM} ]]; then
+    CURRENT_TARGET=$(readlink -f "${SSH_SHIM}");
+    if [[ ${CURRENT_TARGET} != "${SSH_SHIM_TARGET}" ]]; then
+        echo "'ssh' shim at '${SSH_SHIM}' points to '${CURRENT_TARGET}' (expected '${SSH_SHIM_TARGET}')" 1>&2;
     fi
 else
-    ln -s $SSH_SHIM_TARGET $SSH_SHIM;
+    ln -s "${SSH_SHIM_TARGET}" "${SSH_SHIM}";
 fi
 # {{- end }}
 
@@ -43,7 +43,7 @@ alias cuaf='chezmoi update --apply=false'
 
 # Diff between current commit and common ancestor between it and the specified branch
 function gdtool() {
-    if [ "$#" -ne 1 ]; then
+    if [[ "$#" -ne 1 ]]; then
         cat << EndOfInstructions
 Opens the git difftool comparing the current commit against the common ancestor
 between it and the specified branch.
@@ -53,7 +53,8 @@ EndOfInstructions
 
         return 1;
     fi
-    local COMMON_ANCESTOR=$(git merge-base HEAD $1);
-    echo "Diff between HEAD and $COMMON_ANCESTOR";
-    git difftool -d HEAD $COMMON_ANCESTOR;
+    local COMMON_ANCESTOR
+    COMMON_ANCESTOR=$(git merge-base HEAD "$1");
+    echo "Diff between HEAD and ${COMMON_ANCESTOR}";
+    git difftool -d HEAD "${COMMON_ANCESTOR}";
 }

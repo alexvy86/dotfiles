@@ -1,28 +1,49 @@
+# shellcheck shell=bash
+
 #############################################################
 # Directories and navigation
 #############################################################
 
 # Options controlling behavior of cd
-setopt auto_cd
-setopt auto_pushd
-setopt pushd_ignore_dups
-setopt pushdminus
+if [[ -n "${ZSH_VERSION}" ]]; then
+  setopt auto_cd
+  setopt auto_pushd
+  setopt pushd_ignore_dups
+  setopt pushdminus
+elif [[ -n "${BASH_VERSION}" ]]; then
+  shopt -s autocd
+
+  # In Bash, auto_pushd doesn't exist so we have to emulate it by overriding cd
+  # to call pushd after changing directory.
+  cd() {
+      if [[ $# -eq 0 ]]; then
+          # No arguments, go to home directory
+          builtin cd && pushd . > /dev/null
+      else
+          # Change directory and push to stack
+          builtin cd "$@" && pushd . > /dev/null
+      fi
+  }
+
+  # No bash equivalents to push_ignore_dups or pushdminus.
+  # I don't really use them so it's fine.
+fi
 
 # Print directory stack
 function d () {
   if [[ -n $1 ]]; then
     dirs "$@"
   else
+    # shellcheck disable=SC2312
     dirs -v | head -n 10
   fi
 }
 
 # Changing directory
-alias -g ...='../..'
-alias -g ....='../../..'
-alias -g .....='../../../..'
-alias -g ......='../../../../..'
-alias -- -='cd -'
+alias ...='../..'
+alias ....='../../..'
+alias .....='../../../..'
+alias ......='../../../../..'
 alias 1='cd -1'
 alias 2='cd -2'
 alias 3='cd -3'

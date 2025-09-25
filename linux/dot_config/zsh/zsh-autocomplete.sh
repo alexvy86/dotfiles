@@ -1,3 +1,5 @@
+# shellcheck shell=bash
+
 # Use fzf completion; then fall back to zsh's.
 # ⚠️ NOTE: This setting can NOT be changed at runtime and requires that you have installed Fzf's shell extensions.
 #zstyle ':autocomplete:*' fzf-completion yes
@@ -17,7 +19,9 @@ zstyle ':autocomplete:*' list-lines 8  # int
 # This inserts the first match instead.
 zstyle ':autocomplete:*' insert-unambiguous no
 
-# Source the plugin.
+# Source the plugin. The folder is created through .chezmoiexternal.toml
+# so the file doesn't exist for shellcheck to verify.
+# shellcheck disable=SC1090
 source ~/.config/zsh/zsh-autocomplete/zsh-autocomplete.plugin.zsh
 
 # Make Tab go straight to the menu and cycle there

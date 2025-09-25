@@ -1,5 +1,8 @@
 {
 	"files.associations": {
+		"*_profile.tmpl": "shellscript",
+		"*_profile": "shellscript",
+		"*_bashrc.tmpl": "shellscript",
 		"*_zshrc.tmpl": "shellscript",
 		"*.ps1.tmpl": "powershell",
 		"*.sh.tmpl": "shellscript",

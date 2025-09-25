@@ -1,21 +1,27 @@
 # shellcheck shell=bash
 # chezmoi:template:left-delimiter="# {{" right-delimiter=}}
 
-# Load .profile
-if [[ -r "${HOME}/.profile" ]]; then
+# ~/.bashrc: executed by bash(1) for non-login shells.
+# see /usr/share/doc/bash/examples/startup-files (in the package bash-doc) for examples
+# Since this won't run for login shells, there's a bit of a dance between .profile and .bashrc
+
+# if not coming from .bash_profile and .bash_profile exists
+if [[ -z "${COMING_FROM_BASH_PROFILE}" && -f "${HOME}/.bash_profile" ]]; then
+  export COMING_FROM_BASHRC=true
   # shellcheck source=./dot_profile
-  source "${HOME}/.profile"
+  source "${HOME}/.bash_profile"
+  unset COMING_FROM_BASHRC
 fi
+
+# If not running interactively, don't do anything
+case $- in
+*i*) ;;
+*) return ;;
+esac
 
 ###############################
 # Base configuration
 ###############################
-
-# Prep so completion system (and potentially other plugins) can init correctly.
-# Copied from OhMyZsh's main script.
-autoload -U compaudit compinit zrecompile
-# Need to actually call compinit so RaspiOS doesn't complain about compdef not being defined when sourcing zsh's git plugin.
-compinit
 
 # shellcheck source=./dot_config/directories-and-navigation.sh
 source ~/.config/directories-and-navigation.sh;
@@ -25,61 +31,54 @@ source ~/.config/fluid-framework.sh;
 source ~/.config/history.sh;
 # shellcheck source=./dot_config/system-management.sh
 source ~/.config/system-management.sh;
-# shellcheck source=./dot_config/zsh/misc.sh.tmpl
-source ~/.config/zsh/misc.sh;
+# TODO: make sure this is all bash-compatible
+# source ~/.config/zsh/misc.sh
 
 ###############################
 # Key bindings
 ###############################
 
-# Ctrl-backspace, delete word to the left of the cursor
-bindkey "^H" backward-kill-word
-
+# Bash uses 'bind' instead of 'bindkey'. Not all zsh bindings translate directly.
+# Ctrl-backspace, delete word to the left of the cursor (may not work in all terminals)
+bind '"\C-h": backward-kill-word'
 # Ctrl + left/right arrows, move forward or backwards in the line
-bindkey "^[[1;5C" forward-word
-bindkey "^[[1;5D" backward-word
+bind '"\e[1;5C": forward-word'
+bind '"\e[1;5D": backward-word'
 
 ###############################
 # Tools & applications
 ###############################
 
-# Use zsh-autocomplete
-#source ~/.config/zsh/zsh-autocomplete.sh
-
 # Enable fnm auto-use when opening a folder with a .node-version or .nvmrc file.
 # shellcheck disable=SC2312
 if [[ -n "$(command -v fnm)" ]]; then
   # shellcheck disable=SC2312
-  eval "$(fnm env --use-on-cd)";
+  eval "$(fnm env --use-on-cd)"
 fi
 
+# TODO: not sure if this is actually working in bash, particularly for rpi
 # Use fzf
 # {{ if .is_raspberryPi -}}
 # shellcheck disable=SC1094
-source /usr/share/doc/fzf/examples/key-bindings.zsh
-# shellcheck disable=SC1094
-source /usr/share/doc/fzf/examples/completion.zsh
+source /usr/share/doc/fzf/examples/key-bindings.bash
 # {{- else -}}
 # shellcheck disable=SC1091,SC2154
-source "${HOMEBREW_PREFIX}/opt/fzf/shell/key-bindings.zsh"
+source "${HOMEBREW_PREFIX}/opt/fzf/shell/key-bindings.bash"
 # shellcheck disable=SC1091
-source "${HOMEBREW_PREFIX}/opt/fzf/shell/completion.zsh"
+source "${HOMEBREW_PREFIX}/opt/fzf/shell/completion.bash"
 # {{- end }}
 
 # Enable the navi widget
 # shellcheck disable=SC2312
 if [[ -n "$(command -v navi)" ]]; then
   # shellcheck disable=SC2312
-  eval "$(navi widget zsh)";
+  eval "$(navi widget bash)"
 fi
 
 ###############################
 # Prompt
 ###############################
 
-# Use Oh-My-Posh
+# Oh-My-Zsh is zsh-only. Oh-My-Posh works with bash.
 # shellcheck source=./dot_config/use-ohmyposh.sh
 source ~/.config/use-ohmyposh.sh
-
-# Use Oh-My-Zsh
-#source ~/.config/use-ohmyzsh.sh

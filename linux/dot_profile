@@ -1,0 +1,54 @@
+# shellcheck shell=sh
+
+# ~/.profile: executed by the command interpreter for login shells.
+# This file is not read by bash(1), if ~/.bash_profile or ~/.bash_login exists.
+# See /usr/share/doc/bash/examples/startup-files for examples.
+# The files are located in the bash-doc package.
+
+# In .profile I do set up that I intend to share across all shells supported by this repo.
+# The details of which shells load the file when are complicated, so in general this file is
+# explicitly sourced from other places that are more shell-specific.
+
+###############################
+# Configure PATH
+###############################
+
+# Add fnm to PATH
+if [ -d "${HOME}/.local/share/fnm" ]; then
+  export PATH="${HOME}/.local/share/fnm:$PATH"
+fi
+
+# Add Homebrew to PATH
+if [ -x /home/linuxbrew/.linuxbrew/bin/brew ]; then
+	# shellcheck disable=SC2312
+  eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+elif [ -x "${HOME}/.linuxbrew/bin/brew" ]; then
+	# shellcheck disable=SC2312
+  eval "$("${HOME}/.linuxbrew/bin/brew" shellenv)"
+fi
+
+# Add Krew to PATH
+# Commenting since I don't recall when I last used it.
+# export PATH=${KREW_ROOT:-$HOME/.krew}/bin:$PATH;
+
+if [ -d "${HOME}/bin" ]; then
+  export PATH="${HOME}/bin:${PATH}"
+fi
+
+# Was in my previous configuration, but maybe not leveraged?
+# if [ -d "/usr/local/bin" ]; then
+#   export PATH="/usr/local/bin:${PATH}"
+# fi
+
+if [ -d "${HOME}/.local/bin" ]; then
+  export PATH="${HOME}/.local/bin:${PATH}"
+fi
+
+###############################
+# Other common setup
+###############################
+
+export FZF_DEFAULT_COMMAND='
+  (git ls-tree -t -r --name-only HEAD ||
+   find * -name ".*" -prune -o -type f -print -o -type l -print) 2> /dev/null'
+export FZF_CTRL_T_COMMAND="${FZF_DEFAULT_COMMAND}"

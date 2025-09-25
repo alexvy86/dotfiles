@@ -1,3 +1,5 @@
+# shellcheck shell=bash
+
 #############################################################
 # Fluid Framework
 #############################################################
@@ -21,21 +23,25 @@ alias new-codespace='gh codespace create --repo microsoft/FluidFramework --branc
 # easily enable it if required for a specific scenario.
 # Must run in a folder that is part of a git repository.
 function toggle-ff-upstream-push() {
-    local ACTUAL_URL=$(git remote get-url upstream)
-    local CURRENT_PUSH_URL=$(git remote get-url --push upstream)
-    local NEW_PUSH_URL="no_push"
-    if [ $CURRENT_PUSH_URL != $ACTUAL_URL ]
+    local ACTUAL_URL
+    local CURRENT_PUSH_URL
+    local NEW_PUSH_URL
+    ACTUAL_URL=$(git remote get-url upstream)
+    CURRENT_PUSH_URL=$(git remote get-url --push upstream)
+    NEW_PUSH_URL="no_push"
+    if [[ ${CURRENT_PUSH_URL} != "${ACTUAL_URL}" ]]
     then
-        NEW_PUSH_URL=$ACTUAL_URL;
+        NEW_PUSH_URL=${ACTUAL_URL};
     fi
 
-    echo "Setting upstream push URL to '$NEW_PUSH_URL'";
-    git remote set-url --push upstream $NEW_PUSH_URL;
+    echo "Setting upstream push URL to '${NEW_PUSH_URL}'";
+    git remote set-url --push upstream "${NEW_PUSH_URL}";
 }
 
 # Pushes the current branch to a branch named test/alejandrovi/<current-branch-name>
 # in the 'upstream' remote.
 function push-test-branch() {
-    local CURRENT_BRANCH_NAME=$(git rev-parse --abbrev-ref HEAD)
-    git push upstream $CURRENT_BRANCH_NAME\:test/alejandrovi/$CURRENT_BRANCH_NAME;
+    local CURRENT_BRANCH_NAME
+    CURRENT_BRANCH_NAME=$(git rev-parse --abbrev-ref HEAD)
+    git push upstream "${CURRENT_BRANCH_NAME}:test/alejandrovi/${CURRENT_BRANCH_NAME}";
 }
