@@ -1,3 +1,6 @@
+# shellcheck shell=sh
+# chezmoi:template:left-delimiter="# {{" right-delimiter=}}
+
 #############################################################
 # Misc
 #############################################################
@@ -6,10 +9,10 @@
 autoload -U select-word-style;
 select-word-style bash;
 
-{{- if not .is_codespaces }}
+# {{- if not .is_codespaces }}
 # Use ssh-ident.
 # Needs to be a symlink from a file called 'ssh' accessible in PATH so when git and others call 'ssh' they call this.
-SSH_SHIM=$HOME/bin/ssh;
+SSH_SHIM=${HOME}/bin/ssh;
 SSH_SHIM_TARGET=$HOME/.local/bin/ssh-ident;
 if [[ -e $SSH_SHIM ]]; then
     CURRENT_TARGET=$(readlink -f $SSH_SHIM);
@@ -19,7 +22,7 @@ if [[ -e $SSH_SHIM ]]; then
 else
     ln -s $SSH_SHIM_TARGET $SSH_SHIM;
 fi
-{{- end }}
+# {{- end }}
 
 # Show open port information.
 alias ports="ss --tcp --udp --all --processes"

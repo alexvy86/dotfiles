@@ -1,35 +1,39 @@
+# shellcheck shell=bash
+# chezmoi:template:left-delimiter="# {{" right-delimiter=}}
+
 ###############################
 # Oh-My-Zsh configuration
 ###############################
 
 # Path to oh-my-zsh installation.
-export ZSH="$HOME/.oh-my-zsh"
+export ZSH="${HOME}/.oh-my-zsh"
 
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
-ZSH_THEME="alex"
+export ZSH_THEME="alex"
 
 # Include date when running 'history' command.
-HIST_STAMPS="yyyy-mm-dd"
+export HIST_STAMPS="yyyy-mm-dd"
 
 # Define plugins to load. Standard plugins can be found in $ZSH/plugins/ .
 plugins=(git npm)
-{{- if .is_raspberryPi }}
+# {{- if .is_raspberryPi }}
 plugins+=(docker docker-compose)
-{{- else if .is_codespaces }}
+# {{- else if .is_codespaces }}
 plugins+=(docker docker-compose)
-{{- end }}
+# {{- end }}
 
 # Lazy loading for SSH keys into ssh-agent and expiration time
 zstyle :omz:plugins:ssh-agent lazy yes
-zstyle :omz:plugins:ssh-agent lifetime ${SSH_AGENT_LIFETIME:-10h}
+zstyle :omz:plugins:ssh-agent lifetime "${SSH_AGENT_LIFETIME:-10h}"
 
-{{- if .is_codespaces }}
+# {{- if .is_codespaces }}
 # Disable auto-update prompt; only print reminder when new version is available.
 zstyle ':omz:update' mode reminder
-{{- end }}
+# {{- end }}
 
 # Make sure to set any plugin-specific options before calling this
-source $ZSH/oh-my-zsh.sh
+# shellcheck disable=SC1091
+source "${ZSH}/oh-my-zsh.sh"

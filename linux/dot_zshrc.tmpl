@@ -1,3 +1,6 @@
+# shellcheck shell=bash
+# chezmoi:template:left-delimiter="# {{" right-delimiter=}}
+
 ###############################
 # Base configuration
 ###############################
@@ -8,22 +11,28 @@ autoload -U compaudit compinit zrecompile
 # Need to actually call compinit so RaspiOS doesn't complain about compdef not being defined when sourcing zsh's git plugin.
 compinit
 
+# shellcheck source=./dot_config/zsh/directories-and-navigation.sh
 source ~/.config/zsh/directories-and-navigation.sh;
+# shellcheck source=./dot_config/zsh/system-management.sh
 source ~/.config/zsh/system-management.sh;
+# shellcheck source=./dot_config/zsh/misc.sh.tmpl
 source ~/.config/zsh/misc.sh;
+# shellcheck source=./dot_config/zsh/fluid-framework.sh
 source ~/.config/zsh/fluid-framework.sh;
+# shellcheck source=./dot_config/zsh/history.sh
 source ~/.config/zsh/history.sh;
 
 ###############################
 # Configure PATH
 ###############################
 
-export PATH=$HOME/bin:$PATH;
-export PATH=/usr/local/bin:$PATH;
+export PATH="${HOME}/bin:${PATH}";
+export PATH="/usr/local/bin:${PATH}";
 # krew
-export PATH=${KREW_ROOT:-$HOME/.krew}/bin:$PATH;
+# shellcheck disable=SC2250
+export PATH="${KREW_ROOT:-$HOME/.krew}/bin:${PATH}";
 # fnm
-export PATH=$HOME/.local/share/fnm:$PATH;
+export PATH="${HOME}/.local/share/fnm:${PATH}";
 
 ###############################
 # Key bindings
@@ -43,36 +52,42 @@ bindkey "^[[1;5D" backward-word
 # Use zsh-autocomplete
 #source ~/.config/zsh/zsh-autocomplete.sh
 
-# Use OhMyZsh's git plugin
-source ~/.config/zsh/ohmyzsh-git-plugin.sh
-
 # Set variables and update PATH for Homebrew.
 # Need to use absolute path because this command adds 'brew' to PATH.
-if [ -f "/home/linuxbrew/.linuxbrew/bin/brew" ]; then
+if [[ -f "/home/linuxbrew/.linuxbrew/bin/brew" ]]; then
+  # shellcheck disable=SC2312
   eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 fi
 
 # Enable fnm auto-use when opening a folder with a .node-version or .nvmrc file.
-if [ "$(command -v fnm)" ]; then
+# shellcheck disable=SC2312
+if [[ -n "$(command -v fnm)" ]]; then
+  # shellcheck disable=SC2312
   eval "$(fnm env --use-on-cd)";
 fi
 
 # Use fzf
-{{ if .is_raspberryPi -}}
+# {{ if .is_raspberryPi -}}
+# shellcheck disable=SC1094
 source /usr/share/doc/fzf/examples/key-bindings.zsh
+# shellcheck disable=SC1094
 source /usr/share/doc/fzf/examples/completion.zsh
-{{- else -}}
-source $HOMEBREW_PREFIX/opt/fzf/shell/key-bindings.zsh
-source $HOMEBREW_PREFIX/opt/fzf/shell/completion.zsh
-{{- end }}
+# {{- else -}}
+# shellcheck disable=SC1091,SC2154
+source "${HOMEBREW_PREFIX}/opt/fzf/shell/key-bindings.zsh"
+# shellcheck disable=SC1091
+source "${HOMEBREW_PREFIX}/opt/fzf/shell/completion.zsh"
+# {{- end }}
 
 export FZF_DEFAULT_COMMAND='
   (git ls-tree -t -r --name-only HEAD ||
    find * -name ".*" -prune -o -type f -print -o -type l -print) 2> /dev/null'
-export FZF_CTRL_T_COMMAND=$FZF_DEFAULT_COMMAND
+export FZF_CTRL_T_COMMAND=${FZF_DEFAULT_COMMAND}
 
 # Enable the navi widget
-if [ "$(command -v navi)" ]; then
+# shellcheck disable=SC2312
+if [[ -n "$(command -v navi)" ]]; then
+  # shellcheck disable=SC2312
   eval "$(navi widget zsh)";
 fi
 
@@ -84,4 +99,5 @@ fi
 #source ~/.config/use-ohmyzsh.sh
 
 # Use Oh-My-Posh
+# shellcheck source=./dot_config/use-ohmyposh.sh
 source ~/.config/use-ohmyposh.sh
