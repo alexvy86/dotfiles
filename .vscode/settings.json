@@ -1,5 +1,6 @@
 {
 	"files.associations": {
+		"*_zshrc.tmpl": "shellscript",
 		"*.ps1.tmpl": "powershell",
 		"*.sh.tmpl": "shellscript",
 		"*.yaml.tmpl": "yaml"
