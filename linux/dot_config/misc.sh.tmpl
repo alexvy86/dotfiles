@@ -5,9 +5,13 @@
 # Misc
 #############################################################
 
-# Make / (or any non-alphanumeric character) a stopping point for backward-kill-word and forward-kill-word
-autoload -U select-word-style;
-select-word-style bash;
+# Make zsh behave like bash in terms of word delimiters (note: accomplished by configuring $WORDCHARS)
+# '/', '-', and non-alphanumeric characters in general will be stopping points for key bindings like
+# backward/forward-word, backward/forward-kill-word, etc.
+if [[ -n "$ZSH_VERSION" ]]; then
+    autoload -U select-word-style;
+    select-word-style bash;
+fi
 
 # {{- if not .is_codespaces }}
 # Use ssh-ident.
@@ -40,21 +44,3 @@ alias fgrep='grep -F --color=auto --exclude-dir={.bzr,CVS,.git,.hg,.svn,.idea,.t
 
 # Chezmoi commands
 alias cuaf='chezmoi update --apply=false'
-
-# Diff between current commit and common ancestor between it and the specified branch
-function gdtool() {
-    if [[ "$#" -ne 1 ]]; then
-        cat << EndOfInstructions
-Opens the git difftool comparing the current commit against the common ancestor
-between it and the specified branch.
-
-Usage: gdtool <branch-name | commit>
-EndOfInstructions
-
-        return 1;
-    fi
-    local COMMON_ANCESTOR
-    COMMON_ANCESTOR=$(git merge-base HEAD "$1");
-    echo "Diff between HEAD and ${COMMON_ANCESTOR}";
-    git difftool -d HEAD "${COMMON_ANCESTOR}";
-}

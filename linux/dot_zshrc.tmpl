@@ -21,19 +21,18 @@ compinit
 source ~/.config/directories-and-navigation.sh;
 # shellcheck source=./dot_config/fluid-framework.sh
 source ~/.config/fluid-framework.sh;
+# shellcheck source=./dot_config/git.sh
+source ~/.config/git.sh;
 # shellcheck source=./dot_config/history.sh
 source ~/.config/history.sh;
 # shellcheck source=./dot_config/system-management.sh
 source ~/.config/system-management.sh;
-# shellcheck source=./dot_config/zsh/misc.sh.tmpl
-source ~/.config/zsh/misc.sh;
+# shellcheck source=./dot_config/misc.sh.tmpl
+source ~/.config/misc.sh;
 
 ###############################
 # Key bindings
 ###############################
-
-# Ctrl-backspace, delete word to the left of the cursor
-bindkey "^H" backward-kill-word
 
 # Ctrl + left/right arrows, move forward or backwards in the line
 bindkey "^[[1;5C" forward-word
@@ -45,9 +44,6 @@ bindkey "^[[1;5D" backward-word
 
 # Use zsh-autocomplete
 #source ~/.config/zsh/zsh-autocomplete.sh
-
-# Use OhMyZsh's git plugin
-source ~/.config/zsh/ohmyzsh-git-plugin.sh
 
 # Enable fnm auto-use when opening a folder with a .node-version or .nvmrc file.
 # shellcheck disable=SC2312
