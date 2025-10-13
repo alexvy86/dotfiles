@@ -12,7 +12,8 @@ $ApplicationsToInstall = @(
 	@{Id = "JanDeDobbeleer.OhMyPosh"; },
 	@{Id = "Microsoft.VisualStudioCode"; Args = "/SILENT /LOADINF=$PathToVsCodeInstallerSettings" },
 	@{Id = "Microsoft.Edge.Dev"; },
-	@{Id = "Google.Chrome"; },
+	# Google.Chrome.EXE (vs Google.Chrome) does a user-level install
+	@{Id = "Google.Chrome.EXE"; },
 	@{Id = "AgileBits.1Password"; }
 	# @{Id = "ScooterSoftware.BeyondCompare4"; }
 	# @{Id="Docker.DockerDesktop",
