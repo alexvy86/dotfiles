@@ -1,11 +1,13 @@
-# This is intended to be sourced by the "Current user, all hosts" PowerShell profile file
+# chezmoi:template:left-delimiter="# {{" right-delimiter=}}
+
+# This file is intended to be sourced by the "Current user, all hosts" PowerShell profile file
 # (at $profile.CurrentUserAllHosts) so it applies to all host applications that host PowerShell
 # (e.g. PowerShell ISE, VSCode).
 #
 # Done this way instead of directly creating the profile file with chezmoi because I have setups
 # where the actual file lives in another drive and I can't update it easily with chezmoi.
 
-{{ includeTemplate "../.chezmoitemplates/profile.ps1" . -}}
+# {{ includeTemplate "../.chezmoitemplates/profile.ps1" . -}}
 
 #----------------------------------------------------------
 # Aliases
@@ -36,36 +38,45 @@ function private:install-apps {
 		[switch]$personal
 	)
 
-	$StepName = "Installing packages from source 'winget'";
-	Write-Host -ForegroundColor Cyan $StepName;
-
 	$PathToGitInstallerSettings = Join-Path -Path $env:USERPROFILE -ChildPath ".config/git-for-windows-installer-settings.ini";
 	$PathToVsCodeInstallerSettings = Join-Path -Path $env:USERPROFILE -ChildPath ".config/vscode-installer-settings.ini";
 
 	$ApplicationsToInstall = @(
-		@{Id = "Microsoft.WindowsTerminal"; },
-		@{Id = "7zip.7zip"; },
-		@{Id = "Git.Git"; Args = "/SILENT /LOADINF=$PathToGitInstallerSettings" },
-		@{Id = "GitHub.GitLFS"; },
-		@{Id = "JanDeDobbeleer.OhMyPosh"; },
-		@{Id = "Microsoft.VisualStudioCode"; Args = "/SILENT /LOADINF=$PathToVsCodeInstallerSettings" },
-		@{Id = "Microsoft.Edge.Dev"; },
-		# Google.Chrome.EXE (vs Google.Chrome) does a user-level install
-		@{Id = "Google.Chrome.EXE"; },
+		@{Id = "7zip.7zip"; }
 		@{Id = "AgileBits.1Password"; }
+		@{Id = "Git.Git"; Args = "/SILENT /LOADINF=$PathToGitInstallerSettings" }
+		@{Id = "GitHub.GitLFS"; }
+		# Google.Chrome.EXE (vs Google.Chrome) does a user-level install
+		@{Id = "Google.Chrome.EXE"; }
+		@{Id = "JanDeDobbeleer.OhMyPosh"; }
+		@{Id = "Microsoft.Edge.Dev"; }
+		@{Id = "Microsoft.VisualStudioCode"; Args = "/SILENT /LOADINF=$PathToVsCodeInstallerSettings" }
+		@{Id = "Microsoft.WindowsTerminal"; }
 		# @{Id="Docker.DockerDesktop",
-		# @{Id="Spotify.Spotify",
+	);
+
+	$MSStoreApplications = @(
+		@{Id = "9NBLGGH4NNS1"; Name = "App Installer" }
+		@{Id = "9PGCV4V3BK4W"; Name = "Dev Toys" }
+		@{Id = "9P7KNL5RWT25"; Name = "Sysinternals Suite" }
 	);
 
 	if ($personal) {
 		$ApplicationsToInstall += @(
-			@{Id = "Discord.Discord" },
-			@{Id = "PrivateInternetAccess.PrivateInternetAccess" },
-			@{Id = "Windscribe.Windscribe" },
-			@{Id = "tailscale.tailscale" },
+			@{Id = "Discord.Discord" }
+			@{Id = "PrivateInternetAccess.PrivateInternetAccess" }
+			@{Id = "Spotify.Spotify" }
+			@{Id = "Tailscale.Tailscale" }
 			@{Id = "Valve.Steam" }
+			@{Id = "Windscribe.Windscribe" }
+		);
+
+		$MSStoreApplications += @(
+			@{Id = "9NKSQGP7F2NH"; Name = "WhatsApp" }
 		);
 	}
+
+	Write-Host -ForegroundColor Cyan "Installing packages from source 'winget'";
 
 	foreach ($app in $ApplicationsToInstall) {
 		winget list --exact --id $app.Id --source winget > $null;
@@ -73,7 +84,7 @@ function private:install-apps {
 			Write-Host "Winget package $($app.Id) is already installed";
 		} else {
 			Write-Host "Installing Winget package $($app.Id)";
-			if ($null -eq $app.Args) {
+			if (-not $app.ContainsKey("Args") -or $null -eq $app.Args) {
 				winget install --exact --id $app.Id --source winget;
 			} else {
 				winget install --exact --id $app.Id --source winget --override "$($app.Args)";
@@ -81,23 +92,7 @@ function private:install-apps {
 		}
 	}
 
-	# TODO: figure out why this didn't work (in Windows 11)
-	# DevToys and WhatsApp always complained of "Verifying/Requesting package acquisition failed: server error"
-
-	$StepName = "Installing applications from source 'msstore'";
-	Write-Host -ForegroundColor Cyan $StepName;
-
-	$MSStoreApplications = @(
-		@{Id="9NBLGGH4NNS1"; Name="App Installer"},
-		@{Id="9P7KNL5RWT25"; Name="Sysinternals Suite"}
-		# @{Id="9PGCV4V3BK4W"; Name="Dev Toys"},
-		);
-
-	if ($personal) {
-		$MSStoreApplications += @(
-			# @{Id="9NKSQGP7F2NH"; Name="WhatsApp"}
-		);
-	}
+	Write-Host -ForegroundColor Cyan "Installing applications from source 'msstore'";
 
 	foreach ($app in $MSStoreApplications) {
 		winget list --exact --id $app.Id --source msstore > $null;
