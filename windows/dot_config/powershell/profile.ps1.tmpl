@@ -30,3 +30,82 @@ function private:cuaf {
 function private:wlua {
 	winget list --upgrade-available;
 }
+
+function private:install-apps {
+	param(
+		[switch]$personal
+	)
+
+	$StepName = "Installing packages from source 'winget'";
+	Write-Host -ForegroundColor Cyan $StepName;
+
+	$PathToGitInstallerSettings = Join-Path -Path $env:USERPROFILE -ChildPath ".config/git-for-windows-installer-settings.ini";
+	$PathToVsCodeInstallerSettings = Join-Path -Path $env:USERPROFILE -ChildPath ".config/vscode-installer-settings.ini";
+
+	$ApplicationsToInstall = @(
+		@{Id = "Microsoft.WindowsTerminal"; },
+		@{Id = "7zip.7zip"; },
+		@{Id = "Git.Git"; Args = "/SILENT /LOADINF=$PathToGitInstallerSettings" },
+		@{Id = "GitHub.GitLFS"; },
+		@{Id = "JanDeDobbeleer.OhMyPosh"; },
+		@{Id = "Microsoft.VisualStudioCode"; Args = "/SILENT /LOADINF=$PathToVsCodeInstallerSettings" },
+		@{Id = "Microsoft.Edge.Dev"; },
+		# Google.Chrome.EXE (vs Google.Chrome) does a user-level install
+		@{Id = "Google.Chrome.EXE"; },
+		@{Id = "AgileBits.1Password"; }
+		# @{Id="Docker.DockerDesktop",
+		# @{Id="Spotify.Spotify",
+	);
+
+	if ($personal) {
+		$ApplicationsToInstall += @(
+			@{Id = "Discord.Discord" },
+			@{Id = "PrivateInternetAccess.PrivateInternetAccess" },
+			@{Id = "Windscribe.Windscribe" },
+			@{Id = "tailscale.tailscale" },
+			@{Id = "Valve.Steam" }
+		);
+	}
+
+	foreach ($app in $ApplicationsToInstall) {
+		winget list --exact --id $app.Id --source winget > $null;
+		if ($LastExitCode -eq 0) {
+			Write-Host "Winget package $($app.Id) is already installed";
+		} else {
+			Write-Host "Installing Winget package $($app.Id)";
+			if ($null -eq $app.Args) {
+				winget install --exact --id $app.Id --source winget;
+			} else {
+				winget install --exact --id $app.Id --source winget --override "$($app.Args)";
+			}
+		}
+	}
+
+	# TODO: figure out why this didn't work (in Windows 11)
+	# DevToys and WhatsApp always complained of "Verifying/Requesting package acquisition failed: server error"
+
+	$StepName = "Installing applications from source 'msstore'";
+	Write-Host -ForegroundColor Cyan $StepName;
+
+	$MSStoreApplications = @(
+		@{Id="9NBLGGH4NNS1"; Name="App Installer"},
+		@{Id="9P7KNL5RWT25"; Name="Sysinternals Suite"}
+		# @{Id="9PGCV4V3BK4W"; Name="Dev Toys"},
+		);
+
+	if ($personal) {
+		$MSStoreApplications += @(
+			# @{Id="9NKSQGP7F2NH"; Name="WhatsApp"}
+		);
+	}
+
+	foreach ($app in $MSStoreApplications) {
+		winget list --exact --id $app.Id --source msstore > $null;
+		if ($LastExitCode -eq 0) {
+			Write-Host "Package $($app.Name) ($($app.Id)) is already installed";
+		} else {
+			Write-Host "Installing MSStore app $($app.Name) ($($app.Id))";
+			winget install --exact --id $app.Id --source msstore --accept-package-agreements --accept-source-agreements;
+		}
+	}
+}
