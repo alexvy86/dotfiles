@@ -83,6 +83,8 @@ $settingsToChange | ForEach-Object {
 				return;
 			}
 			Write-Host "$($_.Path) -> $($_.Name) - Current value: '$currentValue' - New value: '$($_.DesiredValue)'";
+		} else {
+			Write-Host "Creating new registry entry at $($_.Path) -> $($_.Name) with value '$($_.DesiredValue)'";
 		}
 	} else {
 		Write-Host "Creating new registry entry at $($_.Path) -> $($_.Name) with value '$($_.DesiredValue)'";
