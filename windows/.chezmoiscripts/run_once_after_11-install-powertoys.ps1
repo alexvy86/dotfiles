@@ -2,6 +2,9 @@ $ErrorActionPreference = "Stop";
 $StepName = "Installing and configuring PowerToys";
 Write-Host -ForegroundColor Cyan $StepName;
 
+# TODO: this combination of steps seems to error out when running the first time, but succeeds on re-run.
+# The error was "Unrecognized command: 'C:\Users\alejandrovi\AppData\Local\Microsoft\WindowsApps\winget.exe'"
+# followed by the help that gets printed when running "winget" with no arguments.
 winget configure --enable;
 winget configure --accept-configuration-agreements --file "$env:USERPROFILE/.config/powertoys.dsc.yaml";
 
