@@ -10,12 +10,14 @@ $settingsToChange += @{
 	DesiredValue = 3;
 };
 
-# Hide the "Widgets" button in the taskbar. Applies to Windows 11.
-$settingsToChange += @{
-	Path         = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced";
-	Name         = "TaskbarDa";
-	DesiredValue = 0;
-};
+# TODO: trying to set this specific Name fails with "Set-ItemProperty: Attempted to perform an unauthorized operation."
+# Investigate why.
+# # Hide the "Widgets" button in the taskbar. Applies to Windows 11.
+# $settingsToChange += @{
+# 	Path         = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced";
+# 	Name         = "TaskbarDa";
+# 	DesiredValue = 0;
+# };
 
 # Hide the "TaskView" button in the taskbar. Applies to Windows 10 and 11.
 $settingsToChange += @{
