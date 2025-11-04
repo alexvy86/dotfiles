@@ -11,6 +11,7 @@ Set-ExecutionPolicy RemoteSigned -Scope CurrentUser;
 
 # Install modules.
 # On Windows, use scoop so they are installed to a folder outside My Documents which is in OneDrive.
+# This means the script must run after scoop is installed.
 Write-Host "Installing module git-aliases";
 scoop install git-aliases;
 Write-Host "Installing module posh-git";
