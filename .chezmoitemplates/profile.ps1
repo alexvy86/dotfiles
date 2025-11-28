@@ -87,7 +87,7 @@ Set-PSReadLineKeyHandler -Chord Ctrl+PageUp     -Function ScrollDisplayUpLine;
 # By the same token, `eza` inside the `ezat` function refers to the `eza` command,
 # not the function, so I need to specify all parameters again
 function Private:eza { eza --long --almost-all --links --header --follow-symlinks --total-size --time-style long-iso @args; }
-function Private:ezat {	eza --long --almost-all --links --header --follow-symlinks --total-size --time-style long-iso -tree @args; }
+function Private:ezat {	eza --long --almost-all --links --header --follow-symlinks --total-size --time-style long-iso --tree @args; }
 
 #----------------------------------------------------------
 # FNM
