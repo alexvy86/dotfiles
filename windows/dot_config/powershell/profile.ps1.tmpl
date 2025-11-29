@@ -13,16 +13,6 @@
 # Aliases
 #----------------------------------------------------------
 
-# NOTE: seems like the default version of OpenSSH that comes with Windows 11 has issues communicating with the ssh-agent
-# to auto-add keys. The one in development in Github (https://github.com/powershell/Win32-OpenSSH) would probably work
-# but I don't want to get into the trouble of overriding the default and configuring the new one.
-# For now I'll live with dealing with authenticating the keys on every execution of SSH.
-#
-# Alias for SSH to auto-load ssh keys on first use and keep them in the agent for 10 hrs.
-# function private:ssh {param($params);
-# 	(ssh-add -l | Out-Null || (ssh-add -t 10h && Write-Host -ForegroundColor Green "ssh-key(s) are now available in ssh-agent for 10 hrs!`n")) && ssh $params;
-# }
-
 # Chezmoi commmands
 function private:cuaf {
 	chezmoi update --apply=false;
@@ -31,6 +21,24 @@ function private:cuaf {
 # Winget commands
 function private:wlua {
 	winget list --upgrade-available;
+}
+
+# TODO: would this work in Linux?
+# Alias for SSH to auto-load ssh keys on first use and keep them in the agent for 10 hrs.
+# function private:ssh {param($params);
+# 	(ssh-add -l | Out-Null || (ssh-add -t 10h && Write-Host -ForegroundColor Green "ssh-key(s) are now available in ssh-agent for 10 hrs!`n")) && ssh $params;
+# }
+
+function private:add-ssh-keys {
+	Write-Warning "The keys will be added to the agent permanently until you remove them";
+	# As of 2025-11-29, the -t flag of ssh-add is not supported on Windows.
+	# See https://github.com/PowerShell/Win32-OpenSSH/issues/1056 for details.
+	# ssh-add -t 4h
+	ssh-add
+}
+
+function private:remove-ssh-keys {
+	ssh-add -D
 }
 
 function private:install-apps {

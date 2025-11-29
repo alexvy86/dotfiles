@@ -9,7 +9,10 @@
 	path={{ $bcompPath }}
 	cmd="{{ $bcompPath }}" "$LOCAL" "$REMOTE" "$BASE" "$MERGED"
 
-# In Windows, changes to the permissions of a file (e.g. 755 -> 644) sometimes happen
-# and I don't know why. This will make it so git ignores those changes.
 [core]
+	# In Windows, changes to the permissions of a file (e.g. 755 -> 644) sometimes happen
+	# and I don't know why. This will make it so git ignores those changes.
 	filemode = false
+	# Force use of the ssh executable that comes with windows, instead of the one bundled with Git for Windows,
+	# so ssh-agent integration works properly with the other customizations in my dotfiles.
+	sshCommand = C:/Windows/System32/OpenSSH/ssh.exe
