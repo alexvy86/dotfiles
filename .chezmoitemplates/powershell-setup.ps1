@@ -8,6 +8,8 @@ Set-PSRepository -InstallationPolicy Trusted -Name PSGallery;
 
 Write-Host "Set execution policy for CurrentUser to RemoteSigned";
 Set-ExecutionPolicy RemoteSigned -Scope CurrentUser;
+# Also do it for Windows PowerShell; useful as long as Nu shell uses powershell.exe instead of pwsh.exe to run ps1 scripts.
+powershell.exe -c 'Set-ExecutionPolicy RemoteSigned -Scope CurrentUser'
 
 # Install modules.
 # On Windows, use scoop so they are installed to a folder outside My Documents which is in OneDrive.
