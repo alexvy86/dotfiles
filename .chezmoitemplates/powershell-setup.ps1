@@ -11,7 +11,17 @@ Set-ExecutionPolicy RemoteSigned -Scope CurrentUser;
 
 # Install modules.
 # On Windows, use scoop so they are installed to a folder outside My Documents which is in OneDrive.
-# This means the script must run after scoop is installed.
+# This means the script must run after scoop is installed, and since that probably happened because chezmoi installed
+# it, we need to update the path first.
+
+function Update-Path {
+  $env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine") +
+              ";" +
+              [System.Environment]::GetEnvironmentVariable("Path","User")
+}
+
+Update-Path;
+
 Write-Host "Installing module git-aliases";
 scoop install git-aliases;
 Write-Host "Installing module posh-git";
