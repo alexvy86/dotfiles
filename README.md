@@ -6,15 +6,16 @@ My `dotfiles` repository, managed with [ChezMoi](https://www.chezmoi.io/).
 
 ## 0. Pre-requisites
 
+Git is required so chezmoi externals of type `git-repo` can be downloaded, which happens before chezmoi starts running scripts, so installing Git with it is not enough.
+
 ### Unix
 
-The following packages should be installed with your package manager of choice:
-
-- `curl`
+1. `curl` must be installed. Use your package manager of choice.
+1. Git must be installed. Use your package manager of choice.
 
 ### Windows
 
-Install from the Microsoft Store:
+1. Install from the Microsoft Store:
 
 - The `App Installer` app.
   It includes the `winget` executable used by this `chezmoi` repo to install other apps.
@@ -24,6 +25,11 @@ Install from the Microsoft Store:
 NOTE: at some point I suggested that the `PowerShell` app also be installed from the Microsof Store but
 then became aware of some [limitations](https://learn.microsoft.com/en-us/powershell/scripting/install/installing-powershell-on-windows?view=powershell-7.3#installing-from-the-microsoft-store).
 Now the chezmoi setup installs the `PowerShell` MSIX through `winget`.
+
+2. Install git:
+```pwsh
+winget install --exact --id Git.Git --source winget
+```
 
 ## 1. Install chezmoi
 
