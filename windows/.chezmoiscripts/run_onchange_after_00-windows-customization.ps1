@@ -11,7 +11,12 @@ $settingsToChange += @{
 };
 
 # TODO: trying to set this specific Name fails with "Set-ItemProperty: Attempted to perform an unauthorized operation."
-# Investigate why.
+# Seems like it's due to Microsoft restricting which apps can change this setting:
+# https://www.elevenforum.com/t/enable-or-disable-userchoice-protection-driver-ucpd-in-windows-11-and-10.24267/
+# https://forums.mydigitallife.net/threads/taskbarda-widgets-registry-change-is-now-blocked.88547
+# Maybe the solution here would work:
+# https://forums.mydigitallife.net/threads/taskbarda-widgets-registry-change-is-now-blocked.88547/#post-1849025
+# For now I have to disable it manually from Taskbar Settings.
 # # Hide the "Widgets" button in the taskbar. Applies to Windows 11.
 # $settingsToChange += @{
 # 	Path         = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced";
