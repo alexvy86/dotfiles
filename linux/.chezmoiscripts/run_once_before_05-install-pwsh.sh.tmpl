@@ -15,12 +15,12 @@ for details on the line below. Needed for this script to run successfully in Git
 TARGET_LOCATION=~/.local/share/powershell
 
 # Update package lists
-sudo apt update;
+sudo apt-get update;
 
 # Install dependencies.
 # Note: libssl1.1 may not be available on newer distros, try libssl3 as fallback
-sudo apt install jq libunwind8 -y;
-sudo apt install libssl1.1 -y || sudo apt install libssl3 -y;
+sudo apt-get install jq libunwind8 -y;
+sudo apt-get install libssl1.1 -y || sudo apt-get install libssl3 -y;
 
 # Grab the latest tar.gz
 bits=$(getconf LONG_BIT)

@@ -18,13 +18,13 @@ throws an error like this (for Codespaces):
 # are dependencies (I think).
 sudo apt-key adv --recv-keys --keyserver keyserver.ubuntu.com \
     A1715D88E1DF1F24 40976EAF437D05B5 3B4FE6ACC0B21F32 A6616109451BBBF2;
-sudo apt install --yes software-properties-common; # Contains 'add-apt-repository'
+sudo apt-get install --yes software-properties-common; # Contains 'add-apt-repository'
 sudo add-apt-repository --yes ppa:git-core/ppa;
 
 # Update package lists again after adding repository.
-sudo apt update;
+sudo apt-get update;
 
 # Install/upgrade git to latest version.
-sudo apt install --yes --no-install-recommends git;
+sudo apt-get install --yes --no-install-recommends git;
 {{- end }}
 {{- end }}

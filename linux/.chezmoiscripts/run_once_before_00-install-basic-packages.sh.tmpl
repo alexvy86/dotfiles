@@ -7,8 +7,8 @@ for details on the line below. Needed for this script to run successfully in Git
 {{- if .is_apt_distro }}
 
 # Update package lists and install packages.
-sudo apt update;
-sudo apt install --yes --no-install-recommends \
+sudo apt-get update;
+sudo apt-get install --yes --no-install-recommends \
     duf \
     git \
     ssh \
