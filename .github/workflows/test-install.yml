@@ -46,10 +46,20 @@ jobs:
           Invoke-Expression "& { $(Invoke-RestMethod 'https://get.chezmoi.io/ps1') } -BinDir '$env:USERPROFILE\.local\bin'"
           Add-Content $env:GITHUB_PATH "$env:USERPROFILE\.local\bin"
 
+      - name: Create chezmoi config with pre-populated values
+        shell: pwsh
+        run: |
+          $configDir = "$env:USERPROFILE\.config\chezmoi"
+          New-Item -ItemType Directory -Path $configDir -Force
+          @"
+          data:
+            winToolsPath: "C:/Tools"
+          "@ | Out-File -FilePath "$configDir\chezmoi.yaml" -Encoding utf8
+
       - name: Initialize chezmoi
         shell: pwsh
         run: |
-          chezmoi init --promptString winToolsPath="$env:USERPROFILE\.local\tools" --source="$env:GITHUB_WORKSPACE" --debug
+          chezmoi init --source="$env:GITHUB_WORKSPACE" --debug
 
       - name: Apply dotfiles (dry-run)
         shell: pwsh
