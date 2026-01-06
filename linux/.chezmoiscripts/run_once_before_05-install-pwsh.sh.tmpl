@@ -35,6 +35,9 @@ mkdir -p $TARGET_LOCATION;
 tar -xvf "./${package##*/}" -C $TARGET_LOCATION;
 rm "./${package##*/}";
 
+# Ensure the pwsh binary is executable
+chmod +x $TARGET_LOCATION/pwsh;
+
 # (Re)create symlink
 sudo rm -f /usr/bin/pwsh;
 sudo ln -s $TARGET_LOCATION/pwsh /usr/bin/pwsh;
