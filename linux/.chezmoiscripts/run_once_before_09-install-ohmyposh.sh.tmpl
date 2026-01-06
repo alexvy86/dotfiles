@@ -4,28 +4,7 @@ for details on the line below. Needed for this script to run successfully in Git
 */ -}}
 #!{{- lookPath "bash" }}
 
-{{- /* ARM64 - install manually since homebrew is not supported in arm64 */ -}}
-{{- if .is_arm64 }}
-
-# Original instructions: https://ohmyposh.dev/docs/installation/linux under the "manual" tab
-
-VERSION="v23.7.2";
-
-URL=https://github.com/JanDeDobbeleer/oh-my-posh/releases/download/$VERSION/posh-linux-arm64
-
-# Download the executable
-sudo wget $URL -O /usr/local/bin/oh-my-posh;
-sudo chmod +x /usr/local/bin/oh-my-posh;
-
-# Install themes. Will overwrite all files when extracting the zip.
-mkdir ~/.poshthemes;
-wget https://github.com/JanDeDobbeleer/oh-my-posh/releases/download/$VERSION/themes.zip -O ~/.poshthemes/themes.zip;
-unzip -o ~/.poshthemes/themes.zip -d ~/.poshthemes;
-chmod u+rw ~/.poshthemes/*.omp.*;
-rm ~/.poshthemes/themes.zip;
-
-{{- /* Ubuntu and Debian - install with homebrew (easier to maintain updated) */ -}}
-{{- else if (or .is_ubuntu .is_debian) }}
+{{- if (or .is_ubuntu .is_debian) }}
 
 # Note: need to provide the absolute path to 'brew' because profile files are not read by chezmoi when starting shells
 # to execute scripts, so it won't be in the PATH.

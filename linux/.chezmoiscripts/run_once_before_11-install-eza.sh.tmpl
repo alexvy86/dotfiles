@@ -4,27 +4,10 @@ for details on the line below. Needed for this script to run successfully in Git
 */ -}}
 #!{{- lookPath "bash" }}
 
-{{- /* ARM64 - install manually since homebrew is not supported in arm64 */ -}}
-{{- if .is_arm64 }}
-
-# Original instructions: https://github.com/eza-community/eza/blob/main/INSTALL.md#manual-linux
-
-VERSION="v0.23.0";
-URL=https://github.com/eza-community/eza/releases/download/$VERSION/eza_aarch64-unknown-linux-gnu.tar.gz
-
-# Download and extract (passed through stdout)
-wget -c $URL -O - | tar xz
-# Make executable, change ownership, and move to right place
-sudo chmod +x eza
-sudo chown root:root eza
-sudo mv eza /usr/local/bin/eza
-
-{{- /* Ubuntu and Debian - install with homebrew (easier to maintain updated) */ -}}
-{{- else if (or .is_ubuntu .is_debian) }}
+{{- if (or .is_ubuntu .is_debian) }}
 
 # Note: need to provide the absolute path to 'brew' because profile files are not read by chezmoi when starting shells
 # to execute scripts, so it won't be in the PATH.
-# Note: this installs both the executable and the themes.
 /home/linuxbrew/.linuxbrew/bin/brew install eza;
 
 {{- else }}

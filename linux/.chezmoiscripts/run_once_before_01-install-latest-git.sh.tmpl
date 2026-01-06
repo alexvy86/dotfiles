@@ -11,11 +11,8 @@ Some environments do not support using the latest git, trying to install it
 throws an error like this (for Codespaces):
    The following packages have unmet dependencies:
     git : Depends: libc6 (>= 2.34) but 2.31-13+deb11u3 is to be installed
-or like this (for ARM64 / Raspberry Pi):
-   The following packages have unmet dependencies:
-    git : Depends: libc6 (>= 2.34) but 2.31-13+rpt2+rpi1+deb11u3 is to be installed
 */ -}}
-{{- if and (not .is_codespaces) (not .is_arm64) -}}
+{{- if (not .is_codespaces) -}}
 # Set up the APT repository to get the latest version of git.
 # A1715D88E1DF1F24 is the signing key for the git PPA itself, the others
 # are dependencies (I think).
