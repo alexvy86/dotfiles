@@ -52,9 +52,9 @@ if [[ -n "$(command -v fnm)" ]]; then
   eval "$(fnm env --use-on-cd)"
 fi
 
-# TODO: not sure if this is actually working in bash, particularly for rpi
+# TODO: not sure if this is actually working in bash, particularly for arm64
 # Use fzf
-# {{ if .is_raspberryPi -}}
+# {{ if .is_arm64 -}}
 # shellcheck disable=SC1094
 source /usr/share/doc/fzf/examples/key-bindings.bash
 # {{- else -}}
