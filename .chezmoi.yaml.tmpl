@@ -38,6 +38,10 @@ data:
   is_macOS: {{ $macOS }}
   is_wsl: {{ $wsl }}
   is_codespaces: {{ env "CODESPACES" | not | not }}
+  # CI environments (GitHub Actions, Azure Pipelines, etc.) set the CI environment variable to "true".
+  # Some scripts may not work in CI due to lack of GUI, elevated privileges, or interactive prompts,
+  # so we use this flag to skip them.
+  is_ci: {{ env "CI" | not | not }}
   is_ubuntu: {{ $ubuntu }}
   is_debian: {{ $debian }}
   is_apt_distro: {{ or $ubuntu $debian }}
