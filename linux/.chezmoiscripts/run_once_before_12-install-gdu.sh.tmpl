@@ -4,27 +4,10 @@ for details on the line below. Needed for this script to run successfully in Git
 */ -}}
 #!{{- lookPath "bash" }}
 
-{{- /* Raspberry Pi - install manually since homebrew is not supported in arm64 */ -}}
-{{- if .is_raspberryPi }}
-
-# Original instructions: https://github.com/dundee/gdu?tab=readme-ov-file#installation
-
-VERSION="v5.31.0";
-URL=https://github.com/dundee/gdu/releases/download/$VERSION/gdu_linux_arm64.tgz
-
-# Download and extract (passed through stdout)
-wget -c $URL -O - | tar xz
-# Make executable, change ownership, and move to right place
-chmod +x gdu_linux_arm64
-# Note: renamed as gdu-go to match the way that Homebrew installs it
-sudo mv gdu_linux_arm64 /usr/bin/gdu-go
-
-{{- /* Ubuntu and Debian - install with homebrew (easier to maintain updated) */ -}}
-{{- else if (or .is_ubuntu .is_debian) }}
+{{- if (or .is_ubuntu .is_debian) }}
 
 # Note: need to provide the absolute path to 'brew' because profile files are not read by chezmoi when starting shells
 # to execute scripts, so it won't be in the PATH.
-# Note: this installs both the executable and the themes.
 /home/linuxbrew/.linuxbrew/bin/brew install gdu;
 
 {{- else }}

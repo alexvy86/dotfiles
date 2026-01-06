@@ -4,8 +4,11 @@ for details on the line below. Needed for this script to run successfully in Git
 */ -}}
 #!{{- lookPath "bash" }}
 
-{{- if .is_raspberryPi }}
+{{- if .is_arm64 }}
 
+# ARM64 Linux (Raspberry Pi, GitHub ARM64 runners, etc.)
+# The Microsoft apt repository doesn't provide ARM64 packages for PowerShell,
+# so we install from the official tar.gz release instead.
 # Original instructions: https://learn.microsoft.com/en-us/powershell/scripting/install/community-support?view=powershell-7.5#raspberry-pi-os
 
 # Target location to install PowerShell. No trailing slashes.
@@ -15,7 +18,9 @@ TARGET_LOCATION=~/.local/share/powershell
 sudo apt update;
 
 # Install dependencies.
-sudo apt install jq libssl1.1 libunwind8 -y;
+# Note: libssl1.1 may not be available on newer distros, try libssl3 as fallback
+sudo apt install jq libunwind8 -y;
+sudo apt install libssl1.1 -y || sudo apt install libssl3 -y;
 
 # Grab the latest tar.gz
 bits=$(getconf LONG_BIT)
@@ -24,14 +29,17 @@ package=$(echo $release | jq -r ".assets[].browser_download_url" | grep "linux-a
 wget $package
 
 # Make folder to put powershell
-mkdir $TARGET_LOCATION;
+mkdir -p $TARGET_LOCATION;
 
 # Unpack the tar.gz file
 tar -xvf "./${package##*/}" -C $TARGET_LOCATION;
 rm "./${package##*/}";
 
+# Ensure the pwsh binary is executable
+chmod +x $TARGET_LOCATION/pwsh;
+
 # (Re)create symlink
-sudo rm /usr/bin/pwsh;
+sudo rm -f /usr/bin/pwsh;
 sudo ln -s $TARGET_LOCATION/pwsh /usr/bin/pwsh;
 
 {{- else if .is_ubuntu }}
@@ -63,7 +71,7 @@ sudo apt-get update;
 sudo apt-get install -y powershell;
 
 {{- /* Debian */ -}}
-{{- else if and (.is_debian) (not .is_raspberryPi) }}
+{{- else if .is_debian }}
 
 # Original instructions: https://learn.microsoft.com/en-us/powershell/scripting/install/install-debian?view=powershell-7.5
 

@@ -19,9 +19,7 @@ export HIST_STAMPS="yyyy-mm-dd"
 
 # Define plugins to load. Standard plugins can be found in $ZSH/plugins/ .
 plugins=(git npm)
-# {{- if .is_raspberryPi }}
-plugins+=(docker docker-compose)
-# {{- else if .is_codespaces }}
+# {{- if .is_codespaces }}
 plugins+=(docker docker-compose)
 # {{- end }}
 

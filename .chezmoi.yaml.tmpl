@@ -45,6 +45,7 @@ data:
   is_ubuntu: {{ $ubuntu }}
   is_debian: {{ $debian }}
   is_apt_distro: {{ or $ubuntu $debian }}
+  is_arm64: {{ eq .chezmoi.arch "arm64" }}
   is_raspberryPi: {{ and $debian (eq .chezmoi.arch "arm64") }}
 
 scriptEnv:
