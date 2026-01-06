@@ -9,7 +9,7 @@ on:
 
 jobs:
   test-linux:
-    name: Test on Linux
+    name: Test fresh Linux install
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -33,7 +33,7 @@ jobs:
           chezmoi apply --debug
 
   test-windows:
-    name: Test on Windows
+    name: Test fresh Windows install
     runs-on: windows-latest
     steps:
       - name: Checkout repository
