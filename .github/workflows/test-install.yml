@@ -1,0 +1,72 @@
+name: Test Dotfiles Installation
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch: # Allow manual triggering
+
+jobs:
+  test-linux:
+    name: Test fresh Linux install
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install chezmoi
+        run: |
+          sh -c "$(curl -fsLS get.chezmoi.io)" -- -b $HOME/.local/bin
+          echo "$HOME/.local/bin" >> $GITHUB_PATH
+
+      - name: Initialize chezmoi
+        run: |
+          chezmoi init --source=$GITHUB_WORKSPACE --debug
+
+      - name: Apply dotfiles (dry-run)
+        run: |
+          chezmoi apply --dry-run --debug
+
+      - name: Apply dotfiles
+        run: |
+          chezmoi apply --debug
+
+  test-windows:
+    name: Test fresh Windows install
+    runs-on: windows-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install chezmoi
+        shell: pwsh
+        run: |
+          Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
+          Invoke-Expression "& { $(Invoke-RestMethod 'https://get.chezmoi.io/ps1') } -BinDir '$env:USERPROFILE\.local\bin'"
+          Add-Content $env:GITHUB_PATH "$env:USERPROFILE\.local\bin"
+
+      - name: Create chezmoi config with pre-populated values
+        shell: pwsh
+        run: |
+          $configDir = "$env:USERPROFILE\.config\chezmoi"
+          New-Item -ItemType Directory -Path $configDir -Force
+          @"
+          data:
+            winToolsPath: "C:/Tools"
+          "@ | Out-File -FilePath "$configDir\chezmoi.yaml" -Encoding utf8
+
+      - name: Initialize chezmoi
+        shell: pwsh
+        run: |
+          chezmoi init --source="$env:GITHUB_WORKSPACE" --debug
+
+      - name: Apply dotfiles (dry-run)
+        shell: pwsh
+        run: |
+          chezmoi apply --dry-run --debug
+
+      - name: Apply dotfiles
+        shell: pwsh
+        run: |
+          chezmoi apply --debug
