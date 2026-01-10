@@ -10,3 +10,7 @@ ignored/**
 
 # '.keep' files, just for the purpose of having empty directories
 **/.keep
+
+# Legacy OS-specific folders (will be removed after migration)
+windows/**
+linux/**
