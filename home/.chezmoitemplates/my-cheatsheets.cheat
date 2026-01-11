@@ -15,17 +15,17 @@ chezmoi diff
 # Run template parsing for file (other than config file)
 {{ if .is_linux -}}
 cat <path_to_template_file> | chezmoi execute-template
-$ path_to_template_file: find {{ .chezmoi.sourceDir }} -iname '*.tmpl'
+$ path_to_template_file: find "$(chezmoi source-path)" -iname '*.tmpl'
 {{- else if .is_windows -}}
-Get-Content -Path {{ .chezmoi.sourceDir }}/<path_to_template_file> | chezmoi execute-template
-$ path_to_template_file: Get-ChildItem -Recurse -Path {{ .chezmoi.sourceDir }} -Filter "*.tmpl" -Name
+Get-Content -Path "$(chezmoi source-path)/<path_to_template_file>" | chezmoi execute-template
+$ path_to_template_file: Get-ChildItem -Recurse -Path "$(chezmoi source-path)" -Filter "*.tmpl" -Name
 {{- end }}
 
 # Run template parsing for config file
 {{ if .is_linux -}}
-cat {{ .chezmoi.sourceDir }}/.chezmoi.yaml.tmpl | chezmoi execute-template --init
+cat "$(chezmoi source-path)/.chezmoi.yaml.tmpl" | chezmoi execute-template --init
 {{- else if .is_windows -}}
-Get-Content -Path {{ .chezmoi.sourceDir }}/.chezmoi.yaml.tmpl | chezmoi execute-template --init
+Get-Content -Path "$(chezmoi source-path)/.chezmoi.yaml.tmpl" | chezmoi execute-template --init
 {{- end }}
 
 % git
