@@ -24,6 +24,10 @@ jobs:
         run: |
           chezmoi init --source=$GITHUB_WORKSPACE --debug
 
+      - name: Print files that are ignored
+        run: |
+          chezmoi execute-template --init "$(cat .chezmoiignore)"
+
       - name: Apply dotfiles (dry-run)
         run: |
           chezmoi apply --dry-run --debug
@@ -60,6 +64,10 @@ jobs:
         shell: pwsh
         run: |
           chezmoi init --source="$env:GITHUB_WORKSPACE" --debug
+
+      - name: Print files that are ignored
+        run: |
+          chezmoi execute-template --init "$(cat .chezmoiignore)"
 
       - name: Apply dotfiles (dry-run)
         shell: pwsh
