@@ -9,6 +9,7 @@
 		"*.yaml.tmpl": "yaml",
 		"*.gitconfig": "ini",
 		"dot_gitconfig.tmpl": "ini",
+		"**/git/ignore": "gitignore"
   },
 
 	// Markdown Lint extension

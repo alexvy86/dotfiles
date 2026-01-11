@@ -1,0 +1,7 @@
+# Things I want ignored by git in all repositories
+
+# Claude settings
+**/.claude/settings.local.json
+
+# File for utility HTTP requests
+**/.http-requests.http
