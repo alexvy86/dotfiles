@@ -25,12 +25,12 @@ sudo apt-get install libssl1.1 -y || sudo apt-get install libssl3 -y;
 
 # Grab the latest tar.gz
 bits=$(getconf LONG_BIT)
-echo -e "\$bits:\n$bits"
+echo -e "\$bits:\n${bits}"
 release=$(curl -sL https://api.github.com/repos/PowerShell/PowerShell/releases/latest)
-echo -e "\$release:\n$release"
+echo -e "\$release:\n${release}"
 
 # Check if GitHub API rate limit was exceeded
-if echo "$release" | grep -q "API rate limit exceeded"; then
+if echo "${release}" | grep -q "API rate limit exceeded"; then
 # {{- if .is_ci }}
     echo "GitHub API rate limit exceeded, falling back to hardcoded PowerShell URL"
     package="https://github.com/PowerShell/PowerShell/releases/download/v7.5.4/powershell-7.5.4-linux-arm64.tar.gz"
@@ -39,31 +39,31 @@ if echo "$release" | grep -q "API rate limit exceeded"; then
     exit 1
 # {{- end }}
 else
-    package=$(echo -E $release | jq -r ".assets[].browser_download_url" | grep "linux-arm${bits}.tar.gz")
-    echo -e "\$package:\n$package"
-    if [ -z "$package" ]; then
+    package=$(echo -E "${release}" | jq -r ".assets[].browser_download_url" | grep "linux-arm${bits}.tar.gz")
+    echo -e "\$package:\n${package}"
+    if [[ -z "${package}" ]]; then
         >&2 echo "Failed to find PowerShell download URL for linux-arm${bits}"
         exit 1
     fi
 fi
 
-wget $package
+wget "${package}"
 
 # Make folder to put powershell if it doesn't exist yet
-if [ ! -d "$TARGET_LOCATION" ]; then
-	mkdir -p "$TARGET_LOCATION";
+if [[ ! -d "${TARGET_LOCATION}" ]]; then
+	mkdir -p "${TARGET_LOCATION}";
 fi
 
 # Unpack the tar.gz file
-tar -xvf "./${package##*/}" -C $TARGET_LOCATION;
+tar -xvf "./${package##*/}" -C "${TARGET_LOCATION}";
 rm "./${package##*/}";
 
 # Ensure the pwsh binary is executable
-chmod +x $TARGET_LOCATION/pwsh;
+chmod +x "${TARGET_LOCATION}"/pwsh;
 
 # (Re)create symlink
 sudo rm -f /usr/bin/pwsh;
-sudo ln -s $TARGET_LOCATION/pwsh /usr/bin/pwsh;
+sudo ln -s "${TARGET_LOCATION}"/pwsh /usr/bin/pwsh;
 
 # {{- else if .is_ubuntu }}
 
@@ -76,10 +76,12 @@ sudo apt-get update;
 sudo apt-get install -y wget apt-transport-https software-properties-common;
 
 # Get the version of Ubuntu
+# shellcheck disable=SC1091 # Shellcheck shouldn't try to follow this 'source' invocation.
 source /etc/os-release;
 
 # Download the Microsoft repository keys
-wget -q https://packages.microsoft.com/config/ubuntu/$VERSION_ID/packages-microsoft-prod.deb;
+# shellcheck disable=SC2154 # 'source /etc/os-release' above sets $VERSION_ID
+wget -q https://packages.microsoft.com/config/ubuntu/"${VERSION_ID}"/packages-microsoft-prod.deb;
 
 # Register the Microsoft repository keys
 sudo dpkg -i packages-microsoft-prod.deb;
@@ -105,10 +107,12 @@ sudo apt-get update;
 sudo apt-get install -y wget;
 
 # Get the version of Debian
+# shellcheck disable=SC1091 # Shellcheck shouldn't try to follow this 'source' invocation.
 source /etc/os-release;
 
 # Download the Microsoft repository GPG keys
-wget -q https://packages.microsoft.com/config/debian/$VERSION_ID/packages-microsoft-prod.deb;
+# shellcheck disable=SC2154 # 'source /etc/os-release' above sets $VERSION_ID
+wget -q https://packages.microsoft.com/config/debian/"${VERSION_ID}"/packages-microsoft-prod.deb;
 
 # Register the Microsoft repository GPG keys
 sudo dpkg -i packages-microsoft-prod.deb;

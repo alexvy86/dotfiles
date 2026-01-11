@@ -8,7 +8,7 @@
 # Make zsh behave like bash in terms of word delimiters (note: accomplished by configuring $WORDCHARS)
 # '/', '-', and non-alphanumeric characters in general will be stopping points for key bindings like
 # backward/forward-word, backward/forward-kill-word, etc.
-if [[ -n "$ZSH_VERSION" ]]; then
+if [[ -n "${ZSH_VERSION}" ]]; then
     autoload -U select-word-style;
     select-word-style bash;
 fi

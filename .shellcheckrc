@@ -16,3 +16,5 @@ disable=SC1008 # "This shebang was unrecognized. ShellCheck only supports sh/bas
 disable=SC2096 # "On most OS, shebangs can only specify a single parameter."
 disable=SC2239 # "Ensure the shebang uses an absolute path to the interpreter."
 disable=SC1128 # "The shebang must be on the first line. Delete blanks and move comments."
+
+disable=SC2230 # 'which' is available in the shells I use, no need to prefer 'command -v'.
