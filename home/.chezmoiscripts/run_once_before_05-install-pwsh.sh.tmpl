@@ -1,10 +1,11 @@
-{{- /*
-See https://www.chezmoi.io/user-guide/frequently-asked-questions/troubleshooting/#chezmoi-reports-forkexec-no-such-file-or-directory-when-running-scripts-on-termux
-for details on the line below. Needed for this script to run successfully in Github Codespaces.
-*/ -}}
-#!{{- lookPath "bash" }}
+# chezmoi:template:left-delimiter="# {{" right-delimiter=}}
+# {{- /*
+# See https://www.chezmoi.io/user-guide/frequently-asked-questions/troubleshooting/#chezmoi-reports-forkexec-no-such-file-or-directory-when-running-scripts-on-termux
+# for details on the line below. Needed for this script to run successfully in Github Codespaces.
+# */ -}}
+#!# {{- lookPath "bash" }}
 
-{{- if .is_arm64 }}
+# {{- if .is_arm64 }}
 
 # ARM64 Linux (Raspberry Pi, GitHub ARM64 runners, etc.)
 # The Microsoft apt repository doesn't provide ARM64 packages for PowerShell,
@@ -30,13 +31,13 @@ echo -e "\$release:\n$release"
 
 # Check if GitHub API rate limit was exceeded
 if echo "$release" | grep -q "API rate limit exceeded"; then
-{{- if .is_ci }}
+# {{- if .is_ci }}
     echo "GitHub API rate limit exceeded, falling back to hardcoded PowerShell URL"
     package="https://github.com/PowerShell/PowerShell/releases/download/v7.5.4/powershell-7.5.4-linux-arm64.tar.gz"
-{{- else }}
+# {{- else }}
     >&2 echo "GitHub API rate limit exceeded. Please try again later or authenticate."
     exit 1
-{{- end }}
+# {{- end }}
 else
     package=$(echo -E $release | jq -r ".assets[].browser_download_url" | grep "linux-arm${bits}.tar.gz")
     echo -e "\$package:\n$package"
@@ -64,7 +65,7 @@ chmod +x $TARGET_LOCATION/pwsh;
 sudo rm -f /usr/bin/pwsh;
 sudo ln -s $TARGET_LOCATION/pwsh /usr/bin/pwsh;
 
-{{- else if .is_ubuntu }}
+# {{- else if .is_ubuntu }}
 
 # Original instructions: https://learn.microsoft.com/en-us/powershell/scripting/install/install-ubuntu?view=powershell-7.5
 
@@ -92,8 +93,8 @@ sudo apt-get update;
 # Install PowerShell
 sudo apt-get install -y powershell;
 
-{{- /* Debian */ -}}
-{{- else if .is_debian }}
+# {{- /* Debian */ -}}
+# {{- else if .is_debian }}
 
 # Original instructions: https://learn.microsoft.com/en-us/powershell/scripting/install/install-debian?view=powershell-7.5
 
@@ -121,9 +122,9 @@ sudo apt-get update;
 # Install PowerShell
 sudo apt-get install -y powershell;
 
-{{- else }}
+# {{- else }}
 
 >&2 echo "Unexpected OS/architecture. Cannot install Powershell.";
 exit 1;
 
-{{- end }}
+# {{- end }}

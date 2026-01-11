@@ -1,8 +1,9 @@
-{{- /*
-See https://www.chezmoi.io/user-guide/frequently-asked-questions/troubleshooting/#chezmoi-reports-forkexec-no-such-file-or-directory-when-running-scripts-on-termux
-for details on the line below. Needed for this script to run successfully in Github Codespaces.
-*/ -}}
-#!{{- lookPath "bash" }}
+# chezmoi:template:left-delimiter="# {{" right-delimiter=}}
+# {{- /*
+# See https://www.chezmoi.io/user-guide/frequently-asked-questions/troubleshooting/#chezmoi-reports-forkexec-no-such-file-or-directory-when-running-scripts-on-termux
+# for details on the line below. Needed for this script to run successfully in Github Codespaces.
+# */ -}}
+#!# {{- lookPath "bash" }}
 
 # Install navi with validated fixed version of the install script.
 BIN_DIR=~/bin bash <(curl -sL https://github.com/denisidoro/navi/raw/c45b767edd1c751691d353622ae0ad7336f94ab7/scripts/install)

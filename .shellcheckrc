@@ -9,3 +9,10 @@ enable=deprecate-which
 enable=quote-safe-variables
 enable=require-double-brackets
 enable=require-variable-braces
+
+# Disable rules that conflict with the need to use '#' for chezmoi:template directives,
+# and put stuff above the shebang line.
+disable=SC1008 # "This shebang was unrecognized. ShellCheck only supports sh/bash/dash/ksh/'busybox sh'. Add a 'shell' directive to specify."
+disable=SC2096 # "On most OS, shebangs can only specify a single parameter."
+disable=SC2239 # "Ensure the shebang uses an absolute path to the interpreter."
+disable=SC1128 # "The shebang must be on the first line. Delete blanks and move comments."

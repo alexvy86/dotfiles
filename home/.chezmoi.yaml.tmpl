@@ -1,9 +1,10 @@
-{{- $windows := eq .chezmoi.os "windows" -}}
-{{- $linux := eq .chezmoi.os "linux" -}}
-{{- $macOS := eq .chezmoi.os "darwin" -}}
-{{- $wsl := and ($linux) (or (env "WSL_DISTRO_NAME" | not | not) (.chezmoi.kernel.osrelease | lower | contains "microsoft")) -}}
-{{- $ubuntu := eq (index .chezmoi.osRelease "id") "ubuntu" -}}
-{{- $debian := eq (index .chezmoi.osRelease "id") "debian" -}}
+# chezmoi:template:left-delimiter="# {{" right-delimiter=}}
+# {{- $windows := eq .chezmoi.os "windows" -}}
+# {{- $linux := eq .chezmoi.os "linux" -}}
+# {{- $macOS := eq .chezmoi.os "darwin" -}}
+# {{- $wsl := and ($linux) (or (env "WSL_DISTRO_NAME" | not | not) (.chezmoi.kernel.osrelease | lower | contains "microsoft")) -}}
+# {{- $ubuntu := eq (index .chezmoi.osRelease "id") "ubuntu" -}}
+# {{- $debian := eq (index .chezmoi.osRelease "id") "debian" -}}
 
 edit:
   command: "code"
@@ -13,43 +14,43 @@ interpreters:
   ps1:
     # Using the absolute path for the case of a brand new machine where pwsh.exe is just getting installed, and
     # its path won't be visible in the PATH variable in the same cmd process where chezmoi is running.
-{{- if $windows }}
+# {{- if $windows }}
     command: "C:/Program\ Files/PowerShell/7/pwsh.exe"
-{{- else }}
+# {{- else }}
     command: "/usr/bin/pwsh"
-{{- end }}
+# {{- end }}
     args: ["-NoLogo", "-NoProfile"]
 
-sourceDir: {{ .chezmoi.workingTree | quote }}
+sourceDir: # {{ .chezmoi.workingTree | quote }}
 
 # Do not show scripts in the output of 'chezmoi diff'
 diff:
   exclude:
     - scripts
 
-{{/* 'data' "exports" the variables, so we can use them in templates outside this file */ -}}
+# {{/* 'data' "exports" the variables, so we can use them in templates outside this file */ -}}
 data:
-  is_windows: {{ $windows }}
-  is_linux: {{ $linux }}
-  is_macOS: {{ $macOS }}
-  is_wsl: {{ $wsl }}
-  is_codespaces: {{ env "CODESPACES" | not | not }}
+  is_windows: # {{ $windows }}
+  is_linux: # {{ $linux }}
+  is_macOS: # {{ $macOS }}
+  is_wsl: # {{ $wsl }}
+  is_codespaces: # {{ env "CODESPACES" | not | not }}
   # CI environments (GitHub Actions, Azure Pipelines, etc.) set the CI environment variable to "true".
   # Some scripts may not work in CI due to lack of GUI, elevated privileges, or interactive prompts,
   # so we use this flag to skip them.
-  is_ci: {{ env "CI" | not | not }}
-  is_ubuntu: {{ $ubuntu }}
-  is_debian: {{ $debian }}
-  is_apt_distro: {{ or $ubuntu $debian }}
-  is_arm64: {{ eq .chezmoi.arch "arm64" }}
-  is_raspberryPi: {{ and $debian (eq .chezmoi.arch "arm64") }}
+  is_ci: # {{ env "CI" | not | not }}
+  is_ubuntu: # {{ $ubuntu }}
+  is_debian: # {{ $debian }}
+  is_apt_distro: # {{ or $ubuntu $debian }}
+  is_arm64: # {{ eq .chezmoi.arch "arm64" }}
+  is_raspberryPi: # {{ and $debian (eq .chezmoi.arch "arm64") }}
 
 scriptEnv:
-{{- if $wsl }}
-  {{- $winUsername := promptStringOnce . "winUsername" "Windows username. We'll attempt to copy SSH keys from its home folder." }}
-  WIN_USERNAME: {{ $winUsername }}
-{{- end }}
-{{- if $windows }}
-  {{- $winToolsPath := promptStringOnce . "winToolsPath" "Path where tools get installed in Windows. This will be added to the user's PATH." }}
-  WIN_TOOLS_PATH: {{ $winToolsPath }}
-{{- end }}
+# {{- if $wsl }}
+  # {{- $winUsername := promptStringOnce . "winUsername" "Windows username. We'll attempt to copy SSH keys from its home folder." }}
+  WIN_USERNAME: # {{ $winUsername }}
+# {{- end }}
+# {{- if $windows }}
+  # {{- $winToolsPath := promptStringOnce . "winToolsPath" "Path where tools get installed in Windows. This will be added to the user's PATH." }}
+  WIN_TOOLS_PATH: # {{ $winToolsPath }}
+# {{- end }}
