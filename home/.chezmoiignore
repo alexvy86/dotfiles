@@ -1,3 +1,6 @@
+# IMPORTANT! Entries in this file must match the *target* paths, not the source paths.
+# So no .tmpl extensions, no dot_ prefixes, etc.
+
 # Readme for Github.com and my TODO file
 README.md
 TODO.md
@@ -16,33 +19,32 @@ ignored/**
 # ============================================
 {{ if ne .chezmoi.os "linux" }}
 # Shell configuration files
-dot_bashrc.tmpl
-dot_bash_profile
-dot_zshrc.tmpl
-dot_zshenv
-dot_profile
-dot_ssh-ident
-dot_oh-my-zsh/**
-private_dot_ssh/**
-dot_local/**
+.bashrc
+.bash_profile
+.zshrc
+.zshenv
+.profile
+.ssh-ident
+.oh-my-zsh/**
+.ssh/**
+.local/**
 
 # Linux shell scripts
 .chezmoiscripts/*.sh
-.chezmoiscripts/*.sh.tmpl
 
 # Linux-specific PowerShell setup (installs pwsh on Linux)
-.chezmoiscripts/*-linux-powershell-setup.ps1.tmpl
+.chezmoiscripts/*-linux-powershell-setup.ps1
 
 # Linux-specific config snippets
-dot_config/directories-and-navigation.sh
-dot_config/fluid-framework.sh
-dot_config/git.sh
-dot_config/history.sh
-dot_config/misc.sh.tmpl
-dot_config/system-management.sh
-dot_config/use-ohmyposh.sh
-dot_config/use-ohmyzsh.sh.tmpl
-dot_config/zsh/**
+.config/directories-and-navigation.sh
+.config/fluid-framework.sh
+.config/git.sh
+.config/history.sh
+.config/misc.sh
+.config/system-management.sh
+.config/use-ohmyposh.sh
+.config/use-ohmyzsh.sh
+.config/zsh/**
 {{ end }}
 
 # ============================================
@@ -56,16 +58,16 @@ AppData/**
 .chezmoiscripts/*.bat
 .chezmoiscripts/*-update-powershell-profile-file.ps1
 .chezmoiscripts/*-install-scoop.ps1
-.chezmoiscripts/*-windows-powershell-setup.ps1.tmpl
+.chezmoiscripts/*-windows-powershell-setup.ps1
 .chezmoiscripts/*-set-environment-variables.ps1
 .chezmoiscripts/*-enable-ssh-agent.ps1
-.chezmoiscripts/*-install-powertoys.ps1.tmpl
+.chezmoiscripts/*-install-powertoys.ps1
 .chezmoiscripts/*-add-scoop-buckets.ps1
 .chezmoiscripts/*-install-scoop-apps-user.ps1
 .chezmoiscripts/*-update-windows-terminal.ps1
 .chezmoiscripts/*-windows-customization.ps1
 # Windows-specific config
-dot_config/powertoys.dsc.yaml
-dot_config/git-for-windows-installer-settings.ini
-dot_config/vscode-installer-settings.ini
+.config/powertoys.dsc.yaml
+.config/git-for-windows-installer-settings.ini
+.config/vscode-installer-settings.ini
 {{ end }}
