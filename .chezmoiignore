@@ -31,7 +31,7 @@ dot_local/**
 .chezmoiscripts/*.sh.tmpl
 
 # Linux-specific PowerShell setup (installs pwsh on Linux)
-.chezmoiscripts/*_06-powershell-setup.ps1.tmpl
+.chezmoiscripts/*-linux-powershell-setup.ps1.tmpl
 
 # Linux-specific config snippets
 dot_config/directories-and-navigation.sh
@@ -54,16 +54,16 @@ AppData/**
 
 # Windows-specific scripts
 .chezmoiscripts/*.bat
-.chezmoiscripts/*_10-update-powershell-profile-file.ps1
-.chezmoiscripts/*_00-install-scoop.ps1
-.chezmoiscripts/*_10-powershell-setup.ps1.tmpl
-.chezmoiscripts/*_20-set-environment-variables.ps1
-.chezmoiscripts/*_30-enable-ssh-agent.ps1
-.chezmoiscripts/*_40-install-powertoys.ps1.tmpl
-.chezmoiscripts/*_50-add-scoop-buckets.ps1
-.chezmoiscripts/*_60-install-scoop-apps-user.ps1
-.chezmoiscripts/*_10-update-windows-terminal.ps1
-.chezmoiscripts/*_00-windows-customization.ps1
+.chezmoiscripts/*-update-powershell-profile-file.ps1
+.chezmoiscripts/*-install-scoop.ps1
+.chezmoiscripts/*-windows-powershell-setup.ps1.tmpl
+.chezmoiscripts/*-set-environment-variables.ps1
+.chezmoiscripts/*-enable-ssh-agent.ps1
+.chezmoiscripts/*-install-powertoys.ps1.tmpl
+.chezmoiscripts/*-add-scoop-buckets.ps1
+.chezmoiscripts/*-install-scoop-apps-user.ps1
+.chezmoiscripts/*-update-windows-terminal.ps1
+.chezmoiscripts/*-windows-customization.ps1
 # Windows-specific config
 dot_config/powertoys.dsc.yaml
 dot_config/git-for-windows-installer-settings.ini
