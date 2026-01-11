@@ -6,8 +6,8 @@
 #!# {{- lookPath "bash" }}
 
 # Skip installation if $ZSH is not empty or the default oh-my-zsh directory exists
-if [ "$ZSH" ] || [ -d "$HOME/.oh-my-zsh" ] ; then
-	echo "OhMyZsh seems to be installed already at '${ZSH:-$HOME/.oh-my-zsh}'. Skipping installation.";
+if [[ -n "${ZSH}" ]] || [[ -d "${HOME}/.oh-my-zsh" ]] ; then
+	echo "OhMyZsh seems to be installed already at '${ZSH:-${HOME}/.oh-my-zsh}'. Skipping installation.";
 else
 	sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/b2313ec7493dc127c9712f20654579221d0bcce6/tools/install.sh)" "" --unattended;
 fi

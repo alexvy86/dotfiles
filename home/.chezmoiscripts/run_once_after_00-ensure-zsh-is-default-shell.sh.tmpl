@@ -8,10 +8,10 @@
 PATH_TO_ZSH=$(which zsh)
 CURRENT_USER=$(whoami)
 
-if [ $SHELL != $PATH_TO_ZSH ]; then
+if [[ "${SHELL}" != "${PATH_TO_ZSH}" ]]; then
 	# Change default shell for current user
-	echo "Updating default shell for user '$CURRENT_USER'";
-	sudo chsh -s $PATH_TO_ZSH $CURRENT_USER;
+	echo "Updating default shell for user '${CURRENT_USER}'";
+	sudo chsh -s "${PATH_TO_ZSH}" "${CURRENT_USER}";
 else
-	echo "Default shell for user '$CURRENT_USER' is already '$PATH_TO_ZSH'";
+	echo "Default shell for user '${CURRENT_USER}' is already '${PATH_TO_ZSH}'";
 fi
