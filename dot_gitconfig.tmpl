@@ -1,1 +1,99 @@
-{{ includeTemplate "../.chezmoitemplates/gitconfig" . }}
+[user]
+	name = Alex Villarreal
+	email = 716334+alexvy86@users.noreply.github.com
+[init]
+	defaultBranch = main
+[fetch]
+	prune = true
+	pruneTags = true
+	all = true
+[pull]
+	rebase = true
+[push]
+	# In combination, default=upstream and autoSetupRemote=true make it so pushing a branch that doesn't
+	# have upstream configuration yet will create a remote branch with the same name in the default remote.
+	# But if the branch already has upstream configuration, it will get pushed to that one (vs
+	# using default=current, which would ignore the existing remote configuration and create a new remote
+	# branch with the same name as the branch being pushed).
+	autoSetupRemote = true
+	default = upstream
+[rebase]
+	autostash = true
+	autosquash = true
+	updateRefs = true
+	missingCommitsCheck = error
+[core]
+	autocrlf = input
+	editor = code -r -w
+[status]
+	# Show status of git submodules in git status output
+	submoduleSummary = true
+[log]
+	date = iso
+[diff]
+	# Show submodules changes in diffs as a list of commits like `git log` shows
+	submodule = log
+	tool = BeyondCompare
+	guitool = BeyondCompare
+	algorithm = histogram
+	colorMoved = plain
+	mnemonicPrefix = true
+	renames = true
+[merge]
+	tool = BeyondCompare
+	guitool = BeyondCompare
+	confilctstyle = zdiff3
+[branch]
+	sort = committerdate
+[tag]
+	sort = version:refname
+[color]
+	ui = auto
+[help]
+	autocorrect = prompt
+# [color "diff-highlight"]
+#	 oldNormal = red bold
+#	 oldHighlight = red bold 52
+#	 newNormal = green bold
+#	 newHighlight = green bold 22
+# [color "branch"]
+#	 current = yellow reverse
+#	 local = yellow
+#	 remote = green
+# [color "status"]
+#	 added = yellow
+#	 changed = green
+#	 untracked = cyan
+
+# Alias to register repositories for maintenance in a custom file so the main .gitconfig doesn't keep
+# changing in different machines.
+
+[alias]
+	start-maintenance = !git maintenance register --config-file ~/.gitconfig-maintenance && git maintenance start
+[include]
+	path = .gitconfig-maintenance
+
+[column]
+	ui = auto
+
+# https://git-scm.com/book/en/v2/Git-Tools-Rerere
+[rerere]
+	enabled = true
+
+[filter "lfs"]
+	required = true
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	clean = git-lfs clean -- %f
+
+{{ if .is_linux -}}
+	{{ if .is_wsl }}
+	  {{- include "ignored/wsl.gitconfig" -}}
+	{{ else }}
+    {{- include "ignored/linux.gitconfig" -}}
+	{{ end }}
+{{ else if .is_macOS }}
+  {{- include "ignored/mac.gitconfig" -}}
+{{ else if .is_windows }}
+  {{- includeTemplate "windows.gitconfig" . -}}
+{{ end -}}
