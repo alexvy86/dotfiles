@@ -21,7 +21,8 @@ interpreters:
 # {{- end }}
     args: ["-NoLogo", "-NoProfile"]
 
-# sourceDir: # {{ .chezmoi.workingTree | quote }}
+# Necessary for CI to work properly
+sourceDir: # {{ .chezmoi.workingTree | quote }}
 
 # Do not show scripts in the output of 'chezmoi diff'
 diff:
