@@ -26,7 +26,7 @@ jobs:
 
       - name: Print files that are ignored
         run: |
-          chezmoi execute-template --init "$(cat .chezmoiignore)"
+          chezmoi execute-template --init "$(cat home/.chezmoiignore)"
 
       - name: Apply dotfiles (dry-run)
         run: |
@@ -67,7 +67,7 @@ jobs:
 
       - name: Print files that are ignored
         run: |
-          chezmoi execute-template --init "$(cat .chezmoiignore)"
+          chezmoi execute-template --init "$(cat home/.chezmoiignore)"
 
       - name: Apply dotfiles (dry-run)
         shell: pwsh
