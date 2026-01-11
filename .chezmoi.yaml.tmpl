@@ -20,11 +20,7 @@ interpreters:
 {{- end }}
     args: ["-NoLogo", "-NoProfile"]
 
-{{ if $windows -}}
-sourceDir: "{{- .chezmoi.workingTree -}}/windows"
-{{- else -}}
-sourceDir: "{{- .chezmoi.workingTree -}}/linux"
-{{- end }}
+sourceDir: {{ .chezmoi.workingTree | quote }}
 
 # Do not show scripts in the output of 'chezmoi diff'
 diff:

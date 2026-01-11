@@ -10,3 +10,62 @@ ignored/**
 
 # '.keep' files, just for the purpose of having empty directories
 **/.keep
+
+# ============================================
+# Linux-only files (ignored on non-Linux)
+# ============================================
+{{ if ne .chezmoi.os "linux" }}
+# Shell configuration files
+dot_bashrc.tmpl
+dot_bash_profile
+dot_zshrc.tmpl
+dot_zshenv
+dot_profile
+dot_ssh-ident
+dot_oh-my-zsh/**
+private_dot_ssh/**
+dot_local/**
+
+# Linux shell scripts
+.chezmoiscripts/*.sh
+.chezmoiscripts/*.sh.tmpl
+
+# Linux-specific PowerShell setup (installs pwsh on Linux)
+.chezmoiscripts/*-linux-powershell-setup.ps1.tmpl
+
+# Linux-specific config snippets
+dot_config/directories-and-navigation.sh
+dot_config/fluid-framework.sh
+dot_config/git.sh
+dot_config/history.sh
+dot_config/misc.sh.tmpl
+dot_config/system-management.sh
+dot_config/use-ohmyposh.sh
+dot_config/use-ohmyzsh.sh.tmpl
+dot_config/zsh/**
+{{ end }}
+
+# ============================================
+# Windows-only files (ignored on non-Windows)
+# ============================================
+{{ if ne .chezmoi.os "windows" }}
+# Windows app data and paths
+AppData/**
+
+# Windows-specific scripts
+.chezmoiscripts/*.bat
+.chezmoiscripts/*-update-powershell-profile-file.ps1
+.chezmoiscripts/*-install-scoop.ps1
+.chezmoiscripts/*-windows-powershell-setup.ps1.tmpl
+.chezmoiscripts/*-set-environment-variables.ps1
+.chezmoiscripts/*-enable-ssh-agent.ps1
+.chezmoiscripts/*-install-powertoys.ps1.tmpl
+.chezmoiscripts/*-add-scoop-buckets.ps1
+.chezmoiscripts/*-install-scoop-apps-user.ps1
+.chezmoiscripts/*-update-windows-terminal.ps1
+.chezmoiscripts/*-windows-customization.ps1
+# Windows-specific config
+dot_config/powertoys.dsc.yaml
+dot_config/git-for-windows-installer-settings.ini
+dot_config/vscode-installer-settings.ini
+{{ end }}

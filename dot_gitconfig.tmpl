@@ -88,12 +88,12 @@
 
 {{ if .is_linux -}}
 	{{ if .is_wsl }}
-	  {{- include "../ignored/wsl.gitconfig" -}}
+	  {{- include "ignored/wsl.gitconfig" -}}
 	{{ else }}
-    {{- include "../ignored/linux.gitconfig" -}}
+    {{- include "ignored/linux.gitconfig" -}}
 	{{ end }}
 {{ else if .is_macOS }}
-  {{- include "../ignored/mac.gitconfig" -}}
+  {{- include "ignored/mac.gitconfig" -}}
 {{ else if .is_windows }}
-  {{- includeTemplate "../.chezmoitemplates/windows.gitconfig" . -}}
+  {{- includeTemplate "windows.gitconfig" . -}}
 {{ end -}}
