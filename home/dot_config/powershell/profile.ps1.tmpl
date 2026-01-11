@@ -1,3 +1,4 @@
+# chezmoi:template:left-delimiter="# {{" right-delimiter=}}
 # This file is intended to be sourced by the "Current user, all hosts" PowerShell profile file
 # (at $profile.CurrentUserAllHosts) so it applies to all host applications that host PowerShell
 # (e.g. PowerShell ISE, VSCode).
@@ -7,7 +8,7 @@
 
 Set-StrictMode -Version Latest;
 
-{{ if .is_windows -}}
+# {{ if .is_windows -}}
 
 # Auto-completions for Winget
 # https://learn.microsoft.com/en-us/windows/package-manager/winget/tab-completion
@@ -21,7 +22,7 @@ Register-ArgumentCompleter -Native -CommandName winget -ScriptBlock {
 			}
 }
 
-{{ end -}}
+# {{ end -}}
 
 # TODO: There might be something interesting we can do with $PSDefaultParameterValues
 
@@ -99,11 +100,11 @@ function Private:ezat {	eza --long --almost-all --links --header --follow-symlin
 # FNM
 #----------------------------------------------------------
 # Assumes it was installed earlier.
-{{ if .is_windows -}}
+# {{ if .is_windows -}}
 fnm env --use-on-cd --shell "power-shell" | Out-String | Invoke-Expression;
-{{- else -}}
+# {{- else -}}
 fnm env --use-on-cd | Out-String | Invoke-Expression;
-{{- end }}
+# {{- end }}
 
 #----------------------------------------------------------
 # Prompt
@@ -118,8 +119,8 @@ oh-my-posh init pwsh --config "~/.config/alexvy86.omp.json" | Invoke-Expression;
 #oh-my-posh init pwsh --config "~/.poshthemes/multiverse-neon.omp.json" | Invoke-Expression;
 #oh-my-posh init pwsh --config "~/.poshthemes/stelbent-compact.minimal.omp.json" | Invoke-Expression;
 
-{{ if .is_windows -}}
-{{ include "ignored/profile-windows.ps1" -}}
-{{ else -}}
-{{ include "ignored/profile-linux.ps1" -}}
-{{ end -}}
+# {{ if .is_windows -}}
+# {{ include "ignored/profile-windows.ps1" -}}
+# {{ else -}}
+# {{ include "ignored/profile-linux.ps1" -}}
+# {{ end -}}

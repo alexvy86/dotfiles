@@ -1,13 +1,14 @@
-{{- /*
-See https://www.chezmoi.io/user-guide/frequently-asked-questions/troubleshooting/#chezmoi-reports-forkexec-no-such-file-or-directory-when-running-scripts-on-termux
-for details on the line below. Needed for this script to run successfully in Github Codespaces.
-*/ -}}
-#!{{- lookPath "bash" }}
+# chezmoi:template:left-delimiter="# {{" right-delimiter=}}
+# {{- /*
+# See https://www.chezmoi.io/user-guide/frequently-asked-questions/troubleshooting/#chezmoi-reports-forkexec-no-such-file-or-directory-when-running-scripts-on-termux
+# for details on the line below. Needed for this script to run successfully in Github Codespaces.
+# */ -}}
+#!# {{- lookPath "bash" }}
 
-{{- if .is_apt_distro }}
+# {{- if .is_apt_distro }}
 
 sudo apt-get install --yes --no-install-recommends \
     python3 \
     python-is-python3;
 
-{{- end }}
+# {{- end }}

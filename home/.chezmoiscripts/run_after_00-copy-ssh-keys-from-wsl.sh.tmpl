@@ -1,5 +1,6 @@
-{{- if .is_wsl -}}
-#!{{- lookPath "bash" }}
+# chezmoi:template:left-delimiter="# {{" right-delimiter=}}
+# {{- if .is_wsl -}}
+#!# {{- lookPath "bash" }}
 
 SSH_DIR=$HOME/.ssh;
 
@@ -19,4 +20,4 @@ else
   chmod 600 $SSH_DIR/*;
 fi
 
-{{ end -}}
+# {{ end -}}

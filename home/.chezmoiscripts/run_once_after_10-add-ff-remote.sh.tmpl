@@ -1,9 +1,10 @@
-{{- if .is_codespaces -}}
-{{- /*
-See https://www.chezmoi.io/user-guide/frequently-asked-questions/troubleshooting/#chezmoi-reports-forkexec-no-such-file-or-directory-when-running-scripts-on-termux
-for details on the line below. Needed for this script to run successfully in Github Codespaces.
-*/ -}}
-#!{{- lookPath "bash" }}
+# chezmoi:template:left-delimiter="# {{" right-delimiter=}}
+# {{- if .is_codespaces -}}
+# {{- /*
+# See https://www.chezmoi.io/user-guide/frequently-asked-questions/troubleshooting/#chezmoi-reports-forkexec-no-such-file-or-directory-when-running-scripts-on-termux
+# for details on the line below. Needed for this script to run successfully in Github Codespaces.
+# */ -}}
+#!# {{- lookPath "bash" }}
 
 # If we are in a Codespaces instance for the FluidFramework repo, setup remotes the way I want them.
 
@@ -23,4 +24,4 @@ elif [[ "$GITHUB_REPOSITORY" =~ FluidFramework$ ]]; then
 else
   echo 'Codespaces instance is not for microsoft/FluidFramework or one of its forks. Github remotes will not be configured.' ;
 fi
-{{- end -}}
+# {{- end -}}

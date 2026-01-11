@@ -1,16 +1,17 @@
-{{- /*
-See https://www.chezmoi.io/user-guide/frequently-asked-questions/troubleshooting/#chezmoi-reports-forkexec-no-such-file-or-directory-when-running-scripts-on-termux
-for details on the line below. Needed for this script to run successfully in Github Codespaces.
-*/ -}}
-#!{{- lookPath "bash" }}
+# chezmoi:template:left-delimiter="# {{" right-delimiter=}}
+# {{- /*
+# See https://www.chezmoi.io/user-guide/frequently-asked-questions/troubleshooting/#chezmoi-reports-forkexec-no-such-file-or-directory-when-running-scripts-on-termux
+# for details on the line below. Needed for this script to run successfully in Github Codespaces.
+# */ -}}
+#!# {{- lookPath "bash" }}
 
-{{- if (or .is_ubuntu .is_debian) }}
+# {{- if (or .is_ubuntu .is_debian) }}
 
 # Note: need to provide the absolute path to 'brew' because profile files are not read by chezmoi when starting shells
 # to execute scripts, so it won't be in the PATH.
 /home/linuxbrew/.linuxbrew/bin/brew install eza;
 
-{{- else }}
+# {{- else }}
 >&2 echo "Unexpected OS/architecture. Cannot install eza.";
 exit 1;
-{{- end }}
+# {{- end }}

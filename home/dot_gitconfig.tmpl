@@ -1,3 +1,4 @@
+# chezmoi:template:left-delimiter="# {{" right-delimiter=}}
 [user]
 	name = Alex Villarreal
 	email = 716334+alexvy86@users.noreply.github.com
@@ -86,14 +87,14 @@
 	process = git-lfs filter-process
 	clean = git-lfs clean -- %f
 
-{{ if .is_linux -}}
-	{{ if .is_wsl }}
-	  {{- include "ignored/wsl.gitconfig" -}}
-	{{ else }}
-    {{- include "ignored/linux.gitconfig" -}}
-	{{ end }}
-{{ else if .is_macOS }}
-  {{- include "ignored/mac.gitconfig" -}}
-{{ else if .is_windows }}
-  {{- includeTemplate "windows.gitconfig" . -}}
-{{ end -}}
+# {{ if .is_linux -}}
+# {{ if .is_wsl }}
+# {{- include "ignored/wsl.gitconfig" -}}
+# {{ else }}
+# {{- include "ignored/linux.gitconfig" -}}
+# {{ end }}
+# {{ else if .is_macOS }}
+# {{- include "ignored/mac.gitconfig" -}}
+# {{ else if .is_windows }}
+# {{- includeTemplate "windows.gitconfig" . -}}
+# {{ end -}}

@@ -6,7 +6,9 @@
 		"*_zshrc.tmpl": "shellscript",
 		"*.ps1.tmpl": "powershell",
 		"*.sh.tmpl": "shellscript",
-		"*.yaml.tmpl": "yaml"
+		"*.yaml.tmpl": "yaml",
+		"*.gitconfig": "ini",
+		"dot_gitconfig.tmpl": "ini",
   },
 
 	// Markdown Lint extension
