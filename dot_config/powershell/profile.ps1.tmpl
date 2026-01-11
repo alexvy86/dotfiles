@@ -119,7 +119,7 @@ oh-my-posh init pwsh --config "~/.config/alexvy86.omp.json" | Invoke-Expression;
 #oh-my-posh init pwsh --config "~/.poshthemes/stelbent-compact.minimal.omp.json" | Invoke-Expression;
 
 {{ if .is_windows -}}
-{{ includeTemplate "profile-windows.ps1" . -}}
+{{ include "ignored/profile-windows.ps1" -}}
 {{ else -}}
-{{ includeTemplate "profile-linux.ps1" . -}}
+{{ include "ignored/profile-linux.ps1" -}}
 {{ end -}}
