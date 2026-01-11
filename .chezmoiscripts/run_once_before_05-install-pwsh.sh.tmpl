@@ -27,8 +27,25 @@ bits=$(getconf LONG_BIT)
 echo -e "\$bits:\n$bits"
 release=$(curl -sL https://api.github.com/repos/PowerShell/PowerShell/releases/latest)
 echo -e "\$release:\n$release"
-package=$(echo -E $release | jq -r ".assets[].browser_download_url" | grep "linux-arm${bits}.tar.gz")
-echo -e "\$package:\n$package"
+
+# Check if GitHub API rate limit was exceeded
+if echo "$release" | grep -q "API rate limit exceeded"; then
+{{- if .is_ci }}
+    echo "GitHub API rate limit exceeded, falling back to hardcoded PowerShell URL"
+    package="https://github.com/PowerShell/PowerShell/releases/download/v7.5.4/powershell-7.5.4-linux-arm64.tar.gz"
+{{- else }}
+    >&2 echo "GitHub API rate limit exceeded. Please try again later or authenticate."
+    exit 1
+{{- end }}
+else
+    package=$(echo -E $release | jq -r ".assets[].browser_download_url" | grep "linux-arm${bits}.tar.gz")
+    echo -e "\$package:\n$package"
+    if [ -z "$package" ]; then
+        >&2 echo "Failed to find PowerShell download URL for linux-arm${bits}"
+        exit 1
+    fi
+fi
+
 wget $package
 
 # Make folder to put powershell if it doesn't exist yet
