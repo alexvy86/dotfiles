@@ -24,11 +24,11 @@ sudo apt-get install libssl1.1 -y || sudo apt-get install libssl3 -y;
 
 # Grab the latest tar.gz
 bits=$(getconf LONG_BIT)
-echo "\$bits:\n$bits"
+echo -e "\$bits:\n$bits"
 release=$(curl -sL https://api.github.com/repos/PowerShell/PowerShell/releases/latest)
-echo "\$release:\n$release"
+echo -e "\$release:\n$release"
 package=$(echo -E $release | jq -r ".assets[].browser_download_url" | grep "linux-arm${bits}.tar.gz")
-echo "\$package:\n$package"
+echo -e "\$package:\n$package"
 wget $package
 
 # Make folder to put powershell if it doesn't exist yet
