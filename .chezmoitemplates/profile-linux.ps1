@@ -1,10 +1,5 @@
-# This is the "Current user, all hosts" PowerShell profile file so it applies # to all host applications that host
-# PowerShell (e.g. PowerShell ISE, VSCode).
-
-{{ includeTemplate "../.chezmoitemplates/profile.ps1" . -}}
-
 #----------------------------------------------------------
-# Aliases
+# Linux-specific Aliases
 #----------------------------------------------------------
 
 # Use ssh-ident

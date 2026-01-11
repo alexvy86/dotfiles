@@ -1,16 +1,6 @@
 # chezmoi:template:left-delimiter="# {{" right-delimiter=}}
-
-# This file is intended to be sourced by the "Current user, all hosts" PowerShell profile file
-# (at $profile.CurrentUserAllHosts) so it applies to all host applications that host PowerShell
-# (e.g. PowerShell ISE, VSCode).
-#
-# Done this way instead of directly creating the profile file with chezmoi because I have setups
-# where the actual file lives in another drive and I can't update it easily with chezmoi.
-
-# {{ includeTemplate "../.chezmoitemplates/profile.ps1" . -}}
-
 #----------------------------------------------------------
-# Aliases
+# Windows-specific Aliases
 #----------------------------------------------------------
 
 # Chezmoi commmands
