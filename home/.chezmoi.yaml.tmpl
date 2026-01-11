@@ -21,7 +21,8 @@ interpreters:
 # {{- end }}
     args: ["-NoLogo", "-NoProfile"]
 
-# Necessary for CI to work properly
+# Necessary for CI to work properly, because the repo isn't cloned
+# into the default chezmoi working tree path.
 sourceDir: # {{ .chezmoi.workingTree | quote }}
 
 # Do not show scripts in the output of 'chezmoi diff'
