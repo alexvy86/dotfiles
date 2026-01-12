@@ -18,6 +18,8 @@ ignored/**
 # Linux-only files (ignored on non-Linux)
 # ============================================
 {{ if ne .chezmoi.os "linux" }}
+.chezmoiscripts/linux/**
+
 # Shell configuration files
 .bashrc
 .bash_profile
@@ -28,12 +30,6 @@ ignored/**
 .oh-my-zsh/**
 .ssh/**
 .local/**
-
-# Linux shell scripts
-.chezmoiscripts/*.sh
-
-# Linux-specific PowerShell setup (installs pwsh on Linux)
-.chezmoiscripts/*-linux-powershell-setup.ps1
 
 # Linux-specific config snippets
 .config/directories-and-navigation.sh
@@ -51,21 +47,11 @@ ignored/**
 # Windows-only files (ignored on non-Windows)
 # ============================================
 {{ if ne .chezmoi.os "windows" }}
+.chezmoiscripts/windows/**
+
 # Windows app data and paths
 AppData/**
 
-# Windows-specific scripts
-.chezmoiscripts/*.bat
-.chezmoiscripts/*-update-powershell-profile-file.ps1
-.chezmoiscripts/*-install-scoop.ps1
-.chezmoiscripts/*-windows-powershell-setup.ps1
-.chezmoiscripts/*-set-environment-variables.ps1
-.chezmoiscripts/*-enable-ssh-agent.ps1
-.chezmoiscripts/*-install-powertoys.ps1
-.chezmoiscripts/*-add-scoop-buckets.ps1
-.chezmoiscripts/*-install-scoop-apps-user.ps1
-.chezmoiscripts/*-update-windows-terminal.ps1
-.chezmoiscripts/*-windows-customization.ps1
 # Windows-specific config
 .config/powertoys.dsc.yaml
 .config/git-for-windows-installer-settings.ini
