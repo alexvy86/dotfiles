@@ -1,13 +1,6 @@
 # IMPORTANT! Entries in this file must match the *target* paths, not the source paths.
 # So no .tmpl extensions, no dot_ prefixes, etc.
 
-# Readme for Github.com and my TODO file
-README.md
-TODO.md
-
-# Install script for Github Codespaces
-install.sh
-
 # Files under the 'ignored' folder
 ignored/**
 
