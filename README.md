@@ -26,14 +26,15 @@ NOTE: at some point I suggested that the `PowerShell` app also be installed from
 then became aware of some [limitations](https://learn.microsoft.com/en-us/powershell/scripting/install/installing-powershell-on-windows?view=powershell-7.3#installing-from-the-microsoft-store).
 Now the chezmoi setup installs the `PowerShell` MSIX through `winget`.
 
-2. Install git:
+1. Install git:
+
 ```pwsh
 winget install --exact --id Git.Git --source winget
 ```
 
 ## 1. Install chezmoi
 
-General instructions [here](https://www.chezmoi.io/install/).
+[Official instructions](https://www.chezmoi.io/install/).
 Remember to make sure the path where `chezmoi` was installed is in your active PATH, which probably requires a restart
 of your terminal after running either command below.
 
