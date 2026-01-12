@@ -55,13 +55,11 @@ winget install --exact --id twpayne.chezmoi --source winget;
 
 ### Unix and Windows
 
-NOTE: for my setup, I have to split the `init` and the `apply` commands so the `sourceDir` I override in the chezmoi config file takes effect during `apply`.
-`--guess-repo-url=false` is necessary because otherwise chezmoi rewrites the repo URL in a way that tries to authenticate to the repo, which is public,
-so there is no need to authenticate.
+`--guess-repo-url=false` is necessary because otherwise chezmoi rewrites the repo URL in a way that tries to authenticate to the repo,
+which is public, so there is no need to authenticate.
 
 ```bash
-chezmoi init --apply=false --guess-repo-url=false --verbose https://github.com/alexvy86/dotfiles.git
-chezmoi apply
+chezmoi init --guess-repo-url=false --verbose https://github.com/alexvy86/dotfiles.git
 ```
 
 ## Testing changes to the main chezmoi config template
@@ -89,4 +87,4 @@ for WSL has been installed from the Microsoft Store.
 If that's not the case, the profile to launch Ubuntu might not show up in the profile dropdown in Windows Terminal.
 
 <!-- Links -->
-[windows-terminal-settings-file]: ./windows/AppData/Local/Packages/Microsoft.WindowsTerminal_8wekyb3d8bbwe/LocalState/settings.json
+[windows-terminal-settings-file]: ./home/AppData/Local/Packages/Microsoft.WindowsTerminal_8wekyb3d8bbwe/LocalState/settings.json
