@@ -6,6 +6,15 @@
 # {{- $ubuntu := eq (index .chezmoi.osRelease "id") "ubuntu" -}}
 # {{- $debian := eq (index .chezmoi.osRelease "id") "debian" -}}
 
+hooks:
+  read-source-state:
+    pre:
+# {{- if $windows }}
+      script: # {{ .chezmoi.workingTree }}/home/.chezmoihooks/ensure-pre-requisites-windows.ps1
+# {{- else }}
+      command: # {{ .chezmoi.workingTree }}/home/.chezmoihooks/ensure-pre-requisites-linux.sh
+# {{- end }}
+
 edit:
   command: "code"
   args: ["-r", "--wait"]

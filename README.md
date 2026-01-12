@@ -6,31 +6,30 @@ My `dotfiles` repository, managed with [ChezMoi](https://www.chezmoi.io/).
 
 ## 0. Pre-requisites
 
-Git is required so chezmoi externals of type `git-repo` can be downloaded, which happens before chezmoi starts running scripts, so installing Git with it is not enough.
-
 ### Unix
 
-1. `curl` must be installed. Use your package manager of choice.
-1. Git must be installed. Use your package manager of choice.
+1. `git`
+1. `curl`
+
+Both are installed in most Unix systems by default, and a pre-source-state hook also ensures they are available.
 
 ### Windows
 
-1. Install from the Microsoft Store:
+1. `git`
+1. `winget`
+    - Install the `App Installer` app from the Microsoft Store.
+    It includes the `winget` executable.
+    I haven't found a way to automate its installation here, so it needs to be done manually beforehand.
 
-- The `App Installer` app.
-  It includes the `winget` executable used by this `chezmoi` repo to install other apps.
-  I haven't found a way to automate its installation here, so it needs to be done manually beforehand.
-  - Also make sure to run a command like `winget list --exact Microsoft.PowerShell` to get prompted to accept the source agreement terms.
+A pre-source-state hook ensures that `git` is installed.
 
-NOTE: at some point I suggested that the `PowerShell` app also be installed from the Microsof Store but
+### Notes
+
+Git is required so chezmoi externals of type `git-repo` can be downloaded, which happens before chezmoi starts running scripts, so installing Git with it is not enough.
+
+At some point I suggested that the `PowerShell` app also be installed from the Microsof Store but
 then became aware of some [limitations](https://learn.microsoft.com/en-us/powershell/scripting/install/installing-powershell-on-windows?view=powershell-7.3#installing-from-the-microsoft-store).
 Now the chezmoi setup installs the `PowerShell` MSIX through `winget`.
-
-1. Install git:
-
-```pwsh
-winget install --exact --id Git.Git --source winget
-```
 
 ## 1. Install chezmoi
 
