@@ -12,9 +12,9 @@ if ! chezmoi="$(command -v chezmoi)"; then
   chezmoi="${bin_dir}/chezmoi"
   echo "Installing chezmoi to '${chezmoi}'" >&2
   if command -v curl >/dev/null; then
-    chezmoi_install_script="$(curl -fsSL https://chezmoi.io/get)"
+    chezmoi_install_script="$(curl -fsSL get.chezmoi.io)"
   elif command -v wget >/dev/null; then
-    chezmoi_install_script="$(wget -qO- https://chezmoi.io/get)"
+    chezmoi_install_script="$(wget -qO- get.chezmoi.io)"
   else
     echo "To install chezmoi, you must have curl or wget installed." >&2
     exit 1
@@ -26,10 +26,8 @@ fi
 # POSIX way to get script's dir: https://stackoverflow.com/a/29834779/12156188
 script_dir="$(cd -P -- "$(dirname -- "$(command -v -- "$0")")" && pwd -P)"
 
-# Init first to generate the chezmoi config file, which in my case overrides the sourceDir based on the OS.
-echo "Initializing chezmoi" ;
-"${chezmoi}" init "--source=${script_dir}" --debug ;
+set -- init --apply --source="${script_dir}"
 
-# Now run the actual chezmoi apply. 'exec' will replace the current process with the one running chezmoi.
-echo "Applying chezmoi changes" ;
-exec "${chezmoi}" apply --debug ;
+echo "Running 'chezmoi $*'" >&2
+# exec: replace current process with chezmoi
+exec "$chezmoi" "$@"
