@@ -32,3 +32,7 @@ Get-Content -Path "$(chezmoi source-path)/.chezmoi.yaml.tmpl" | chezmoi execute-
 
 # Search for commits that contain a specific string
 git log -S <string_to_search> --source -- <path_to_search>
+
+# Reset commit author for all commits AFTER the specified one
+git rebase <commit_hash> -x 'git commit --amend --reset-author --no-edit --date="$(git log -n 1 --format=%aD)"'
+$ commit_hash: git log -n 10 --pretty=format:'%C(yellow)%s%C(reset) | %C(green)%h%C(reset) | %C(blue)%aI%C(reset) | %H' --color=always --- --column 4 --delimiter ' \| '
