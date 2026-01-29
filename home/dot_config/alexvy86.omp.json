@@ -22,7 +22,7 @@
     "Separator": "<p:separator> \ue0b1 </>"
   },
   "transient_prompt": {
-    "template": " {{ if gt .Code 0 }}<p:error>\uf00d ({{ .Code }}){{ else }}<p:success>\uf00c{{ end }} {{ .Segments.Executiontime.FormattedMs }}</>\n[<p:ocean-blue>{{ .PromptCount }}</>][<p:orange>{{ now | date \"15:04:05\" }}</>] ",
+    "template": " {{ if gt .Code 0 }}<p:error>\uf00d ({{ .Code }}){{ else }}<p:success>\uf00c{{ end }} {{ .Segments.Executiontime.FormattedMs }}</>\n[<p:ocean-blue>{{ .PromptCount }}</>][<p:orange>{{ now | date \"2006-01-02 15:04:05\" }}</>] ",
     "foreground": "p:white"
   },
   "console_title_template": "{{if .Root}}root :: {{end}}{{.Shell}} :: {{.Folder}}",
