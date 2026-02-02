@@ -1,3 +1,20 @@
+$PowershellExecutable = "pwsh.exe"; # Use "powershell.exe" for Windows Powershell (<= 5.0). Might need to update the interpreters.ps1.command in .chezmoi.yaml.tmpl
+
+# Self-elevate the script if required
+# Taken from chezmoi's documentation: https://www.chezmoi.io/user-guide/machines/windows/
+if (-Not ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] 'Administrator')) {
+  if ([int](Get-CimInstance -Class Win32_OperatingSystem | Select-Object -ExpandProperty BuildNumber) -ge 6000) {
+    $CommandLine = "-File `"" + $MyInvocation.MyCommand.Path + "`" " + $MyInvocation.UnboundArguments;
+    $process = Start-Process -Wait -PassThru -FilePath $PowershellExecutable -Verb Runas -ArgumentList $CommandLine;
+    if ($process.ExitCode -ne 0) {
+      Write-Host -ForegroundColor Red "$StepName - Error running elevated script";
+      Exit $process.ExitCode;
+    }
+    Write-Host -ForegroundColor Green "$StepName - Done";
+    Exit;
+  }
+}
+
 $StepName = "Updating registry settings";
 Write-Host -ForegroundColor Cyan $StepName;
 
@@ -75,6 +92,23 @@ $settingsToChange += @{
 	DesiredValue = 0;
 };
 
+# Disable search box in Taskbar in Windows 11
+# Just don't like it.
+$settingsToChange += @{
+	Path         = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Search";
+	Name         = "SearchboxTaskbarMode";
+	DesiredValue = 0;
+};
+
+# Disable web results in Start Menu search in Windows 11
+# Just don't like it and it makes results slower. Requires elevation.
+$settingsToChange += @{
+	Path         = "HKCU:\Software\Policies\Microsoft\Windows\Explorer";
+	Name         = "DisableSearchBoxSuggestions";
+	DesiredValue = 1;
+};
+
+
 # TODO: set key to cause SSH connections into a PC to run bash.exe instead of cmd.exe, i.e. conncet to WSL2
 # New-ItemProperty -Path "HKLM:\SOFTWARE\OpenSSH" -Name DefaultShell -Value "C:\WINDOWS\System32\bash.exe" -PropertyType String -Force
 
@@ -101,3 +135,5 @@ $settingsToChange | ForEach-Object {
 }
 
 Write-Host -ForegroundColor Green "$StepName - Done";
+Write-Host "Press ENTER to continue";
+Read-Host;
