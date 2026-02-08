@@ -14,8 +14,11 @@ ignored/**
 .chezmoiscripts/linux/**
 
 # Shell configuration files
-.bashrc
-.bash_profile
+# Normally .bashrc and .bash_profile wouldn't be necessary on Windows,
+# but since Claude Code uses GitBash, it needs them for things to work correctly
+# (e.g. pnpm being available).
+# .bashrc
+# .bash_profile
 .zshrc
 .zshenv
 .profile

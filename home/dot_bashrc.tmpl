@@ -1,6 +1,14 @@
 # shellcheck shell=bash
 # chezmoi:template:left-delimiter="# {{" right-delimiter=}}
 
+# {{ if eq .chezmoi.os "windows" }}
+# Enable fnm auto-use when opening a folder with a .node-version or .nvmrc file.
+# shellcheck disable=SC2312
+if [[ -n "$(command -v fnm)" ]]; then
+  # shellcheck disable=SC2312
+  eval "$(fnm env --use-on-cd)"
+fi
+# {{ else }}
 # ~/.bashrc: executed by bash(1) for non-login shells.
 # see /usr/share/doc/bash/examples/startup-files (in the package bash-doc) for examples
 # Since this won't run for login shells, there's a bit of a dance between .profile and .bashrc
@@ -72,3 +80,4 @@ fi
 # Oh-My-Zsh is zsh-only. Oh-My-Posh works with bash.
 # shellcheck source=./dot_config/use-ohmyposh.sh
 source ~/.config/use-ohmyposh.sh
+# {{ end }}
