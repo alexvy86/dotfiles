@@ -36,4 +36,11 @@ if ($gcmInstalled) {
 Write-Host "Configuring Git Credential Manager...";
 git-credential-manager configure;
 
+if ($LASTEXITCODE -ne 0) {
+  Write-Warning "Git Credential Manager installed but configuration failed";
+  Write-Warning "You may need to run 'git-credential-manager configure' manually";
+  Write-Host -ForegroundColor Red "$StepName - Configuration Failed";
+  exit 1;
+}
+
 Write-Host -ForegroundColor Green "$StepName - Done";
