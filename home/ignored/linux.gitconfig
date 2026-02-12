@@ -6,6 +6,3 @@
 
 [mergetool "BeyondCompare"]
 	trustExitCode = true
-
-[credential]
-	helper = manager
