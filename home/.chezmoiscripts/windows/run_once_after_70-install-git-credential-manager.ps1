@@ -18,7 +18,7 @@ if ($gcmInstalled) {
   Write-Host "Installing Git Credential Manager via winget...";
   
   # Install Git Credential Manager using winget
-  $result = winget install --exact --id Git.GCM --source winget --silent --accept-package-agreements --accept-source-agreements;
+  winget install --exact --id Git.GCM --source winget --silent --accept-package-agreements --accept-source-agreements;
   
   if ($LASTEXITCODE -ne 0) {
     Write-Error "Failed to install Git Credential Manager via winget";
