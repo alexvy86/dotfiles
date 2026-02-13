@@ -16,6 +16,9 @@
 # Needed to work with the some ADO repos that use git-lfs so *have* to use https instead of ssh
 # Following instructions from https://github.com/git-ecosystem/git-credential-manager/blob/release/docs/wsl.md#windows-subsystem-for-linux-wsl
 [credential]
+	# Reset any previously configured helpers (from base gitconfig)
+	helper =
+	# Use the Windows GCM executable from WSL
 	helper = /mnt/c/Program\\ Files/Git/mingw64/bin/git-credential-manager.exe
 [credential "https://dev.azure.com"]
 	useHttpPath = true
