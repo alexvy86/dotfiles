@@ -87,9 +87,6 @@
 	process = git-lfs filter-process
 	clean = git-lfs clean -- %f
 
-[credential]
-	helper = manager
-
 # {{ if .is_linux -}}
 # {{ if .is_wsl }}
 # {{- include "ignored/wsl.gitconfig" -}}
