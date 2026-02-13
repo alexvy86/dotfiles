@@ -16,3 +16,6 @@
 	# Force use of the ssh executable that comes with windows, instead of the one bundled with Git for Windows,
 	# so ssh-agent integration works properly with the other customizations in my dotfiles.
 	sshCommand = C:/Windows/System32/OpenSSH/ssh.exe
+
+[credential]
+	helper = manager
