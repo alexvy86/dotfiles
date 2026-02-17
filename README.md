@@ -17,7 +17,7 @@ Both are installed in most Unix systems by default, and a pre-source-state hook 
 
 1. `git`
 1. `winget`
-    - Install the `App Installer` app from the Microsoft Store.
+    - Install the [`App Installer`](https://apps.microsoft.com/detail/9nblggh4nns1?hl=en-US&gl=US) app from the Microsoft Store.
     It includes the `winget` executable.
     I haven't found a way to automate its installation here, so it needs to be done manually beforehand.
 
