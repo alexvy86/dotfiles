@@ -62,6 +62,18 @@ which is public, so there is no need to authenticate.
 chezmoi init --guess-repo-url=false --verbose https://github.com/alexvy86/dotfiles.git
 ```
 
+Then
+
+```bash
+chezmoi apply
+```
+
+In Windows, install the apps I like by default with
+
+```pwsh
+install-apps;
+```
+
 ## Testing changes to the main chezmoi config template
 
 This command is useful for testing changes to the `.chezmoi.yaml.tmpl` file, since space-handling with the template syntax is a *pain* to use correctly.
