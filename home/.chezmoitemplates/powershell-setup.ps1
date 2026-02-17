@@ -28,8 +28,6 @@ Write-Host "Installing module git-aliases";
 scoop install git-aliases;
 Write-Host "Installing module posh-git";
 scoop install posh-git;
-Write-Host "Installing module Terminal-Icons";
-scoop install terminal-icons; # Note: Terminal-Icons requires a font from https://www.nerdfonts.com/
 
 {{ else }}
 
@@ -38,8 +36,6 @@ Write-Host "Installing module git-aliases";
 Install-Module git-aliases -Scope CurrentUser -AllowClobber;
 Write-Host "Installing module posh-git";
 Install-Module posh-git -Scope CurrentUser -Force;
-Write-Host "Installing module Terminal-Icons";
-Install-Module Terminal-Icons; # Note: Terminal-Icons requires a font from https://www.nerdfonts.com/
 
 {{ end -}}
 
