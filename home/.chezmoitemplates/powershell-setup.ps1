@@ -24,10 +24,15 @@ function Update-Path {
 
 Update-Path;
 
+# Unfortunately, scoop installs itself as a ps1 script that won't cause an error to
+# terminate the calling script even when $PSNativeCommandUseErrorActionPreference = $true
+# plus $ErrorActionPreference = "Stop". So we need to check the exit code manually.
 Write-Host "Installing module git-aliases";
 scoop install git-aliases;
+if ($LASTEXITCODE -ne 0) { throw "Failed to install module 'git-aliases'. Exit code: $LASTEXITCODE" }
 Write-Host "Installing module posh-git";
 scoop install posh-git;
+if ($LASTEXITCODE -ne 0) { throw "Failed to install module 'posh-git'. Exit code: $LASTEXITCODE" }
 
 {{ else }}
 
