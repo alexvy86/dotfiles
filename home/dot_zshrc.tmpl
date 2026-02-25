@@ -53,10 +53,7 @@ if [[ -n "$(command -v fnm)" ]]; then
 fi
 
 # Use fzf
-# shellcheck disable=SC1091,SC2154
-source "${HOMEBREW_PREFIX}/opt/fzf/shell/key-bindings.zsh"
-# shellcheck disable=SC1091
-source "${HOMEBREW_PREFIX}/opt/fzf/shell/completion.zsh"
+source <(fzf --zsh)
 
 # Enable the navi widget
 # shellcheck disable=SC2312
