@@ -48,7 +48,37 @@ fi
 # Other common setup
 ###############################
 
+# Personal preference for fzf layout
+export FZF_DEFAULT_OPTS="--style=full --preview 'fzf-preview.sh {}'  --color 'border:#aaaaaa,label:#cccccc' --color 'preview-border:#9999cc,preview-label:#ccccff'  --color 'list-border:#669966,list-label:#99cc99'  --color 'input-border:#996666,input-label:#ffcccc'"
+
 export FZF_DEFAULT_COMMAND='
   (git ls-tree -t -r --name-only HEAD ||
    find * -name ".*" -prune -o -type f -print -o -type l -print) 2> /dev/null'
 export FZF_CTRL_T_COMMAND="${FZF_DEFAULT_COMMAND}"
+
+_fzf_comprun() {
+  local command=$1
+  shift
+
+  case "$command" in
+    # For `pnpm`, list available scripts
+    pnpm)
+      jq -r '.scripts | keys[]' package.json 2>/dev/null | fzf "$@"
+      ;;
+    # For `npm run`, list available scripts.
+    # Note that _fzf_comprun only gets the main command (e.g. just `npm` not `npm run`)
+    # so we need to check the command line to see if we're running `npm run`.
+    # BUFFER is for zsh, COMP_LINE is for bash.
+    npm)
+      if [ "$(echo "${BUFFER:-$COMP_LINE}" | awk '{print $2}')" = "run" ]; then
+        jq -r '.scripts | keys[]' package.json 2>/dev/null | fzf "$@"
+      else
+        fzf "$@"
+      fi
+      ;;
+    # For anything else, just run fzf normally
+    *)
+      fzf "$@"
+      ;;
+  esac
+}
