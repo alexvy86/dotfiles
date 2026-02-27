@@ -21,10 +21,19 @@ Update-Path;
 # Unfortunately, scoop installs itself as a ps1 script that won't cause an error to
 # terminate the calling script even when $PSNativeCommandUseErrorActionPreference = $true
 # plus $ErrorActionPreference = "Stop". So we need to check the exit code manually.
-scoop bucket add extras;
-if ($LASTEXITCODE -ne 0) { throw "Failed to install bucket 'extras'. Exit code: $LASTEXITCODE" }
-scoop bucket add nerd-fonts;
-if ($LASTEXITCODE -ne 0) { throw "Failed to install bucket 'nerd-fonts'. Exit code: $LASTEXITCODE" }
+$existingBuckets = (scoop bucket list).Name
+if ("extras" -notin $existingBuckets) {
+    scoop bucket add extras;
+    if ($LASTEXITCODE -ne 0) { throw "Failed to install bucket 'extras'. Exit code: $LASTEXITCODE" }
+} else {
+  Write-Host "Bucket 'extras' already exists, skipping installation.";
+}
+if ("nerd-fonts" -notin $existingBuckets) {
+    scoop bucket add nerd-fonts;
+    if ($LASTEXITCODE -ne 0) { throw "Failed to install bucket 'nerd-fonts'. Exit code: $LASTEXITCODE" }
+} else {
+  Write-Host "Bucket 'nerd-fonts' already exists, skipping installation.";
+}
 scoop update;
 if ($LASTEXITCODE -ne 0) { throw "Failed to update scoop. Exit code: $LASTEXITCODE" }
 
