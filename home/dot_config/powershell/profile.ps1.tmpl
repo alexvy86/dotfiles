@@ -96,6 +96,9 @@ Set-PSReadLineKeyHandler -Chord Ctrl+PageUp     -Function ScrollDisplayUpLine;
 function Private:eza { eza --long --almost-all --links --header --follow-symlinks --total-size --time-style long-iso @args; }
 function Private:ezat {	eza --long --almost-all --links --header --follow-symlinks --total-size --time-style long-iso --tree @args; }
 
+# pnpm shortcuts
+function pinf { pnpm install --no-frozen-lockfile @args; }
+
 #----------------------------------------------------------
 # FNM
 #----------------------------------------------------------
