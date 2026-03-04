@@ -1,35 +1,20 @@
 # shellcheck shell=bash
-# chezmoi:template:left-delimiter="# {{" right-delimiter=}}
 
-# {{ if eq .chezmoi.os "windows" }}
-# Enable fnm auto-use when opening a folder with a .node-version or .nvmrc file.
-# shellcheck disable=SC2312
-if [[ -n "$(command -v fnm)" ]]; then
-  # shellcheck disable=SC2312
-  eval "$(fnm env --use-on-cd)"
-fi
-# {{ else }}
-# ~/.bashrc: executed by bash(1) for non-login shells.
-# see /usr/share/doc/bash/examples/startup-files (in the package bash-doc) for examples
-# Since this won't run for login shells, there's a bit of a dance between .profile and .bashrc
-
-# if not coming from .bash_profile and .bash_profile exists
-if [[ -z "${COMING_FROM_BASH_PROFILE}" && -f "${HOME}/.bash_profile" ]]; then
-  export COMING_FROM_BASHRC=true
+# Load .profile
+if [[ -r "${HOME}/.profile" ]]; then
   # shellcheck source=./dot_profile
-  source "${HOME}/.bash_profile"
-  unset COMING_FROM_BASHRC
+  source "${HOME}/.profile"
 fi
-
-# If not running interactively, don't do anything
-case $- in
-*i*) ;;
-*) return ;;
-esac
 
 ###############################
 # Base configuration
 ###############################
+
+# Prep so completion system (and potentially other plugins) can init correctly.
+# Copied from OhMyZsh's main script.
+autoload -U compaudit compinit zrecompile
+# Need to actually call compinit so RaspiOS doesn't complain about compdef not being defined when sourcing zsh's git plugin.
+compinit
 
 # shellcheck source=./dot_config/directories-and-navigation.sh
 source ~/.config/directories-and-navigation.sh;
@@ -48,33 +33,41 @@ source ~/.config/misc.sh;
 # Key bindings
 ###############################
 
+# Ctrl + left/right arrows, move forward or backwards in the line
+bindkey "^[[1;5C" forward-word
+bindkey "^[[1;5D" backward-word
 
 ###############################
 # Tools & applications
 ###############################
 
+# Use zsh-autocomplete
+#source ~/.config/zsh/zsh-autocomplete.sh
+
 # Enable fnm auto-use when opening a folder with a .node-version or .nvmrc file.
 # shellcheck disable=SC2312
 if [[ -n "$(command -v fnm)" ]]; then
   # shellcheck disable=SC2312
-  eval "$(fnm env --use-on-cd)"
+  eval "$(fnm env --use-on-cd)";
 fi
 
 # Use fzf
-eval "$(fzf --bash)"
+source <(fzf --zsh)
 
 # Enable the navi widget
 # shellcheck disable=SC2312
 if [[ -n "$(command -v navi)" ]]; then
   # shellcheck disable=SC2312
-  eval "$(navi widget bash)"
+  eval "$(navi widget zsh)";
 fi
 
 ###############################
 # Prompt
 ###############################
 
-# Oh-My-Zsh is zsh-only. Oh-My-Posh works with bash.
+# Use Oh-My-Posh
 # shellcheck source=./dot_config/use-ohmyposh.sh
 source ~/.config/use-ohmyposh.sh
-# {{ end }}
+
+# Use Oh-My-Zsh
+#source ~/.config/use-ohmyzsh.sh

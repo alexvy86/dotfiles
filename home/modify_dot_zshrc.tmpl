@@ -1,0 +1,15 @@
+#!/bin/bash
+# shellcheck shell=bash
+# chezmoi:template:left-delimiter="# {{" right-delimiter=}}
+
+SENTINEL="# >>> chezmoi managed above <<<"
+
+cat << 'MANAGED'
+# {{ include "ignored/zshrc-content.sh" -}}
+MANAGED
+
+echo "" # Just an empty line before the sentinel for readability
+echo "$SENTINEL"
+
+# Preserve anything added below the sentinel by tools or local config
+sed -n "/^${SENTINEL}/,\$p" | tail -n +2

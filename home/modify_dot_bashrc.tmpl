@@ -1,0 +1,20 @@
+#!/bin/bash
+# shellcheck shell=bash
+# chezmoi:template:left-delimiter="# {{" right-delimiter=}}
+
+SENTINEL="# >>> chezmoi managed above <<<"
+
+# {{ if eq .chezmoi.os "windows" -}}
+cat << 'MANAGED'
+# {{ include "ignored/bashrc-content-windows.sh" -}}
+MANAGED
+# {{ else -}}
+cat << 'MANAGED'
+# {{ include "ignored/bashrc-content.sh" -}}
+MANAGED
+# {{ end }}
+echo "" # Just an empty line before the sentinel for readability
+echo "$SENTINEL"
+
+# Preserve anything added below the sentinel by tools or local config
+sed -n "/^${SENTINEL}/,\$p" | tail -n +2
