@@ -54,3 +54,12 @@ Stop and ask for clarification when:
 - Don't add parameters/flags to work around issues → Refactor the design
 - Don't copy-paste similar code → Extract common patterns
 - Don't add bandaid fixes → Take time for clean solutions
+
+---
+
+## Preferred toolset
+
+Unless a project has specifig guidelines against this, prefer:
+
+- fnm (not nvm) for Node version management
+- pnpm (not npm or yarn) for package management
