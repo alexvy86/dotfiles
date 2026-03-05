@@ -48,6 +48,12 @@ fi
 # Other common setup
 ###############################
 
+# If on WSL, set the default browser to Edge on Windows.
+# This allows things like `xdg-open` to work correctly in WSL.
+if grep -qi microsoft /proc/version 2>/dev/null; then
+    export BROWSER="/mnt/c/Program Files (x86)/Microsoft/Edge/Application/msedge.exe"
+fi
+
 # Personal preference for fzf layout
 export FZF_DEFAULT_OPTS="--style=full --preview 'fzf-preview.sh {}'  --color 'border:#aaaaaa,label:#cccccc' --color 'preview-border:#9999cc,preview-label:#ccccff'  --color 'list-border:#669966,list-label:#99cc99'  --color 'input-border:#996666,input-label:#ffcccc'"
 
