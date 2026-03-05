@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# If running in WSL and Windows-space executables for key tools are deteceted,
+# If running in WSL and Windows-space executables for key tools are detected,
 # display a warning message to the user inside the Claude session.
 
 is_wsl() {
