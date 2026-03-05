@@ -1,0 +1,20 @@
+# chezmoi:modify-template
+# chezmoi:template:left-delimiter="# {{" right-delimiter=}}
+
+# {{- $sentinel := "# >>> chezmoi managed above <<<" -}}
+# {{ if eq .chezmoi.os "windows" -}}
+# {{ include "ignored/bashrc-content-windows.sh" -}}
+# {{ else -}}
+# {{ include "ignored/bashrc-content.sh" -}}
+# {{ end }}
+
+# {{ $sentinel }}
+# {{ $current := .chezmoi.stdin | default "" -}}
+# {{ if ne $current "" -}}
+# {{   $sentinelEscaped := regexQuoteMeta $sentinel -}}
+# {{   $parts := regexSplit $sentinelEscaped $current 2 -}}
+# {{   if ge (len $parts) 2 -}}
+# {{     $afterSentinel := index $parts 1 | trimPrefix "\n" -}}
+# {{     $afterSentinel -}}
+# {{   end -}}
+# {{ end -}}
