@@ -99,6 +99,9 @@ function Private:ezat {	eza --long --almost-all --links --header --follow-symlin
 # pnpm shortcuts
 function pinf { pnpm install --no-frozen-lockfile @args; }
 
+# Things git-aliases doesn't have an alias for but I want one.
+function gbD { git branch -d --force @args; }
+
 #----------------------------------------------------------
 # FNM
 #----------------------------------------------------------
