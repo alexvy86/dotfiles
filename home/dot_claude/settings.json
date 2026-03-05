@@ -8,6 +8,10 @@
           {
             "type": "command",
             "command": "bash ~/.claude/hooks/check-wsl-tools.sh"
+          },
+          {
+            "type": "command",
+            "command": "bash ~/.claude/hooks/check-windows.sh"
           }
         ]
       }
