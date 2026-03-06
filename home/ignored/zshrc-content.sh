@@ -16,6 +16,13 @@ autoload -U compaudit compinit zrecompile
 # Need to actually call compinit so RaspiOS doesn't complain about compdef not being defined when sourcing zsh's git plugin.
 compinit
 
+# TODO: keep playing with fzf-tab, decide if we want it
+# From fzf-tab's README:
+# > fzf-tab needs to be loaded after compinit, but before plugins which will wrap widgets,
+# > such as zsh-autosuggestions or fast-syntax-highlighting".
+# > Completions should be configured before compinit, as stated in the zsh-completions manual installation guide.
+# source ~/.config/zsh/fzf-tab/fzf-tab.plugin.zsh
+
 # shellcheck source=./dot_config/directories-and-navigation.sh
 source ~/.config/directories-and-navigation.sh;
 # shellcheck source=./dot_config/fluid-framework.sh

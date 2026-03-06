@@ -47,4 +47,8 @@
 [".config/zsh/zsh-autocomplete"]
     type = "git-repo"
     url = "https://github.com/marlonrichert/zsh-autocomplete.git"
+
+[".config/zsh/fzf-tab"]
+    type = "git-repo"
+    url = "https://github.com/Aloxaf/fzf-tab.git"
 {{- end }}
