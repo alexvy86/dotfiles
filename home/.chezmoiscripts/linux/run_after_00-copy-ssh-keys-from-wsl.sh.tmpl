@@ -15,10 +15,19 @@ WIN_SSH_DIR=/mnt/c/Users/${WIN_USERNAME}/.ssh;
 if [[ ! -d "${WIN_SSH_DIR}" ]]; then
   echo "'${WIN_SSH_DIR}' does not exist. Skipping SSH keys copy.";
 	exit 0;
-else
-  echo "Copying SSH keys from '${WIN_SSH_DIR}' to '${SSH_DIR}'.";
-  cp --target-directory="${SSH_DIR}" "${WIN_SSH_DIR}/config" "${WIN_SSH_DIR}"/id*;
+fi
+
+echo "Copying SSH keys from '${WIN_SSH_DIR}' to '${SSH_DIR}'.";
+[[ -f "${WIN_SSH_DIR}/config" ]] && cp "${WIN_SSH_DIR}/config" "${SSH_DIR}/";
+for f in "${WIN_SSH_DIR}"/id*; do
+  [[ -f "$f" ]] && cp "$f" "${SSH_DIR}/";
+done
+
+# If any files were copied, set permissions correctly.
+if ls -A1q "${SSH_DIR}" | grep -q .; then
   chmod 600 "${SSH_DIR}"/*;
+else
+  echo "No SSH keys found in '${WIN_SSH_DIR}'. Nothing copied.";
 fi
 
 # {{ end -}}
