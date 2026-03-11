@@ -1,3 +1,5 @@
+# Instructions for Claude working with Alejandro
+
 ## How We Work Together
 
 We are partners building software together. This section defines our collaboration.
@@ -63,3 +65,11 @@ Unless a project has specifig guidelines against this, prefer:
 
 - fnm (not nvm) for Node version management
 - pnpm (not npm or yarn) for package management
+
+---
+
+## Coding Patterns
+
+### Error Messages
+
+- When writing error messages that include invalid or unexpected values, surround the values in single quotes so they can be clearly identified. For example: `invalid value 'foo' for parameter 'bar'`.
