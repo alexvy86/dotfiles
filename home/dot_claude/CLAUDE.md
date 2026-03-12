@@ -73,3 +73,7 @@ Unless a project has specifig guidelines against this, prefer:
 ### Error Messages
 
 - When writing error messages that include invalid or unexpected values, surround the values in single quotes so they can be clearly identified. For example: `invalid value 'foo' for parameter 'bar'`.
+
+### Typescript
+
+- Unless a codebase already uses `null`, prefer `undefined` over it.
