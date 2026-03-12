@@ -63,19 +63,17 @@ function private:wingetup {
         $line.Substring($start, $end - $start).Trim()
     }
 
-    # Data rows start after header + separator; skip non-package lines:
-    #   - "N upgrades available" summary
-    #   - secondary section separator lines (all dashes)
-    #   - secondary section header ("Name  Id  Version ...")
-    #   - secondary section preamble text ("The following packages...")
-    # The final filter ensures Available looks like a version number, which catches
-    # any remaining non-package lines that slipped through.
-    $packages = $rawOutput[($headerLineIdx + 2)..($rawOutput.Count - 1)] |
-        Where-Object {
-            $_ -notmatch '^\d+ upgrade' -and
-            $_ -notmatch '^\s*-[-\s]*$' -and
-            $_ -notmatch '\bName\b.*\bId\b.*\bVersion\b'
-        } |
+    # Data rows start after header + separator.
+    # winget may emit a secondary section ("The following packages have a version that...") for
+    # pinned/explicit packages — stop before it, as those can't be upgraded without --include-pinned.
+    $dataStart = $headerLineIdx + 2
+    $dataEnd   = $rawOutput.Count - 1
+    for ($j = $dataStart; $j -le $dataEnd; $j++) {
+        if ($rawOutput[$j] -match '^The following') { $dataEnd = $j - 1; break }
+    }
+
+    $packages = $rawOutput[$dataStart..$dataEnd] |
+        Where-Object { $_ -notmatch '^\d+ upgrade' -and $_ -notmatch '^\s*[\-─]+\s*$' } |
         ForEach-Object {
             $line = $_
             [PSCustomObject]@{
@@ -85,7 +83,7 @@ function private:wingetup {
                 Available = & $getField $line $availableIdx
             }
         } |
-        Where-Object { $_.Id -and $_.Available -match '^\d' }
+        Where-Object { $_.Id -match '\.' -and $_.Available -match '^\d' }
 
     if (!$packages -or @($packages).Count -eq 0) {
         Write-Host "No upgrades available." -ForegroundColor Green
