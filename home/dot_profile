@@ -51,7 +51,8 @@ fi
 # If on WSL, set the default browser to Edge on Windows.
 # This allows things like `xdg-open` to work correctly in WSL.
 if grep -qi microsoft /proc/version 2>/dev/null; then
-    export BROWSER='"/mnt/c/Program Files (x86)/Microsoft/Edge/Application/msedge.exe"'
+    # This works in conjunction with a symlink in ~/bin/msedge that points to the Edge executable on Windows.
+    export BROWSER="${HOME}/bin/msedge"
 fi
 
 # Personal preference for fzf layout

@@ -1,0 +1,8 @@
+{{- /*
+https://github.com/microsoft/WSL/issues/8892 has details on the issues getting Unix tools to open a browser
+on Windows when they are invoken in WSL.
+Setting BROWSER to the path to the Windows browser is the initial idea, but some tools that use xdg-open
+won't like it because the path has spaces (see https://unix.stackexchange.com/a/715404).
+The workaround is to create a symlink that doesn't have them, as described in https://github.com/microsoft/WSL/issues/8892#issuecomment-1540161907.
+*/ -}}
+{{ if .is_wsl }}/mnt/c/Program Files (x86)/Microsoft/Edge/Application/msedge.exe{{ end }}
