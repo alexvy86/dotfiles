@@ -40,6 +40,8 @@ source ~/.config/misc.sh;
 # Key bindings
 ###############################
 
+# Ctrl-backspace, delete word to the left of the cursor
+bindkey "^H" backward-kill-word
 # Ctrl + left/right arrows, move forward or backwards in the line
 bindkey "^[[1;5C" forward-word
 bindkey "^[[1;5D" backward-word
