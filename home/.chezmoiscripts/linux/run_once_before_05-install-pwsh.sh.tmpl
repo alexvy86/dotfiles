@@ -112,7 +112,7 @@ source /etc/os-release;
 
 # Download the Microsoft repository GPG keys
 # shellcheck disable=SC2154 # 'source /etc/os-release' above sets $VERSION_ID
-wget -q https://packages.microsoft.com/config/debian/"${VERSION_ID}"/packages-microsoft-prod.deb;
+wget -q https://packages.microsoft.com/config/debian/"${VERSION_ID}"/packages-microsoft-prod.deb ;
 
 # Register the Microsoft repository GPG keys
 sudo dpkg -i packages-microsoft-prod.deb;
