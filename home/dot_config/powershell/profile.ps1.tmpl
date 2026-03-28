@@ -93,8 +93,14 @@ Set-PSReadLineKeyHandler -Chord Ctrl+PageUp     -Function ScrollDisplayUpLine;
 # to the actual command, not the function.
 # By the same token, `eza` inside the `ezat` function refers to the `eza` command,
 # not the function, so I need to specify all parameters again
-function Private:eza { eza --long --almost-all --links --header --follow-symlinks --total-size --time-style long-iso @args; }
-function Private:ezat {	eza --long --almost-all --links --header --follow-symlinks --total-size --time-style long-iso --tree @args; }
+# Also note, as of 2026-03-28 --total-size doesn't have any effect on Windows,
+# but leaving it here in case I ever leverage these in PowerShell in Linux.
+# See https://github.com/eza-community/eza/issues/647 and https://github.com/eza-community/eza/pull/1714
+function Private:eza { eza --long --almost-all --links --header --follow-symlinks --time-style long-iso @args; }
+function Private:ezas { eza --long --almost-all --links --header --follow-symlinks --time-style long-iso --total-size @args; }
+function Private:ezat {	eza --long --almost-all --links --header --follow-symlinks --time-style long-iso --tree @args; }
+function Private:ezats {	eza --long --almost-all --links --header --follow-symlinks --time-style long-iso --tree --total-size @args; }
+
 
 # pnpm shortcuts
 function pinf { pnpm install --no-frozen-lockfile @args; }

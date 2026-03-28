@@ -55,8 +55,10 @@ alias gwtls = git worktree list
 alias gwtmv = git worktree move
 alias gwtrm = git worktree remove
 
-alias eza = eza --long --almost-all --links --header --follow-symlinks --total-size --time-style long-iso
-alias ezat = eza --long --almost-all --links --header --follow-symlinks --total-size --time-style long-iso --tree
+alias eza = eza --long --almost-all --links --header --follow-symlinks --time-style long-iso
+alias ezas = eza --long --almost-all --links --header --follow-symlinks --time-style long-iso --total-size
+alias ezat = eza --long --almost-all --links --header --follow-symlinks --time-style long-iso --tree
+alias ezats = eza --long --almost-all --links --header --follow-symlinks --time-style long-iso --tree --total-size
 
 alias wlua = winget list --upgrade-available
 

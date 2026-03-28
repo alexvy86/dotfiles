@@ -65,5 +65,8 @@ alias la="ls -lAFHh"
 alias lar="ls -lARFHh"
 
 # Eza: better file listing tool
-alias eza="eza --long --almost-all --links --header --follow-symlinks --total-size --time-style long-iso"
+# Eza: better file listing tool
+alias eza="eza --long --almost-all --links --header --follow-symlinks --time-style long-iso"
+alias ezas="eza --total-size"
 alias ezat="eza --tree"
+alias ezats="ezas --tree"
