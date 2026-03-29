@@ -109,6 +109,15 @@ $settingsToChange += @{
 };
 
 
+# Enable "End task" in the taskbar right-click context menu. Applies to Windows 11.
+# This is the setting in System -> Developer Settings -> "End task".
+$settingsToChange += @{
+	Path         = "HKCU:\Software\Microsoft\Windows\CurrentVersion\DeveloperSettings";
+	Name         = "TaskbarEndTask";
+	DesiredValue = 1;
+};
+
+
 # TODO: set key to cause SSH connections into a PC to run bash.exe instead of cmd.exe, i.e. conncet to WSL2
 # New-ItemProperty -Path "HKLM:\SOFTWARE\OpenSSH" -Name DefaultShell -Value "C:\WINDOWS\System32\bash.exe" -PropertyType String -Force
 
