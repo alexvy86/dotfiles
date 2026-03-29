@@ -1,5 +1,3 @@
-# chezmoi:template:left-delimiter="# {{" right-delimiter=}}
-# {{- if not .is_ci -}}
 $ErrorActionPreference = "Stop";
 $StepName = "Installing and configuring PowerToys";
 Write-Host -ForegroundColor Cyan $StepName;
@@ -23,8 +21,3 @@ for ($attempt = 1; $attempt -le $maxRetries; $attempt++) {
 if ($LASTEXITCODE -ne 0) { throw "Failed to apply Winget configuration after $maxRetries attempts. Exit code: $LASTEXITCODE" }
 
 Write-Host -ForegroundColor Green "$StepName - Done";
-# {{- else -}}
-# Skipped: WinGet DSC (winget configure) does not work reliably in CI environments.
-# It requires Windows features and GUI interactions that are not available on headless CI runners.
-Write-Host "Skipping PowerToys installation in CI environment";
-# {{- end }}
