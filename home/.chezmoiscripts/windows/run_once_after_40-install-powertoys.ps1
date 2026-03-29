@@ -3,21 +3,7 @@ $StepName = "Installing and configuring PowerToys";
 Write-Host -ForegroundColor Cyan $StepName;
 
 winget configure --enable;
-
-# On a fresh setup, winget configure --enable needs to install components, and the 'configure'
-# subcommand may not be immediately available in the same session (causing "Unrecognized command"
-# error and exit code -1978335230). Retry a few times with a short delay to handle this.
-$maxRetries = 3;
-$retryDelaySecs = 10;
-for ($attempt = 1; $attempt -le $maxRetries; $attempt++) {
-  winget configure --accept-configuration-agreements --file "$env:USERPROFILE/.config/powertoys.dsc.yaml";
-  if ($LASTEXITCODE -eq 0) { break; }
-  if ($attempt -lt $maxRetries) {
-    Write-Host "winget configure failed (exit code: $LASTEXITCODE). Retrying in $retryDelaySecs seconds (attempt $($attempt + 1)/$maxRetries)...";
-    Start-Sleep -Seconds $retryDelaySecs;
-  }
-}
-
-if ($LASTEXITCODE -ne 0) { throw "Failed to apply Winget configuration after $maxRetries attempts. Exit code: $LASTEXITCODE" }
+winget configure --accept-configuration-agreements --file "$env:USERPROFILE/.config/powertoys.dsc.yaml";
+if ($LASTEXITCODE -ne 0) { throw "winget configure failed with exit code: $LASTEXITCODE" }
 
 Write-Host -ForegroundColor Green "$StepName - Done";
