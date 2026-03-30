@@ -19,3 +19,6 @@
 
 [credential]
 	helper = manager
+	azreposCredentialType=oauth
+	# Notes about msauthUseBroker: https://github.com/git-ecosystem/git-credential-manager/blob/main/docs/windows-broker.md
+	msauthUseBroker=true

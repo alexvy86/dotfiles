@@ -17,5 +17,8 @@
 # Following instructions from https://github.com/git-ecosystem/git-credential-manager/blob/release/docs/wsl.md#windows-subsystem-for-linux-wsl
 [credential]
 	helper = /mnt/c/Program\\ Files/Git/mingw64/bin/git-credential-manager.exe
+	azreposCredentialType=oauth
+	# Notes about msauthUseBroker: https://github.com/git-ecosystem/git-credential-manager/blob/main/docs/windows-broker.md
+	msauthUseBroker=true
 [credential "https://dev.azure.com"]
 	useHttpPath = true
