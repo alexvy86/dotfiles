@@ -110,6 +110,15 @@ sudo apt-get install -y wget;
 # shellcheck disable=SC1091 # Shellcheck shouldn't try to follow this 'source' invocation.
 source /etc/os-release;
 
+# shellcheck disable=SC2154 # 'source /etc/os-release' above sets $VERSION_ID
+
+# Check for Debian 13 (trixie) - Microsoft repository doesn't support it yet
+# shellcheck disable=SC2154 # 'source /etc/os-release' above sets $VERSION_ID
+if [[ "${VERSION_ID}" == "13" ]]; then
+    echo "Skipping PowerShell installation: default installation instructions fail on Debian 13.";
+    exit 0;
+fi
+
 # Download the Microsoft repository GPG keys
 # shellcheck disable=SC2154 # 'source /etc/os-release' above sets $VERSION_ID
 wget -q https://packages.microsoft.com/config/debian/"${VERSION_ID}"/packages-microsoft-prod.deb ;

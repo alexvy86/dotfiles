@@ -1,1 +1,14 @@
+# chezmoi:template:left-delimiter="# {{" right-delimiter=}}
+# {{- if .is_debian }}
+
+# {{- /*
+# Skipping PS configuration in Debian because the default installation instructions fail on Debian 13.
+# A workaround is documented in https://www.reddit.com/r/debian/comments/1n95spb/comment/nco0nr5/
+# but I dot'n want to go through those hoops, and I don't really use Powershell on Linux anyway.
+# */ -}}
+
+# {{- else }}
+
 {{ includeTemplate "../.chezmoitemplates/powershell-setup.ps1" . }}
+
+# {{- end }}
