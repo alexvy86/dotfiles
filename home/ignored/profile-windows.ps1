@@ -83,7 +83,7 @@ function private:wingetup {
                 Available = & $getField $line $availableIdx
             }
         } |
-        Where-Object { $_.Id -match '\.' -and $_.Available -match '^\d' }
+        Where-Object { $_.Id -ne '' }
 
     if (!$packages -or @($packages).Count -eq 0) {
         Write-Host "No upgrades available." -ForegroundColor Green
