@@ -112,10 +112,12 @@ function gbD { git branch -d --force @args; }
 # FNM
 #----------------------------------------------------------
 # Assumes it was installed earlier.
+# Need to set --resolve-engines=false so --version-file-strategy works correctly.
+# See https://github.com/Schniz/fnm/issues/1464#issuecomment-3365904352
 # {{ if .is_windows -}}
-fnm env --use-on-cd --shell "power-shell" | Out-String | Invoke-Expression;
+fnm env --use-on-cd --version-file-strategy=recursive --resolve-engines=false --shell "power-shell" | Out-String | Invoke-Expression;
 # {{- else -}}
-fnm env --use-on-cd | Out-String | Invoke-Expression;
+fnm env --use-on-cd --version-file-strategy=recursive --resolve-engines=false | Out-String | Invoke-Expression;
 # {{- end }}
 
 #----------------------------------------------------------
