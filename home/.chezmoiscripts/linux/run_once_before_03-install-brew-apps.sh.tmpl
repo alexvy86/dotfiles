@@ -11,3 +11,7 @@
 # Need to install fzf with brew instead of apt because the version in apt (0.20.0) is too old
 # and not compatible with navi. See https://github.com/denisidoro/navi/issues/447.
 /home/linuxbrew/.linuxbrew/bin/brew install fzf;
+
+# Note: installing fnm with brew instead of the install script automatically makes fnm completions work
+# (they get installed to /home/linuxbrew/.linuxbrew/share/zsh/site-functions which is in $fpath)
+/home/linuxbrew/.linuxbrew/bin/brew install fnm;
