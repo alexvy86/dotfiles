@@ -2,7 +2,7 @@
 
 # Load .profile
 if [[ -r "${HOME}/.profile" ]]; then
-  # shellcheck source=./dot_profile
+  # shellcheck source=../dot_profile
   source "${HOME}/.profile"
 fi
 
@@ -26,17 +26,17 @@ compinit
 # > Completions should be configured before compinit, as stated in the zsh-completions manual installation guide.
 # source ~/.config/zsh/fzf-tab/fzf-tab.plugin.zsh
 
-# shellcheck source=./dot_config/directories-and-navigation.sh
+# shellcheck source=../dot_config/directories-and-navigation.sh
 source ~/.config/directories-and-navigation.sh;
-# shellcheck source=./dot_config/fluid-framework.sh
+# shellcheck source=../dot_config/fluid-framework.sh
 source ~/.config/fluid-framework.sh;
-# shellcheck source=./dot_config/git.sh
+# shellcheck source=../dot_config/git.sh
 source ~/.config/git.sh;
-# shellcheck source=./dot_config/history.sh
+# shellcheck source=../dot_config/history.sh
 source ~/.config/history.sh;
-# shellcheck source=./dot_config/system-management.sh
+# shellcheck source=../dot_config/system-management.sh
 source ~/.config/system-management.sh;
-# shellcheck source=./dot_config/misc.sh.tmpl
+# shellcheck source=../dot_config/misc.sh.tmpl
 source ~/.config/misc.sh;
 
 ###############################
@@ -80,7 +80,7 @@ fi
 ###############################
 
 # Use Oh-My-Posh
-# shellcheck source=./dot_config/use-ohmyposh.sh
+# shellcheck source=../dot_config/use-ohmyposh.sh
 source ~/.config/use-ohmyposh.sh
 
 # Use Oh-My-Zsh

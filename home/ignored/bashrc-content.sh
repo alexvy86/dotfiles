@@ -7,7 +7,7 @@
 # if not coming from .bash_profile and .bash_profile exists
 if [[ -z "${COMING_FROM_BASH_PROFILE}" && -f "${HOME}/.bash_profile" ]]; then
   export COMING_FROM_BASHRC=true
-  # shellcheck source=./dot_profile
+  # shellcheck source=../dot_profile
   source "${HOME}/.bash_profile"
   unset COMING_FROM_BASHRC
 fi
@@ -22,17 +22,17 @@ esac
 # Base configuration
 ###############################
 
-# shellcheck source=./dot_config/directories-and-navigation.sh
+# shellcheck source=../dot_config/directories-and-navigation.sh
 source ~/.config/directories-and-navigation.sh;
-# shellcheck source=./dot_config/fluid-framework.sh
+# shellcheck source=../dot_config/fluid-framework.sh
 source ~/.config/fluid-framework.sh;
-# shellcheck source=./dot_config/git.sh
+# shellcheck source=../dot_config/git.sh
 source ~/.config/git.sh;
-# shellcheck source=./dot_config/history.sh
+# shellcheck source=../dot_config/history.sh
 source ~/.config/history.sh;
-# shellcheck source=./dot_config/system-management.sh
+# shellcheck source=../dot_config/system-management.sh
 source ~/.config/system-management.sh;
-# shellcheck source=./dot_config/misc.sh.tmpl
+# shellcheck source=../dot_config/misc.sh.tmpl
 source ~/.config/misc.sh;
 
 ###############################
@@ -73,5 +73,5 @@ fi
 ###############################
 
 # Oh-My-Zsh is zsh-only. Oh-My-Posh works with bash.
-# shellcheck source=./dot_config/use-ohmyposh.sh
+# shellcheck source=../dot_config/use-ohmyposh.sh
 source ~/.config/use-ohmyposh.sh
