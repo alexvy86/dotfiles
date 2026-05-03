@@ -7,6 +7,9 @@ ignored/**
 # '.keep' files, just for the purpose of having empty directories
 **/.keep
 
+# README files, which are for my own documentation
+**/README.md
+
 # ============================================
 # Linux-only files (ignored on non-Linux)
 # ============================================

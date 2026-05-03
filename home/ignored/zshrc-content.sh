@@ -10,6 +10,9 @@ fi
 # Base configuration
 ###############################
 
+# Add custom paths to fpath so completions are found when compinit runs.
+fpath+=("${HOME}/.local/share/zsh/site-functions")
+
 # Prep so completion system (and potentially other plugins) can init correctly.
 # Copied from OhMyZsh's main script.
 autoload -U compaudit compinit zrecompile
