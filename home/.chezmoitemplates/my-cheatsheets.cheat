@@ -30,6 +30,9 @@ Get-Content -Path "$(chezmoi source-path)/.chezmoi.yaml.tmpl" | chezmoi execute-
 
 % git
 
+# Disable lock-verification for Git LFS (needed when pushing LFS objects from a fork, since GitHub bills LFS usage to the parent repo owner)
+git config lfs.locksverify false
+
 # Search for commits that contain a specific string
 git log -S <string_to_search> --source -- <path_to_search>
 
