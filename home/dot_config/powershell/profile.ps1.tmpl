@@ -40,6 +40,44 @@ Import-Module Microsoft.PowerShell.Management;
 
 Import-Module git-aliases -DisableNameChecking;
 
+#----------------------------------------------------------
+# Custom wrappers
+#----------------------------------------------------------
+# Define custom wrappers related to git before importing posh-git so its proxy-function
+# completion picks them up during module initialization. Keep this after git-aliases so
+# things like gbD can intentionally override case-insensitive module commands such as gbd.
+
+# Eza: better file listing tool
+# Note: since I'm creating a function with the same name as the command it invokes,
+# it needs to be defined as 'Private:' to not cause infinite recursion.
+# I think the way this works is that the function exists in the scope where it is
+# defined but not inside the function body, so inside the function `eza` refers
+# to the actual command, not the function.
+# By the same token, `eza` inside the `ezat` function refers to the `eza` command,
+# not the function, so I need to specify all parameters again
+# Also note, as of 2026-03-28 --total-size doesn't have any effect on Windows,
+# but leaving it here in case I ever leverage these in PowerShell in Linux.
+# See https://github.com/eza-community/eza/issues/647 and https://github.com/eza-community/eza/pull/1714
+function Private:eza { eza --long --almost-all --links --header --follow-symlinks --time-style long-iso @args; }
+function Private:ezas { eza --long --almost-all --links --header --follow-symlinks --time-style long-iso --total-size @args; }
+function Private:ezat {	eza --long --almost-all --links --header --follow-symlinks --time-style long-iso --tree @args; }
+function Private:ezats {	eza --long --almost-all --links --header --follow-symlinks --time-style long-iso --tree --total-size @args; }
+
+# pnpm shortcuts
+function pinf { pnpm install --no-frozen-lockfile @args; }
+
+# Things git-aliases doesn't have an alias for but I want one.
+# Use $args instead of @args (generally the correct form in PowerShell,
+# particularly when parameters are being passed to another PowerShell function)
+# because posh-git recognizes proxy wrappers by regex and only matches the literal "$args" form.
+# In this specific wrapper the target is the native git executable so $args vs @args
+# does not materially change behavior, but it does affect whether posh-git enables
+# git-branch completion or falls back to path completion.
+function gbD { git branch -d --force $args; }
+
+# IMPORTANT: define custom aliases/wrappers for git commands before importing posh-git
+# so its proxy-function completion picks them up during module initialization.
+# If defined after, posh-git won't recognizethem as git commands and won't enable completions correctly.
 # Arguments: $ForcePoshGitPrompt, $UseLegacyTabExpansion, $EnableProxyFunctionExpansion
 Import-Module posh-git -ArgumentList @($false, $false, $true);
 
@@ -80,33 +118,6 @@ Set-PSReadLineKeyHandler -Chord PageDown        -Function ScrollDisplayDown;
 Set-PSReadLineKeyHandler -Chord Ctrl+PageDown   -Function ScrollDisplayDownLine;
 Set-PSReadLineKeyHandler -Chord PageUp          -Function ScrollDisplayUp;
 Set-PSReadLineKeyHandler -Chord Ctrl+PageUp     -Function ScrollDisplayUpLine;
-
-#----------------------------------------------------------
-# Aliases
-#----------------------------------------------------------
-
-# Eza: better file listing tool
-# Note: since I'm creating a function with the same name as the command it invokes,
-# it needs to be defined as 'Private:' to not cause infinite recursion.
-# I think the way this works is that the function exists in the scope where it is
-# defined but not inside the function body, so inside the function `eza` refers
-# to the actual command, not the function.
-# By the same token, `eza` inside the `ezat` function refers to the `eza` command,
-# not the function, so I need to specify all parameters again
-# Also note, as of 2026-03-28 --total-size doesn't have any effect on Windows,
-# but leaving it here in case I ever leverage these in PowerShell in Linux.
-# See https://github.com/eza-community/eza/issues/647 and https://github.com/eza-community/eza/pull/1714
-function Private:eza { eza --long --almost-all --links --header --follow-symlinks --time-style long-iso @args; }
-function Private:ezas { eza --long --almost-all --links --header --follow-symlinks --time-style long-iso --total-size @args; }
-function Private:ezat {	eza --long --almost-all --links --header --follow-symlinks --time-style long-iso --tree @args; }
-function Private:ezats {	eza --long --almost-all --links --header --follow-symlinks --time-style long-iso --tree --total-size @args; }
-
-
-# pnpm shortcuts
-function pinf { pnpm install --no-frozen-lockfile @args; }
-
-# Things git-aliases doesn't have an alias for but I want one.
-function gbD { git branch -d --force @args; }
 
 #----------------------------------------------------------
 # FNM
