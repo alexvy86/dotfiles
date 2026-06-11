@@ -2,6 +2,11 @@
 
 Chezmoi templates shared across platforms.
 
+## skills/
+
+Shared templates for AI skills, organized per skill folder to mirror
+`~/.copilot/skills` and `~/.claude/skills`.
+
 ## my-cheatsheets.cheat
 
 [Navi](https://github.com/denisidoro/navi) cheatsheets.
