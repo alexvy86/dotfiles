@@ -16,5 +16,12 @@
         ]
       }
     ]
+  },
+  "enabledPlugins": {},
+  "forceLoginMethod": "console",
+  "autoUpdatesChannel": "latest",
+  "skipAutoPermissionPrompt": true,
+  "permissions": {
+    "defaultMode": "auto"
   }
 }
