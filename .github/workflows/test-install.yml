@@ -36,6 +36,9 @@ jobs:
         run: |
           chezmoi apply --debug
 
+      - name: Verify applied dotfiles
+        run: bash tests/verify-unix.sh
+
   test-windows:
     name: Test fresh Windows install
     runs-on: windows-latest
@@ -79,6 +82,10 @@ jobs:
         run: |
           chezmoi apply --debug
 
+      - name: Verify applied dotfiles
+        shell: pwsh
+        run: ./tests/verify-windows.ps1
+
   test-linux-arm64:
     name: Test fresh Linux ARM64 install (Raspberry Pi)
     runs-on: ubuntu-24.04-arm
@@ -102,3 +109,6 @@ jobs:
       - name: Apply dotfiles
         run: |
           chezmoi apply --debug
+
+      - name: Verify applied dotfiles
+        run: bash tests/verify-unix.sh
