@@ -92,6 +92,34 @@ Get-Content -Path /path/to/.chezmoi.yaml.tmpl | chezmoi execute-template --init
 
 `chezmoi execute-template --init` can also take `--promptString <name>=<value>` but it also applies to the `promptString` function inside a template, not to `promptStringOnce`.
 
+## Linting
+
+CI lints the shell and PowerShell scripts (see [the lint workflow](./.github/workflows/lint.yml)):
+
+- **ShellCheck** over `*.sh`/`*.sh.tmpl`, gated at `--severity=warning`. Config lives in [`.shellcheckrc`](./.shellcheckrc).
+- **PSScriptAnalyzer** over plain `*.ps1` files. Rule selection lives in [`PSScriptAnalyzerSettings.psd1`](./PSScriptAnalyzerSettings.psd1).
+
+To run the linters locally you must install the tools first; they are *not* installed by this repo.
+
+### ShellCheck
+
+Install it (Windows: `scoop install shellcheck`; macOS: `brew install shellcheck`; Debian/Ubuntu: `apt install shellcheck`), then from the repo root:
+
+```bash
+shellcheck --severity=warning --shell=bash \
+  $(find home tests -type f \( -name '*.sh' -o -name '*.sh.tmpl' \)) install.sh
+```
+
+### PSScriptAnalyzer
+
+Install the module from the PowerShell Gallery (`Install-Module PSScriptAnalyzer`), then from the repo root:
+
+```PowerShell
+Get-ChildItem -Recurse -File home, tests -Include *.ps1 |
+  Where-Object { $_.Name -ne 'powershell-setup.ps1' } |
+  ForEach-Object { Invoke-ScriptAnalyzer -Path $_.FullName -Settings ./PSScriptAnalyzerSettings.psd1 }
+```
+
 ## Notes
 
 For Windows systems, [the Windows Terminal settings][windows-terminal-settings-file] assume that the Ubuntu distribution

@@ -4,7 +4,7 @@
 
 SSH_DIR=${HOME}/.ssh;
 
-if ls -A1q "${SSH_DIR}" | grep -q . ; then
+if [[ -n "$(ls -A "${SSH_DIR}")" ]]; then
   echo "'${SSH_DIR}' is not empty. Skipping copy of SSH keys from Windows.";
 	exit 0;
 fi
@@ -24,7 +24,7 @@ for f in "${WIN_SSH_DIR}"/id*; do
 done
 
 # If any files were copied, set permissions correctly.
-if ls -A1q "${SSH_DIR}" | grep -q .; then
+if [[ -n "$(ls -A "${SSH_DIR}")" ]]; then
   chmod 600 "${SSH_DIR}"/*;
 else
   echo "No SSH keys found in '${WIN_SSH_DIR}'. Nothing copied.";

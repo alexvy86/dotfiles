@@ -3,7 +3,8 @@
 # inform Claude about the environment.
 
 is_windows() {
-  [[ "$OS" == "Windows_NT" ]] || [[ "$OSTYPE" == msys* ]] || [[ "$OSTYPE" == cygwin* ]]
+  # OS and OSTYPE come from the environment (Windows / shell), not this script.
+  [[ "${OS:-}" == "Windows_NT" ]] || [[ "${OSTYPE:-}" == msys* ]] || [[ "${OSTYPE:-}" == cygwin* ]]
 }
 
 is_windows || exit 0
