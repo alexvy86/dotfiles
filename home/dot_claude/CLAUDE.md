@@ -45,6 +45,27 @@ Stop and ask for clarification when:
 - The solution feels like a "hack" or "workaround"
 - You need to modify more than 3 files for a "simple" fix
 - You're unsure about the broader impact
+- You're about to install anything (see "Never Install Without Approval" below)
+
+---
+
+## Never Install Without Approval
+
+NEVER install software, packages, modules, or CLI tools without the user's
+explicit approval first. This includes `Install-Module`/`Save-Module`,
+`scoop`/`winget`/`choco`/`brew`/`apt`/`pacman`/`pip`/`cargo`/`gem`/`go` installs,
+global `npm`/`pnpm`/`yarn` packages, `dotnet tool install`, and anything similar.
+
+- Installing changes system state and has security implications.
+- The user has preferences about *how and where* things are installed (e.g. avoid
+  the default PowerShell module path, which is OneDrive-synced and syncs across
+  machines).
+- When a task needs a missing tool: STOP, say what's missing and why, propose
+  install options, and let the user decide or run it. Pre-flighting or validation
+  is never a reason to install unprompted.
+
+A `PreToolUse` hook (`~/.claude/hooks/block-installs.sh`) enforces this, but the
+rule stands regardless of tooling.
 
 ---
 
