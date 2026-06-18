@@ -1,0 +1,9 @@
+# markdownlint configuration for all Markdown files in this repo.
+# Rule reference: https://github.com/DavidAnson/markdownlint/blob/main/doc/Rules.md
+
+# MD009 (no-trailing-spaces): a br_spaces value below 2 disables the exception
+# that would otherwise allow two trailing spaces as a hard line break. This keeps
+# markdownlint consistent with .editorconfig's trim_trailing_whitespace rule.
+# Use a trailing backslash (\) for an explicit line break instead.
+MD009:
+  br_spaces: 0
