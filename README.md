@@ -1,4 +1,4 @@
-<!-- markdownlint-configure-file { "MD024": { "siblings_only": true }, "MD009": { "br_spaces": 0 } } -->
+<!-- markdownlint-configure-file { "MD024": { "siblings_only": true } } -->
 
 # Dotfiles
 
