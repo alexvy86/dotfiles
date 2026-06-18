@@ -15,6 +15,17 @@
           }
         ]
       }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "Bash|PowerShell",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash ~/.claude/hooks/block-installs.sh"
+          }
+        ]
+      }
     ]
   },
   "enabledPlugins": {},
@@ -22,6 +33,26 @@
   "autoUpdatesChannel": "latest",
   "skipAutoPermissionPrompt": true,
   "permissions": {
-    "defaultMode": "auto"
+    "defaultMode": "auto",
+    "deny": [
+      "Bash(scoop install:*)",
+      "Bash(winget install:*)",
+      "Bash(choco install:*)",
+      "Bash(brew install:*)",
+      "Bash(apt install:*)",
+      "Bash(apt-get install:*)",
+      "Bash(dnf install:*)",
+      "Bash(pacman -S:*)",
+      "Bash(npm install -g:*)",
+      "Bash(npm i -g:*)",
+      "Bash(pnpm add -g:*)",
+      "Bash(pip install:*)",
+      "Bash(pip3 install:*)",
+      "Bash(pipx install:*)",
+      "Bash(cargo install:*)",
+      "Bash(gem install:*)",
+      "Bash(go install:*)",
+      "Bash(dotnet tool install:*)"
+    ]
   }
 }
