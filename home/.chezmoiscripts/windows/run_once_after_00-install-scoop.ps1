@@ -12,7 +12,9 @@ if (-not (Get-Command "scoop" -ErrorAction SilentlyContinue)) {
   $TmpPathToInstallScript = "$($env:TEMP)\install.ps1";
   # Use fixed version of the install script
   Invoke-RestMethod https://raw.githubusercontent.com/ScoopInstaller/Install/ff4eedda58d832b8225d7697510f097ebe8ab071/install.ps1 -OutFile $TmpPathToInstallScript;
-  Invoke-Expression "& $TmpPathToInstallScript -ScoopDir '$env:WIN_TOOLS_PATH/scoop'";
+  # Invoke the downloaded script directly with the call operator; no need for
+  # Invoke-Expression (the call operator handles a path with spaces correctly).
+  & $TmpPathToInstallScript -ScoopDir "$env:WIN_TOOLS_PATH/scoop";
   Remove-Item -Path $TmpPathToInstallScript;
 }
 

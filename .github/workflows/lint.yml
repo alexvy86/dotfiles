@@ -1,0 +1,55 @@
+name: Lint
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch: # Allow manual triggering
+
+jobs:
+  shellcheck:
+    name: ShellCheck (shell scripts)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # ShellCheck is preinstalled on GitHub-hosted Ubuntu runners.
+      # The repo's .shellcheckrc (enabled optional checks, template-directive
+      # accommodations) is picked up automatically. We gate at warning+ so the
+      # opt-in *style* checks stay as editor-only hints and don't block merges.
+      # --shell=bash is the default for files that don't self-declare a shell;
+      # per-file `# shellcheck shell=` directives still take precedence.
+      - name: Run ShellCheck
+        run: |
+          mapfile -t files < <(find home tests -type f \( -name '*.sh' -o -name '*.sh.tmpl' \))
+          shellcheck --severity=warning --shell=bash "${files[@]}" install.sh
+
+  powershell:
+    name: PSScriptAnalyzer (PowerShell scripts)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install PSScriptAnalyzer
+        shell: pwsh
+        run: Install-Module PSScriptAnalyzer -Scope CurrentUser -Force
+
+      # Analyze plain .ps1 files only. The *.ps1.tmpl files and
+      # .chezmoitemplates/powershell-setup.ps1 contain chezmoi template syntax
+      # ({{ ... }}) that isn't valid PowerShell, so they can't be parsed.
+      - name: Run PSScriptAnalyzer
+        shell: pwsh
+        run: |
+          $files = Get-ChildItem -Recurse -File home, tests -Include *.ps1 |
+            Where-Object { $_.Name -ne 'powershell-setup.ps1' }
+          $results = foreach ($f in $files) {
+            Invoke-ScriptAnalyzer -Path $f.FullName -Settings ./PSScriptAnalyzerSettings.psd1
+          }
+          if ($results) {
+            $results | Format-Table -AutoSize RuleName, Severity, ScriptName, Line, Message
+            throw "PSScriptAnalyzer found $($results.Count) issue(s)."
+          }
+          Write-Host "No PSScriptAnalyzer findings."
