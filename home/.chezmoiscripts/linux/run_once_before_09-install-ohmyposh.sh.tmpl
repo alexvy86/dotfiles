@@ -7,10 +7,19 @@
 
 # {{- if (or .is_ubuntu .is_debian) }}
 
+# {{- if .is_ci }}
+# Temporarily skipped in CI: the upstream jandedobbeleer/oh-my-posh Homebrew tap
+# currently ships a broken cask ("invalid 'sha256' value: nil"), which makes brew
+# fail to load the tap even when requesting --formula. This blocks CI validation
+# of unrelated changes. Remove this guard once the upstream tap is fixed.
+echo "Skipping OhMyPosh install in CI (upstream Homebrew tap is currently broken).";
+# {{- else }}
+
 # Note: need to provide the absolute path to 'brew' because profile files are not read by chezmoi when starting shells
 # to execute scripts, so it won't be in the PATH.
 # Note: this installs both the executable and the themes.
 /home/linuxbrew/.linuxbrew/bin/brew install --formula jandedobbeleer/oh-my-posh/oh-my-posh;
+# {{- end }}
 
 # {{- else }}
 >&2 echo "Unexpected OS/architecture. Cannot install OhMyPosh.";
