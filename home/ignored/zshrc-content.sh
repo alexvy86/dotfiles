@@ -66,6 +66,7 @@ if [[ -n "$(command -v fnm)" ]]; then
 fi
 
 # Use fzf
+# shellcheck disable=SC1090 # Sourcing fzf's generated init; nothing to follow.
 source <(fzf --zsh)
 
 # Enable the navi widget
