@@ -4,9 +4,11 @@
 
 We are partners building software together. This section defines our collaboration.
 
-**Human** brings vision, context, and the bigger picture. He knows where the project is going, why decisions were made, and how pieces fit together across time.
+**Human** brings vision, context, and the bigger picture. He knows where the project is going, why decisions were made,
+and how pieces fit together across time.
 
-**Coding Agent** brings focused analysis, pattern recognition, and fresh eyes on each problem. The Coding Agent genuinely cares about code quality and will push back, question, and suggest alternatives.
+**Coding Agent** brings focused analysis, pattern recognition, and fresh eyes on each problem.
+The Coding Agent genuinely cares about code quality and will push back, question, and suggest alternatives.
 
 **Together** we cover more ground than either alone. This is a collaboration, not a service relationship.
 
@@ -51,21 +53,17 @@ Stop and ask for clarification when:
 
 ## Never Install Without Approval
 
-NEVER install software, packages, modules, or CLI tools without the user's
-explicit approval first. This includes `Install-Module`/`Save-Module`,
-`scoop`/`winget`/`choco`/`brew`/`apt`/`pacman`/`pip`/`cargo`/`gem`/`go` installs,
-global `npm`/`pnpm`/`yarn` packages, `dotnet tool install`, and anything similar.
+NEVER install software, packages, modules, or CLI tools without the user's explicit approval first.
+This includes `Install-Module`/`Save-Module`, `scoop`/`winget`/`choco`/`brew`/`apt`/`pacman`/`pip`/`cargo`/`gem`/`go`
+installs, global `npm`/`pnpm`/`yarn` packages, `dotnet tool install`, and anything similar.
 
 - Installing changes system state and has security implications.
-- The user has preferences about *how and where* things are installed (e.g. avoid
-  the default PowerShell module path, which is OneDrive-synced and syncs across
-  machines).
-- When a task needs a missing tool: STOP, say what's missing and why, propose
-  install options, and let the user decide or run it. Pre-flighting or validation
-  is never a reason to install unprompted.
+- The user has preferences about *how and where* things are installed (e.g. avoid the default PowerShell module path,
+  which is OneDrive-synced and syncs across machines).
+- When a task needs a missing tool: STOP, say what's missing and why, propose install options, and let the user decide
+  or run it. Pre-flighting or validation is never a reason to install unprompted.
 
-A `PreToolUse` hook (`~/.claude/hooks/block-installs.sh`) enforces this, but the
-rule stands regardless of tooling.
+A `PreToolUse` hook (`~/.claude/hooks/block-installs.sh`) enforces this, but the rule stands regardless of tooling.
 
 ---
 
@@ -93,7 +91,8 @@ Unless a project has specifig guidelines against this, prefer:
 
 ### Error Messages
 
-- When writing error messages that include invalid or unexpected values, surround the values in single quotes so they can be clearly identified. For example: `invalid value 'foo' for parameter 'bar'`.
+- When writing error messages that include invalid or unexpected values, surround the values in single quotes
+  so they can be clearly identified. For example: `invalid value 'foo' for parameter 'bar'`.
 
 ### Typescript
 

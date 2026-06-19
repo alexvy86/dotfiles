@@ -25,7 +25,8 @@ A pre-source-state hook ensures that `git` is installed.
 
 ### Notes
 
-Git is required so chezmoi externals of type `git-repo` can be downloaded, which happens before chezmoi starts running scripts, so installing Git with it is not enough.
+Git is required so chezmoi externals of type `git-repo` can be downloaded, which happens before chezmoi starts running
+scripts, so installing Git with it is not enough.
 
 At some point I suggested that the `PowerShell` app also be installed from the Microsof Store but
 then became aware of some [limitations](https://learn.microsoft.com/en-us/powershell/scripting/install/installing-powershell-on-windows?view=powershell-7.3#installing-from-the-microsoft-store).
@@ -55,8 +56,8 @@ winget install --exact --id twpayne.chezmoi --source winget;
 
 ### Unix and Windows
 
-`--guess-repo-url=false` is necessary because otherwise chezmoi rewrites the repo URL in a way that tries to authenticate to the repo,
-which is public, so there is no need to authenticate.
+`--guess-repo-url=false` is necessary because otherwise chezmoi rewrites the repo URL in a way that tries to
+authenticate to the repo, which is public, so there is no need to authenticate.
 
 ```bash
 chezmoi init --guess-repo-url=false --verbose https://github.com/alexvy86/dotfiles.git
@@ -76,7 +77,8 @@ install-apps;
 
 ## Testing changes to the main chezmoi config template
 
-This command is useful for testing changes to the `.chezmoi.yaml.tmpl` file, since space-handling with the template syntax is a *pain* to use correctly.
+This command is useful for testing changes to the `.chezmoi.yaml.tmpl` file,
+since space-handling with the template syntax is a *pain* to use correctly.
 
 ### Unix
 
@@ -90,7 +92,8 @@ cat /path/to/.chezmoi.yaml.tmpl | chezmoi execute-template --init
 Get-Content -Path /path/to/.chezmoi.yaml.tmpl | chezmoi execute-template --init
 ```
 
-`chezmoi execute-template --init` can also take `--promptString <name>=<value>` but it also applies to the `promptString` function inside a template, not to `promptStringOnce`.
+`chezmoi execute-template --init` can also take `--promptString <name>=<value>` but it also applies to the `promptString`
+function inside a template, not to `promptStringOnce`.
 
 ## Linting
 
@@ -103,7 +106,8 @@ To run the linters locally you must install the tools first; they are *not* inst
 
 ### ShellCheck
 
-Install it (Windows: `scoop install shellcheck`; macOS: `brew install shellcheck`; Debian/Ubuntu: `apt install shellcheck`), then from the repo root:
+Install it (Windows: `scoop install shellcheck`; macOS: `brew install shellcheck`; Debian/Ubuntu: `apt install shellcheck`),
+then from the repo root:
 
 ```bash
 shellcheck --severity=warning --shell=bash \

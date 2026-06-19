@@ -7,3 +7,8 @@
 # Use a trailing backslash (\) for an explicit line break instead.
 MD009:
   br_spaces: 0
+
+# MD013 (line-length): I find 80 too restrictive, I prefer 120 to allow for longer lines in code blocks and URLs,
+# while still enforcing a reasonable limit for regular text.
+MD013:
+  line_length: 120
