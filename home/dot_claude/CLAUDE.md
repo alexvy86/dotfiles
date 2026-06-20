@@ -47,23 +47,36 @@ Stop and ask for clarification when:
 - The solution feels like a "hack" or "workaround"
 - You need to modify more than 3 files for a "simple" fix
 - You're unsure about the broader impact
-- You're about to install anything (see "Never Install Without Approval" below)
+- You're about to install something system-wide (see "Never Install System-Wide Without Approval" below)
 
 ---
 
-## Never Install Without Approval
+## Never Install System-Wide Without Approval
 
-NEVER install software, packages, modules, or CLI tools without the user's explicit approval first.
-This includes `Install-Module`/`Save-Module`, `scoop`/`winget`/`choco`/`brew`/`apt`/`pacman`/`pip`/`cargo`/`gem`/`go`
-installs, global `npm`/`pnpm`/`yarn` packages, `dotnet tool install`, and anything similar.
+The line that matters is **system-wide/global vs. local to the project**, not "installing" in the abstract.
 
-- Installing changes system state and has security implications.
-- The user has preferences about *how and where* things are installed (e.g. avoid the default PowerShell module path,
-  which is OneDrive-synced and syncs across machines).
-- When a task needs a missing tool: STOP, say what's missing and why, propose install options, and let the user decide
-  or run it. Pre-flighting or validation is never a reason to install unprompted.
+**Fine without asking** — installing a project's own dependencies: `npm install`/`pnpm install` to restore
+declared deps, `pnpm add <pkg>` to add a dependency to the project you're working in, restoring a virtualenv,
+and similar. These stay inside the project and are normal development work — do them.
 
-A `PreToolUse` hook (`~/.claude/hooks/block-installs.sh`) enforces this, but the rule stands regardless of tooling.
+**NEVER without explicit approval** — anything that installs *system-wide or globally* and changes machine state:
+
+- OS/package managers: `scoop`/`winget`/`choco`/`brew`/`apt`/`pacman`/`pip`/`cargo`/`gem`/`go` installs
+- Global JS packages: `npm`/`pnpm`/`yarn` installs with `-g`/`--global`
+- PowerShell: `Install-Module`/`Save-Module`/`Install-Package`/`Install-Script`
+- .NET global tools: `dotnet tool install`
+- ...and anything similar that lands outside the current project.
+
+Why this side needs approval:
+
+- System-wide installs change machine state and have security implications.
+- The user has preferences about *how and where* such things are installed (e.g. avoid the default PowerShell
+  module path, which is OneDrive-synced and syncs across machines).
+- When a task needs a missing *system-wide* tool: STOP, say what's missing and why, propose install options, and
+  let the user decide or run it. Pre-flighting or validation is never a reason to install unprompted.
+
+A `PreToolUse` hook (`~/.claude/hooks/block-installs.sh`) enforces the system-wide cases and deliberately lets
+local project installs through, but the rule stands regardless of tooling.
 
 ---
 
