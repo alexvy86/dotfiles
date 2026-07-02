@@ -55,6 +55,8 @@ data:
   is_apt_distro: # {{ or $ubuntu $debian }}
   is_arm64: # {{ eq .chezmoi.arch "arm64" }}
   is_raspberryPi: # {{ and $debian (eq .chezmoi.arch "arm64") }}
+  git_name: # {{ promptStringOnce . "gitName" "Name for git config" "Alejandro Villarreal" }}
+  git_email: # {{ promptStringOnce . "gitEmail" "Email for git config" "716334+alexvy86@users.noreply.github.com" }}
 
 scriptEnv:
 # {{- if $wsl }}
