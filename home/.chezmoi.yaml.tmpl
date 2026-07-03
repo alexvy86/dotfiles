@@ -6,6 +6,15 @@
 # {{- $ubuntu := eq (index .chezmoi.osRelease "id") "ubuntu" -}}
 # {{- $debian := eq (index .chezmoi.osRelease "id") "debian" -}}
 
+# {{/* Only prompt for values when running interactively; in non-interactive
+#      contexts (e.g. CI) fall back to the defaults instead of blocking. */ -}}
+# {{- $gitName := "Alejandro Villarreal" -}}
+# {{- $gitEmail := "716334+alexvy86@users.noreply.github.com" -}}
+# {{- if stdinIsATTY -}}
+# {{-   $gitName = promptStringOnce . "gitName" "Name for git config" $gitName -}}
+# {{-   $gitEmail = promptStringOnce . "gitEmail" "Email for git config" $gitEmail -}}
+# {{- end -}}
+
 hooks:
   read-source-state:
     pre:
@@ -55,8 +64,8 @@ data:
   is_apt_distro: # {{ or $ubuntu $debian }}
   is_arm64: # {{ eq .chezmoi.arch "arm64" }}
   is_raspberryPi: # {{ and $debian (eq .chezmoi.arch "arm64") }}
-  git_name: # {{ promptStringOnce . "gitName" "Name for git config" "Alejandro Villarreal" }}
-  git_email: # {{ promptStringOnce . "gitEmail" "Email for git config" "716334+alexvy86@users.noreply.github.com" }}
+  git_name: # {{ $gitName }}
+  git_email: # {{ $gitEmail }}
 
 scriptEnv:
 # {{- if $wsl }}
