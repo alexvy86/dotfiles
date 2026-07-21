@@ -28,7 +28,7 @@
       "alignment": "left",
       "segments": [
         {
-          "properties": {
+          "options": {
             "always_enabled": true
           },
           "style": "plain",
@@ -36,7 +36,7 @@
           "type": "status"
         },
         {
-          "properties": {
+          "options": {
             "always_enabled": true,
             "style": "austin"
           },
@@ -55,97 +55,81 @@
       "alignment": "left",
       "segments": [
         {
+          "type": "text",
           "style": "plain",
           "template": "\u256d",
-          "foreground": "p:ocean-blue",
-          "type": "text"
+          "foreground": "p:ocean-blue"
         },
         {
-          "properties": {
-            "alpine": "\uf300",
-            "arch": "\uf303",
-            "centos": "\uf304",
-            "debian": "\uf306",
-            "elementary": "\uf309",
-            "fedora": "\uf30a",
-            "gentoo": "\uf30d",
-            "linux": "\ue712",
-            "macos": "\ue711",
-            "manjaro": "\uf312",
-            "mint": "\uf30f",
-            "opensuse": "\uf314",
-            "raspbian": "\uf315",
-            "ubuntu": "\uf31c",
-            "windows": "\ue70f"
-          },
+
+          "type": "os",
           "style": "diamond",
           "leading_diamond": "\ue0b6",
           "template": "[[ .Icon ]][[ if .WSL ]] (WSL)[[ end ]] ",
           "foreground": "p:ocean-blue",
-          "background": "p:background",
-          "type": "os"
+          "background": "p:background"
         },
         {
+          "type": "shell",
           "style": "diamond",
           "trailing_diamond": "\ue0b4",
           "template": "[[ .Name ]]",
           "foreground": "p:blue",
-          "background": "p:background",
-          "type": "shell"
+          "background": "p:background"
         },
         {
+          "type": "session",
           "style": "diamond",
           "leading_diamond": "\ue0b6",
           "trailing_diamond": "\ue0b4",
           "template": "[[ if ne .Env.POSH_SESSION_DEFAULT_USER .UserName ]]<p:green>[[ .UserName ]]</> @ [[ end ]]<p:magenta>[[ .HostName ]]</>[[ if .Root ]] <p:yellow>\uf0e7</>[[ end ]]",
           "foreground": "p:white",
-          "background": "p:background",
-          "type": "session"
+          "background": "p:background"
         },
         {
-          "properties": {
-            "folder_icon": "<p:light-grey>\ue5fe </>",
-            "style": "full"
-          },
+          "type": "path",
           "style": "diamond",
           "leading_diamond": "\ue0b6",
           "trailing_diamond": "\ue0b4",
           "template": "<p:yellow>\ue5ff </>[[ .Path ]]",
           "foreground": "p:white",
           "background": "p:background",
-          "type": "path"
+          "options": {
+            "folder_icon": "<p:light-grey>\ue5fe </>",
+            "style": "full"
+          }
         },
         {
-          "properties": {
-            "display_mode": "files",
-            "fetch_package_manager": true
-          },
+          "type": "node",
           "style": "diamond",
           "leading_diamond": "\ue0b6",
           "trailing_diamond": "\ue0b4",
           "template": "[[ .PackageManagerIcon ]] [[ .Full ]]",
           "foreground": "p:node-green",
           "background": "p:background",
-          "type": "node"
+          "options": {
+            "display_mode": "files",
+            "fetch_package_manager": true
+          }
         },
         {
-          "properties": {
-            "branch_template": "[[ truncE 35 .Branch ]]",
-            "fetch_status": true,
-            "fetch_upstream_icon": true
-          },
+          "type": "git",
           "style": "diamond",
           "leading_diamond": "\ue0b6",
           "trailing_diamond": "\ue0b4",
           "template": "[[ if .UpstreamURL ]][[ url .UpstreamIcon .UpstreamURL ]] [[ end ]][[ .HEAD ]][[ if .BranchStatus ]] [[ .BranchStatus ]][[ end ]][[ if .Working.Changed ]]<p:orange> \uf044 [[ .Working.String ]]</>[[ end ]][[ if and (.Working.Changed) (.Staging.Changed) ]] |[[ end ]][[ if .Staging.Changed ]]<p:green> \uf046 [[ .Staging.String ]]</>[[ end ]]",
           "foreground": "p:yellow",
           "background": "p:background",
-          "type": "git",
           "foreground_templates": [
             "[[ if or (.Working.Changed) (.Staging.Changed) ]]p:yellow[[ end ]]",
             "[[ if gt .Ahead 0 ]]p:teal[[ end ]]",
             "[[ if gt .Behind 0 ]]p:purple[[ end ]]"
-          ]
+          ],
+          "options": {
+            "branch_template": "[[ truncE 35 .Branch ]]",
+            "fetch_status": true,
+            "fetch_upstream_icon": true
+          }
         }
       ],
       "newline": true
