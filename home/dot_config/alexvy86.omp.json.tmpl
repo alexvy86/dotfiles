@@ -1,0 +1,5 @@
+{{- $base := include ".chezmoitemplates/alexvy86-omp.base.json" | replace "[[" "{{" | replace "]]" "}}" | fromJson -}}
+{{- $transientTemplate := " {{ if gt .Code 0 }}<p:error> ({{ .Code }}){{ else }}<p:success>{{ end }} {{ .Segments.Executiontime.FormattedMs }}</>\n[<p:ocean-blue>{{ .PromptCount }}</>][<p:orange>{{ now | date \"2006-01-02 15:04:05\" }}</>] " -}}
+{{- $transient := dict "template" $transientTemplate "foreground" "p:white" -}}
+{{- $_ := set $base "transient_prompt" $transient -}}
+{{ toPrettyJson $base }}

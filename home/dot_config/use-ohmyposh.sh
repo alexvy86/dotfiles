@@ -6,10 +6,23 @@ if [[ -n "${ZSH_VERSION}" ]]; then
 	zstyle ':completion:*' matcher-list 'm:{[:lower:][:upper:]-_}={[:upper:][:lower:]_-}' 'r:|=*' 'l:|=* r:|=*'
 
 	# Use Oh-My-Posh
-	# shellcheck disable=SC2312
-	eval "$(oh-my-posh init zsh --config "${HOME}/.config/alexvy86.omp.json")"
+	# When in a Copilot agent terminal (COPILOT_AGENT=1), use a config without the transient prompt
+	# to prevent shell integration marker corruption. See: docs/notes/vscode-agent-output-capture-vs-oh-my-posh-transient-prompt.md
+	if [[ "${COPILOT_AGENT}" == "1" ]]; then
+		# shellcheck disable=SC2312
+		eval "$(oh-my-posh init zsh --config "${HOME}/.config/alexvy86-agent.omp.json")"
+	else
+		# shellcheck disable=SC2312
+		eval "$(oh-my-posh init zsh --config "${HOME}/.config/alexvy86.omp.json")"
+	fi
 elif [[ -n "${BASH_VERSION}" ]]; then
 	# Use Oh-My-Posh
-	# shellcheck disable=SC2312
-	eval "$(oh-my-posh init bash --config "${HOME}/.config/alexvy86.omp.json")"
+	# When in a Copilot agent terminal (COPILOT_AGENT=1), use a config without the transient prompt
+	if [[ "${COPILOT_AGENT}" == "1" ]]; then
+		# shellcheck disable=SC2312
+		eval "$(oh-my-posh init bash --config "${HOME}/.config/alexvy86-agent.omp.json")"
+	else
+		# shellcheck disable=SC2312
+		eval "$(oh-my-posh init bash --config "${HOME}/.config/alexvy86.omp.json")"
+	fi
 fi

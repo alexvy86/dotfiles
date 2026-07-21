@@ -2,17 +2,16 @@
 
 ## Summary
 
-When an AI agent (GitHub Copilot's terminal tool in VS Code) runs a shell command, its programmatic capture of the
-command's output could grab the **prompt banner instead of the command output**. The culprit is oh-my-posh's
-**transient prompt** (the feature that rewrites the previous prompt line into the compact `✓ 297ms` +
-`[count][timestamp]` banner). It interferes with the shell-integration markers VS Code uses to delimit output.
+I noticed that the VS Code agent was reporting a lot of failures to capture the desired command output in terminals it started
+(instead getting the prompt banner).
 
-The fix disables the transient prompt **only inside agent terminals**, detected via the `COPILOT_AGENT` environment
-variable that VS Code injects into those terminals. Interactive terminals are completely unaffected and keep the fancy
-prompt.
+I traced it to the fact that if VS Code shell integration is active (OSC 633 markers), and oh-my-posh transient prompt rendering is enabled,
+the redraw from the transient prompt duplicates marker boundaries and corrupts the capture region.
 
-This note documents the investigation so the same fix can be applied to `zsh`/`bash` later (still open — see
-[Open items](#open-items-zshbash)).
+The fix is a config split gated by `COPILOT_AGENT=1`, which VSCode sets in agent terminals: there we use an oh-my-posh config without
+`transient_prompt`; interactive terminals keep the normal config with transient prompt enabled.
+
+This note documents the investigation and the implemented config-split fix for PowerShell and zsh.
 
 ## Symptom
 
@@ -48,14 +47,10 @@ oh-my-posh's transient prompt is driven by a PSReadLine Enter key handler (`OhMy
 `Set-TransientPrompt`, which calls `[Microsoft.PowerShell.PSConsoleReadLine]::InvokePrompt()` to repaint the previous
 prompt line with the transient template.
 
-`InvokePrompt()` **re-invokes the current `prompt` function** — which is now **VS Code's wrapper**. So the transient
-repaint emits a **second, spurious `OSC 633;A` … `OSC 633;B` pair** immediately before the real `OSC 633;E`/`OSC 633;C`.
-That extra marker pair moves the anchor VS Code uses to decide where the command's output begins, so the capture can
-delimit the wrong region and return the transient banner instead of the output.
-
-The other agent's shorthand — "the transient prompt emits/disturbs the markers" — is directionally right but
-imprecise. The precise statement: the transient prompt triggers a **re-invocation of VS Code's prompt wrapper**, which
-**duplicates** the `OSC 633` markers and corrupts the region boundaries.
+`InvokePrompt()` **re-invokes the current `prompt` function** — which is now **VS Code's wrapper**. The transient
+repaint therefore emits a **second, spurious `OSC 633;A` … `OSC 633;B` pair** immediately before the real
+`OSC 633;E`/`OSC 633;C`. That duplicate marker pair shifts VS Code's output boundary detection and can cause capture of
+the transient banner instead of command output.
 
 The async **streaming** prompt (`_ompStreaming`, driven by `PowerShell.OnIdle` → `InvokePrompt()`) does the exact same
 thing at nondeterministic times, which would explain any intermittency. It is off for the current config, but it is the
@@ -89,57 +84,41 @@ it during startup, so it is not reliably readable at runtime. Use `COPILOT_AGENT
 
 ## Resolution (PowerShell)
 
-In `home/dot_config/powershell/profile.ps1.tmpl`, right after the oh-my-posh init line:
+In `home/dot_config/powershell/profile.ps1.tmpl`, prompt init now selects one of two configs based on
+`COPILOT_AGENT=1`:
 
 ```powershell
-oh-my-posh init pwsh --config "~/.config/alexvy86.omp.json" | Invoke-Expression;
-
 if ($env:COPILOT_AGENT -eq '1') {
-    $global:_ompTransientPrompt = $false;
-    $global:_ompStreaming = $false;
+    oh-my-posh init pwsh --config "~/.config/alexvy86-agent.omp.json" | Invoke-Expression;
+}
+else {
+    oh-my-posh init pwsh --config "~/.config/alexvy86.omp.json" | Invoke-Expression;
 }
 ```
 
-Verified live in an agent terminal: the gate matches, the flag flips `True` → `False`, and `chezmoi cat` renders the
-template correctly. Interactive terminals never set `COPILOT_AGENT`, so they are untouched.
+`alexvy86-agent.omp.json` omits the `transient_prompt` block, so there is no runtime mutation of oh-my-posh internals.
+Interactive terminals keep `alexvy86.omp.json` with transient prompt enabled.
 
-### Why we set an internal variable (no supported API)
+## Implementation status
 
-There is no supported CLI or documented public function to disable the transient prompt at runtime:
+### ✅ zsh — COMPLETE
 
-- oh-my-posh's CLI `enable`/`disable` only handle `notice|upgrade|reload`; `toggle` is for **segments**.
-- The docs state transient is enabled automatically whenever the config has a `transient_prompt` block; the only
-  documented runtime switch is `cmd`-only (`clink set prompt.transient always`).
-- `$global:_ompTransientPrompt` is oh-my-posh's **own** mechanism. Its Go source generates it
-  (`src/shell/pwsh.go`: `case Transient: return "$global:_ompTransientPrompt = $true"`), and the generated Enter handler
-  reads it live (`if ($global:_ompTransientPrompt -and $executingCommand) { Set-TransientPrompt }`).
+The fix was implemented in `home/dot_config/use-ohmyposh.sh` and validated on WSL/Linux with oh-my-posh 29.19.0 and
+zsh 5.9. When `COPILOT_AGENT=1`, zsh initializes oh-my-posh with `~/.config/alexvy86-agent.omp.json` (which omits
+`transient_prompt`). Interactive terminals keep `~/.config/alexvy86.omp.json` with transient prompt enabled.
 
-So setting `$global:_ompTransientPrompt = $false` after init is the closest thing to a supported toggle. It is an
-internal (underscore-prefixed) variable and therefore a known coupling point to watch across oh-my-posh upgrades, but it
-is stable in practice and is the real runtime lever the tool itself uses. Editing the config to remove
-`transient_prompt` would disable it globally (not conditionally, not runtime) and is not what we want.
+### Open items: bash
 
-The same branch also sets `$global:_ompStreaming = $false`. The async streaming prompt repaints via
-`PowerShell.OnIdle` → `InvokePrompt()` the same way the transient prompt does, so it is a latent second cause of the
-same bug. It is currently off for this config, but disabling it in the agent terminal (where no human is watching) is
-pure insurance with no downside.
+`bash`: `oh-my-posh init bash` produced empty output on Windows, so the mechanism could not be inspected there. bash
+transient also requires `ble.sh`. The fix placeholder is in `home/dot_config/use-ohmyposh.sh` (the `elif` branch),
+documented as deferred pending testing in a bash environment. The `COPILOT_AGENT=1` signal is shell-agnostic (injected
+by `_createCopilotTerminal` regardless of shell), so the same gate applies.
 
-## Open items (zsh/bash)
+### ✅ Config generation model
 
-The same class of problem applies to `zsh` and `bash`, but the fix is harder and was deferred to a session run from WSL
-/ Linux / macOS (it cannot be developed or tested from Windows):
-
-- `zsh`: the transient prompt is baked into the `_omp_zle-line-init` widget, which also runs the **entire** line editor
-  (`zle .recursive-edit` + `zle .accept-line`) and calls `zle .reset-prompt` unconditionally. There is no clean toggle
-  variable equivalent to PowerShell's `$global:_ompTransientPrompt`; `_omp_transient_prompt` is only a rendered-string
-  cache, not a gate. The widget cannot simply be removed without breaking line editing. Candidate approaches:
-  (a) select a transient-free oh-my-posh config when `COPILOT_AGENT=1`, or (b) override/replace the widget (deep,
-  hacky). Confirm first whether `zle .reset-prompt` actually re-emits VS Code's `OSC 633` markers under the zsh shell
-  integration (`shellIntegration-rc.zsh`), since the redraw path differs from PowerShell.
-- `bash`: `oh-my-posh init bash` produced empty output on Windows, so the mechanism could not be inspected here. bash
-  transient also requires `ble.sh`.
-- The `COPILOT_AGENT=1` signal is shell-agnostic (injected by `_createCopilotTerminal` regardless of shell), so whatever
-  mechanism is chosen, the same gate applies. The relevant init file is `home/dot_config/use-ohmyposh.sh`.
+- Shared base prompt payload lives in `home/.chezmoitemplates/alexvy86-omp.base.json`.
+- Interactive config is generated by `home/dot_config/alexvy86.omp.json.tmpl` and injects `transient_prompt`.
+- Agent config is generated by `home/dot_config/alexvy86-agent.omp.json.tmpl` and omits `transient_prompt`.
 
 ## Scrollback (separate issue)
 
@@ -150,9 +129,19 @@ which captures exact bytes independent of markers and scrollback.
 
 ## References
 
-- Fix: `home/dot_config/powershell/profile.ps1.tmpl` (after the `oh-my-posh init pwsh` line)
-- oh-my-posh config with the `transient_prompt` block: `home/dot_config/alexvy86.omp.json`
-- Unix oh-my-posh init (zsh/bash, still open): `home/dot_config/use-ohmyposh.sh`
+### Implementation files
+- **PowerShell fix**: `home/dot_config/powershell/profile.ps1.tmpl`
+  - Selects `~/.config/alexvy86-agent.omp.json` when `COPILOT_AGENT=1`
+- **zsh fix**: `home/dot_config/use-ohmyposh.sh`
+  - Selects `~/.config/alexvy86-agent.omp.json` when `COPILOT_AGENT=1`
+- **bash placeholder**: `home/dot_config/use-ohmyposh.sh`
+  - Documented as deferred; requires ble.sh support
+
+### Configuration and references
+- Base prompt config template (no transient prompt): `home/.chezmoitemplates/alexvy86-omp.base.json`
+- Interactive prompt config template (adds transient prompt): `home/dot_config/alexvy86.omp.json.tmpl`
+- Agent prompt config template (keeps transient prompt disabled): `home/dot_config/alexvy86-agent.omp.json.tmpl`
+- Generated runtime configs: `~/.config/alexvy86.omp.json` and `~/.config/alexvy86-agent.omp.json`
 - VS Code PowerShell shell integration:
   `resources/app/out/vs/workbench/contrib/terminal/common/scripts/shellIntegration.ps1`
 - VS Code agent terminal env injection: `_createCopilotTerminal` in

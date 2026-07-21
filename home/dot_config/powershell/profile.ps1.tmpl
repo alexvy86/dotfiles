@@ -134,21 +134,13 @@ fnm env --use-on-cd --version-file-strategy=recursive --resolve-engines=false | 
 #----------------------------------------------------------
 # Prompt
 #----------------------------------------------------------
-oh-my-posh init pwsh --config "~/.config/alexvy86.omp.json" | Invoke-Expression;
-
-# In a Copilot agent terminal (VS Code's _createCopilotTerminal injects COPILOT_AGENT=1
-# only into AI-driven terminals, never interactive ones), disable oh-my-posh's transient
-# prompt. On Enter it calls [PSConsoleReadLine]::InvokePrompt(), which re-invokes VS Code's
-# shell-integration prompt wrapper and emits a duplicate OSC 633;A/633;B marker pair right
-# before the command runs. That corrupts the region VS Code uses to capture command output,
-# so the agent gets the prompt banner instead of the output. Interactive terminals keep the
-# transient prompt because they never see COPILOT_AGENT.
-# Async streaming (_ompStreaming) repaints via PowerShell.OnIdle -> InvokePrompt() the same
-# way, so disable it too as insurance (it's currently off for this config, and there's no
-# downside in a non-interactive agent terminal).
+# In a Copilot agent terminal (COPILOT_AGENT=1), use a prompt config that omits
+# transient_prompt. This avoids internal variable toggles and keeps behavior declarative.
 if ($env:COPILOT_AGENT -eq '1') {
-	$global:_ompTransientPrompt = $false;
-	$global:_ompStreaming = $false;
+	oh-my-posh init pwsh --config "~/.config/alexvy86-agent.omp.json" | Invoke-Expression;
+}
+else {
+	oh-my-posh init pwsh --config "~/.config/alexvy86.omp.json" | Invoke-Expression;
 }
 
 #oh-my-posh init pwsh --config "~/.poshthemes/slimfat.omp.json" | Invoke-Expression;
