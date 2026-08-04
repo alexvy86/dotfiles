@@ -91,8 +91,11 @@ Set-PSReadLineOption -EditMode Windows;
 # Make sure the cursor goes to the end of the line on history search.
 Set-PSReadLineOption -HistorySearchCursorMovesToEnd;
 
-Set-PSReadLineOption -PredictionSource HistoryAndPlugin;
-Set-PSReadLineOption -PredictionViewStyle ListView;
+# Predictive suggestions require an interactive console and fail in redirected agent shells.
+if (-not [Console]::IsOutputRedirected) {
+	Set-PSReadLineOption -PredictionSource HistoryAndPlugin;
+	Set-PSReadLineOption -PredictionViewStyle ListView;
+}
 
 # Trying to make Linux and Windows as similar as possible for the things I use.
 # REMEMBER KEY HANDLERS ARE CASE SENSITIVE. Ctrl+v and Ctrl+V are different handlers.
