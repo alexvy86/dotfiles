@@ -33,7 +33,35 @@ that happens nothing fnm-managed is on `PATH`, so commands fail with errors like
 - `node: command not found`
 - pnpm/node runs but reports an unexpected version
 
-## The fix
+## First confirm the profile was skipped
+
+Do not assume a missing command means that loading the user's profile files was bypassed. Inspect the
+current shell process before changing `PATH` or running `fnm env`.
+
+{{ if .is_windows -}}
+In PowerShell, inspect its complete command line:
+
+```powershell
+(Get-CimInstance Win32_Process -Filter "ProcessId = $PID").CommandLine
+```
+
+Continue with the fix below only if it contains `-NoProfile`. If it does not,
+the profile was allowed to load; report the missing tool or profile failure
+instead of replaying profile setup.
+{{- else -}}
+In bash or zsh, inspect the shell invocation:
+
+```bash
+ps -p $$ -o args=
+```
+
+Continue with the fix below only when the invocation confirms startup files
+were skipped, such as `--noprofile` or a non-login `bash -c` without `BASH_ENV`.
+Otherwise report the missing tool or profile failure instead of replaying
+profile setup.
+{{- end }}
+
+## The fix after confirmed profile bypass
 
 Re-create what the profile would have done: get `fnm` on `PATH`, then evaluate
 `fnm env` so the active Node (and corepack) become available. Do **not** try to
