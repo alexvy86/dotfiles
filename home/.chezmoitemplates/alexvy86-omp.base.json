@@ -128,6 +128,7 @@
           "options": {
             "branch_template": "[[ truncE 35 .Branch ]]",
             "fetch_status": true,
+            "native_status": true,
             "fetch_upstream_icon": true
           }
         }
