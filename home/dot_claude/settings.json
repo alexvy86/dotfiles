@@ -46,8 +46,6 @@
       "Bash(npm install -g:*)",
       "Bash(npm i -g:*)",
       "Bash(pnpm add -g:*)",
-      "Bash(pip install:*)",
-      "Bash(pip3 install:*)",
       "Bash(pipx install:*)",
       "Bash(cargo install:*)",
       "Bash(gem install:*)",

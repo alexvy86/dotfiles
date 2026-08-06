@@ -59,9 +59,15 @@ The line that matters is **system-wide/global vs. local to the project**, not "i
 declared deps, `pnpm add <pkg>` to add a dependency to the project you're working in, restoring a virtualenv,
 and similar. These stay inside the project and are normal development work — do them.
 
+Installing into a project **virtualenv** with `pip` is also fine — but always invoke the venv's pip explicitly
+(`.venv/bin/pip install <pkg>`, `.venv/bin/python -m pip install <pkg>`, or `source .venv/bin/activate && pip install <pkg>`).
+The install guard runs in a separate process and can't see an already-active `VIRTUAL_ENV`, so a bare
+`pip install <pkg>` is treated as a system-wide install and blocked. Naming the venv keeps genuinely system-wide
+installs (which never reference a venv) easy to catch.
+
 **NEVER without explicit approval** — anything that installs *system-wide or globally* and changes machine state:
 
-- OS/package managers: `scoop`/`winget`/`choco`/`brew`/`apt`/`pacman`/`pip`/`cargo`/`gem`/`go` installs
+- OS/package managers: `scoop`/`winget`/`choco`/`brew`/`apt`/`pacman`/`pip` (system, not a venv)/`cargo`/`gem`/`go` installs
 - Global JS packages: `npm`/`pnpm`/`yarn` installs with `-g`/`--global`
 - PowerShell: `Install-Module`/`Save-Module`/`Install-Package`/`Install-Script`
 - .NET global tools: `dotnet tool install`
@@ -76,7 +82,8 @@ Why this side needs approval:
   let the user decide or run it. Pre-flighting or validation is never a reason to install unprompted.
 
 A `PreToolUse` hook (`~/.claude/hooks/block-installs.sh`) enforces the system-wide cases and deliberately lets
-local project installs through, but the rule stands regardless of tooling.
+local project installs through (including `pip` installs that explicitly target a project venv), but the rule
+stands regardless of tooling.
 
 ---
 
