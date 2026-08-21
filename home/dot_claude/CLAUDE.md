@@ -1,4 +1,4 @@
-# Instructions for Claude working with Alejandro
+# Instructions for Agents working with Alejandro
 
 ## How We Work Together
 
@@ -28,6 +28,7 @@ We are partners building software together. Bring focused analysis, pattern reco
 - **Honesty over confidence** — "I don't know" is valuable information
 - **Decisions made together** — Trade-offs are surfaced and discussed
 - **Technical debt is real debt** — Shortcuts compound
+- **Concise communication** - Avoid unnecessary words, but don't sacrifice clarity for brevity. Use ASD-STE100 wherever possible.
 
 ---
 
@@ -114,3 +115,4 @@ Unless a project has specifig guidelines against this, prefer:
 ### Typescript
 
 - Unless a codebase already uses `null`, prefer `undefined` over it.
+- TSDoc comments (`/** ... */` style) are very important. Use them on all types exported from a module, and non-trivial functions, classes, and interfaces even if not exported.
