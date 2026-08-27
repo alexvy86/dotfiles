@@ -52,7 +52,6 @@ ignored/**
 AppData/**
 
 # Windows-specific config
-.config/powertoys.dsc.yaml
 .config/git-for-windows-installer-settings.ini
 .config/vscode-installer-settings.ini
 {{ end }}
