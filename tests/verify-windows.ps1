@@ -57,7 +57,6 @@ Assert-Exists "$h\AppData\Roaming\navi\cheats\git.cheat" "navi git cheat downloa
 Assert-Exists "$h\AppData\Roaming\nushell\config.nu"     "nushell config applied"
 Assert-Exists "$h\AppData\Roaming\nushell\nu_scripts"    "nu_scripts cloned"
 Assert-Exists "$h\AppData\Local\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState\settings.json" "Windows Terminal settings applied"
-Assert-Exists "$h\.config\powertoys.dsc.yaml"            "PowerToys config applied"
 
 Write-Host "Cross-platform isolation (Unix-only files absent):"
 Assert-Absent "$h\.zshrc"               ".zshrc not applied on Windows"

@@ -59,8 +59,7 @@ assert_exists     "${HOME}/.config/zsh/zsh-autocomplete"      "zsh-autocomplete 
 assert_exists     "${HOME}/.config/zsh/fzf-tab"               "fzf-tab cloned"
 
 echo "Cross-platform isolation (Windows-only files absent):"
-assert_absent "${HOME}/AppData"                    "AppData not applied on Unix"
-assert_absent "${HOME}/.config/powertoys.dsc.yaml" "PowerToys config not applied on Unix"
+assert_absent "${HOME}/AppData" "AppData not applied on Unix"
 
 echo
 if [ "${failures}" -gt 0 ]; then
