@@ -10,116 +10,116 @@ function private:cuaf {
 # Interactive winget upgrader.
 # Uses fzf for multi-select (Tab/Space to select, Enter to upgrade, Esc to cancel).
 function private:wingetup {
-    Write-Host "Fetching available upgrades..." -ForegroundColor Cyan
+	Write-Host "Fetching available upgrades..." -ForegroundColor Cyan
 
-    # Strip ANSI codes and trailing CR; drop spinner/blank lines
-    $rawOutput = winget list --upgrade-available --accept-source-agreements 2>&1 |
-        Where-Object { $_ -is [string] } |
-        ForEach-Object { ($_ -replace '\x1b\[[0-9;]*[A-Za-z]', '').TrimEnd("`r") } |
-        Where-Object { $_ -match '\S' }
+	# Strip ANSI codes and trailing CR; drop spinner/blank lines
+	$rawOutput = winget list --upgrade-available --accept-source-agreements 2>&1 |
+		Where-Object { $_ -is [string] } |
+		ForEach-Object { ($_ -replace '\x1b\[[0-9;]*[A-Za-z]', '').TrimEnd("`r") } |
+		Where-Object { $_ -match '\S' }
 
-    # Find the header line by content (more reliable than the solid-dash separator)
-    $headerLineIdx = -1
-    for ($i = 0; $i -lt $rawOutput.Count; $i++) {
-        if ($rawOutput[$i] -match '\bName\b.*\bId\b.*\bVersion\b') { $headerLineIdx = $i; break }
-    }
+	# Find the header line by content (more reliable than the solid-dash separator)
+	$headerLineIdx = -1
+	for ($i = 0; $i -lt $rawOutput.Count; $i++) {
+		if ($rawOutput[$i] -match '\bName\b.*\bId\b.*\bVersion\b') { $headerLineIdx = $i; break }
+	}
 
-    if ($headerLineIdx -lt 0 -or $headerLineIdx -ge ($rawOutput.Count - 2)) {
-        Write-Host "No upgrades available." -ForegroundColor Green
-        return
-    }
+	if ($headerLineIdx -lt 0 -or $headerLineIdx -ge ($rawOutput.Count - 2)) {
+		Write-Host "No upgrades available." -ForegroundColor Green
+		return
+	}
 
-    # Derive column start positions from the header words
-    $headerLine = $rawOutput[$headerLineIdx]
-    $colStarts  = [System.Collections.Generic.List[int]]::new()
-    $colNames   = [System.Collections.Generic.List[string]]::new()
-    $i = 0
-    while ($i -lt $headerLine.Length) {
-        if ($headerLine[$i] -ne ' ') {
-            $colStarts.Add($i)
-            $word = ""
-            while ($i -lt $headerLine.Length -and $headerLine[$i] -ne ' ') { $word += $headerLine[$i]; $i++ }
-            $colNames.Add($word)
-        } else { $i++ }
-    }
+	# Derive column start positions from the header words
+	$headerLine = $rawOutput[$headerLineIdx]
+	$colStarts  = [System.Collections.Generic.List[int]]::new()
+	$colNames   = [System.Collections.Generic.List[string]]::new()
+	$i = 0
+	while ($i -lt $headerLine.Length) {
+		if ($headerLine[$i] -ne ' ') {
+			$colStarts.Add($i)
+			$word = ""
+			while ($i -lt $headerLine.Length -and $headerLine[$i] -ne ' ') { $word += $headerLine[$i]; $i++ }
+			$colNames.Add($word)
+		} else { $i++ }
+	}
 
-    $nameIdx      = $colNames.IndexOf("Name")
-    $idIdx        = $colNames.IndexOf("Id")
-    $versionIdx   = $colNames.IndexOf("Version")
-    $availableIdx = $colNames.IndexOf("Available")
+	$nameIdx	  = $colNames.IndexOf("Name")
+	$idIdx		= $colNames.IndexOf("Id")
+	$versionIdx   = $colNames.IndexOf("Version")
+	$availableIdx = $colNames.IndexOf("Available")
 
-    if ($idIdx -lt 0) {
-        Write-Host "Could not parse winget output (no Id column found)." -ForegroundColor Red
-        return
-    }
+	if ($idIdx -lt 0) {
+		Write-Host "Could not parse winget output (no Id column found)." -ForegroundColor Red
+		return
+	}
 
-    # Extract a field from a data line by column index
-    $getField = {
-        param([string]$line, [int]$colIdx)
-        $start = $colStarts[$colIdx]
-        $end   = if ($colIdx + 1 -lt $colStarts.Count) { $colStarts[$colIdx + 1] } else { $line.Length }
-        $end   = [Math]::Min($end, $line.Length)
-        if ($start -ge $line.Length) { return "" }
-        $line.Substring($start, $end - $start).Trim()
-    }
+	# Extract a field from a data line by column index
+	$getField = {
+		param([string]$line, [int]$colIdx)
+		$start = $colStarts[$colIdx]
+		$end   = if ($colIdx + 1 -lt $colStarts.Count) { $colStarts[$colIdx + 1] } else { $line.Length }
+		$end   = [Math]::Min($end, $line.Length)
+		if ($start -ge $line.Length) { return "" }
+		$line.Substring($start, $end - $start).Trim()
+	}
 
-    # Data rows start after header + separator.
-    # winget may emit a secondary section ("The following packages have a version that...") for
-    # pinned/explicit packages — stop before it, as those can't be upgraded without --include-pinned.
-    $dataStart = $headerLineIdx + 2
-    $dataEnd   = $rawOutput.Count - 1
-    for ($j = $dataStart; $j -le $dataEnd; $j++) {
-        if ($rawOutput[$j] -match '^The following') { $dataEnd = $j - 1; break }
-    }
+	# Data rows start after header + separator.
+	# winget may emit a secondary section ("The following packages have a version that...") for
+	# pinned/explicit packages — stop before it, as those can't be upgraded without --include-pinned.
+	$dataStart = $headerLineIdx + 2
+	$dataEnd   = $rawOutput.Count - 1
+	for ($j = $dataStart; $j -le $dataEnd; $j++) {
+		if ($rawOutput[$j] -match '^The following') { $dataEnd = $j - 1; break }
+	}
 
-    $packages = $rawOutput[$dataStart..$dataEnd] |
-        Where-Object { $_ -notmatch '^\d+ upgrade' -and $_ -notmatch '^\s*[\-─]+\s*$' } |
-        ForEach-Object {
-            $line = $_
-            [PSCustomObject]@{
-                Name      = & $getField $line $nameIdx
-                Id        = & $getField $line $idIdx
-                Version   = & $getField $line $versionIdx
-                Available = & $getField $line $availableIdx
-            }
-        } |
-        Where-Object { $_.Id -ne '' }
+	$packages = $rawOutput[$dataStart..$dataEnd] |
+		Where-Object { $_ -notmatch '^\d+ upgrade' -and $_ -notmatch '^\s*[\-─]+\s*$' } |
+		ForEach-Object {
+			$line = $_
+			[PSCustomObject]@{
+				Name	  = & $getField $line $nameIdx
+				Id		= & $getField $line $idIdx
+				Version   = & $getField $line $versionIdx
+				Available = & $getField $line $availableIdx
+			}
+		} |
+		Where-Object { $_.Id -ne '' }
 
-    if (!$packages -or @($packages).Count -eq 0) {
-        Write-Host "No upgrades available." -ForegroundColor Green
-        return
-    }
+	if (!$packages -or @($packages).Count -eq 0) {
+		Write-Host "No upgrades available." -ForegroundColor Green
+		return
+	}
 
-    # Build tab-delimited lines: <Id><TAB><display>
-    # fzf shows only the display part (--with-nth=2), but the full line is returned on selection.
-    $maxNameLen = ($packages | ForEach-Object { $_.Name.Length } | Measure-Object -Maximum).Maximum
-    $fzfLines = $packages | ForEach-Object {
-        $display = "$($_.Name.PadRight($maxNameLen))  $($_.Version) -> $($_.Available)"
-        "$($_.Id)`t$display"
-    }
+	# Build tab-delimited lines: <Id><TAB><display>
+	# fzf shows only the display part (--with-nth=2), but the full line is returned on selection.
+	$maxNameLen = ($packages | ForEach-Object { $_.Name.Length } | Measure-Object -Maximum).Maximum
+	$fzfLines = $packages | ForEach-Object {
+		$display = "$($_.Name.PadRight($maxNameLen))  $($_.Version) -> $($_.Available)"
+		"$($_.Id)`t$display"
+	}
 
-    $selected = $fzfLines | fzf `
-        --multi `
-        --delimiter="`t" `
-        --with-nth=2 `
-        --header="TAB/SPACE: select  ENTER: upgrade  ESC: cancel" `
-        --height=~80% `
-        --layout=reverse
+	$selected = $fzfLines | fzf `
+		--multi `
+		--delimiter="`t" `
+		--with-nth=2 `
+		--header="TAB/SPACE: select  ENTER: upgrade  ESC: cancel" `
+		--height=~80% `
+		--layout=reverse
 
-    if (!$selected) {
-        Write-Host "No packages selected." -ForegroundColor Yellow
-        return
-    }
+	if (!$selected) {
+		Write-Host "No packages selected." -ForegroundColor Yellow
+		return
+	}
 
-    $selectedIds = @($selected) | ForEach-Object { ($_ -split "`t")[0] }
+	$selectedIds = @($selected) | ForEach-Object { ($_ -split "`t")[0] }
 
-    Write-Host ""
-    foreach ($id in $selectedIds) {
-        Write-Host "==> Upgrading: $id" -ForegroundColor Yellow
-        winget upgrade --id $id --accept-source-agreements --accept-package-agreements
-        Write-Host ""
-    }
-    Write-Host "Done." -ForegroundColor Green
+	Write-Host ""
+	foreach ($id in $selectedIds) {
+		Write-Host "==> Upgrading: $id" -ForegroundColor Yellow
+		winget upgrade --id $id --accept-source-agreements --accept-package-agreements
+		Write-Host ""
+	}
+	Write-Host "Done." -ForegroundColor Green
 }
 
 # TODO: would this work in Linux?
@@ -169,7 +169,7 @@ function private:install-apps {
 
 	if ($personal) {
 		$ApplicationsToInstall += @(
-            @{Id = "AgileBits.1Password"; }
+			@{Id = "AgileBits.1Password"; }
 			@{Id = "Discord.Discord" }
 			@{Id = "PrivateInternetAccess.PrivateInternetAccess" }
 			@{Id = "Spotify.Spotify" }
