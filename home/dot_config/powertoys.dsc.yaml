@@ -1,28 +1,23 @@
-properties:
-  resources:
-    # Installing PowerToys like this seems to install the module in a location that might not match the one used
-    # by other installers of PowerToys and then applying the configuration complains with this error:
-    #  "The module for the configuration unit is available in multiple locations with the same version."
-    # Check the folders reported by `$env:PSModulePath -split ';'` to see if Microsoft.PowerToys.Configure is installed
-    # in several locations and remove it from all other than the user's Documents/PowerShell/Modules directory.
-    - resource: Microsoft.WinGet.DSC/WinGetPackage
-      id: installPowerToys
-      directives:
-        description: Install PowerToys
-        allowPrerelease: true
-      settings:
-        id: Microsoft.PowerToys
-        source: winget
+$schema: https://raw.githubusercontent.com/PowerShell/DSC/main/schemas/2023/08/config/document.json
+metadata:
+  winget:
+    processor: dscv3
+resources:
+  - name: Install PowerToys
+    type: Microsoft.WinGet/Package
+    properties:
+      id: Microsoft.PowerToys
+      source: winget
+      _exist: true
 
-    - resource: Microsoft.PowerToys.Configure/PowerToysConfigure
-      dependsOn:
-        - installPowerToys
-      directives:
-        description: Configure PowerToys
+  # PowerToys Run has no settings resource, so its activation shortcut cannot be configured through DSC.
+  - name: Configure PowerToys
+    type: Microsoft.PowerToys/AppSettings
+    properties:
       settings:
-        Awake:
-          Enabled: false
-        PowerLauncher:
-          Enabled: true
-          OpenPowerLauncher: "Ctrl+Win+Space"
-  configurationVersion: 0.2.0
+        properties:
+          Enabled:
+            Awake: false
+            "PowerToys Run": true
+        name: App
+        version: 1.0
