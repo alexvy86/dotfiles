@@ -150,7 +150,6 @@ function private:install-apps {
 
 	$ApplicationsToInstall = @(
 		@{Id = "7zip.7zip"; }
-		@{Id = "AgileBits.1Password"; }
 		@{Id = "Git.Git"; Args = "/SILENT /LOADINF=$PathToGitInstallerSettings" }
 		@{Id = "GitHub.GitLFS"; }
 		# Google.Chrome.EXE (vs Google.Chrome) does a user-level install
@@ -170,6 +169,7 @@ function private:install-apps {
 
 	if ($personal) {
 		$ApplicationsToInstall += @(
+            @{Id = "AgileBits.1Password"; }
 			@{Id = "Discord.Discord" }
 			@{Id = "PrivateInternetAccess.PrivateInternetAccess" }
 			@{Id = "Spotify.Spotify" }
