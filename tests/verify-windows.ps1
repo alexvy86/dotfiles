@@ -49,6 +49,7 @@ Assert-Exists   "$h\.gitconfig-maintenance"           ".gitconfig-maintenance cr
 Assert-Exists   "$h\.bashrc"                          ".bashrc applied (kept on Windows for GitBash)"
 Assert-Exists   "$h\.config\git\ignore"               "global gitignore applied"
 Assert-Exists   "$h\.claude\CLAUDE.md"                "Claude config applied"
+Assert-Exists   "$h\.copilot\copilot-instructions.md" "Copilot config applied"
 Assert-Exists   "$h\.config\powershell\profile.ps1"   "PowerShell profile applied"
 
 Write-Host "Windows-specific files:"

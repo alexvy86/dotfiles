@@ -2,6 +2,13 @@
 
 Chezmoi templates shared across platforms.
 
+## AGENTS.md
+
+Canonical, cross-agent instructions. It is the single source of truth included by
+each agent's native user-level file: `~/.claude/CLAUDE.md` (Claude Code) and
+`~/.copilot/copilot-instructions.md` (Copilot CLI). Edit this file to change
+guidance for every agent at once.
+
 ## skills/
 
 Shared templates for AI skills, organized per skill folder to mirror

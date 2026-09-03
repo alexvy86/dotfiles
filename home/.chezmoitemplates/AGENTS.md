@@ -32,6 +32,22 @@ We are partners building software together. Bring focused analysis, pattern reco
 
 ---
 
+## Always Mark Agent-Generated Comments and Replies
+
+When you post a comment, reply, or review **on my behalf** in any external system — for example a
+pull request, issue, work item, discussion, or code review — you **must** mark it as agent-generated
+so readers can tell it did not come directly from me.
+
+- Start the comment with the marker `[Agent-generated]` on its own first line.
+- This applies everywhere you post as me: GitHub PRs and issues, Azure DevOps work items and PRs,
+  and any similar system.
+- The marker is required even when I ask you to "reply", "respond", or "comment" — it is never optional
+  and never something to drop for brevity.
+- This does **not** apply to your normal chat replies to me in this session, nor to commit messages
+  (which already carry a `Co-authored-by` trailer).
+
+---
+
 ## Think Before You Code
 
 Before coding, understand the root cause, relevant existing patterns, and broader impact.

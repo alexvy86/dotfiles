@@ -49,6 +49,7 @@ assert_exists   "${HOME}/.profile"                                ".profile appl
 assert_exists   "${HOME}/.config/git/ignore"                      "global gitignore applied"
 assert_exists   "${HOME}/.config/git.sh"                          "git.sh shell snippet applied"
 assert_exists   "${HOME}/.claude/CLAUDE.md"                       "Claude config applied"
+assert_exists   "${HOME}/.copilot/copilot-instructions.md"        "Copilot config applied"
 assert_exists   "${HOME}/.oh-my-zsh/custom/themes/alex.zsh-theme" "custom zsh theme applied"
 
 echo "Externals:"
