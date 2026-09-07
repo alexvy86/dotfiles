@@ -137,12 +137,13 @@ fnm env --use-on-cd --version-file-strategy=recursive --resolve-engines=false | 
 #----------------------------------------------------------
 # Prompt
 #----------------------------------------------------------
-# In a Copilot agent terminal (COPILOT_AGENT=1), use a prompt config that omits
-# transient_prompt. This avoids internal variable toggles and keeps behavior declarative.
-if ($env:COPILOT_AGENT -eq '1') {
-	oh-my-posh init pwsh --config "~/.config/alexvy86-agent.omp.json" | Invoke-Expression;
-}
-else {
+# Skip Oh-My-Posh entirely in agent terminals ($env:AI_AGENT is set): the agent parses
+# command output via OSC 633 markers and never renders the screen, so a themed prompt
+# buys nothing, while its git-status segment can take ~20s to render in large monorepos.
+# AI_AGENT is set generically by both GitHub Copilot's and Claude Code's VS Code agent
+# terminals (and any other tool following the same convention).
+# See: docs/notes/vscode-agent-output-capture-vs-oh-my-posh-transient-prompt.md
+if (-not $env:AI_AGENT) {
 	oh-my-posh init pwsh --config "~/.config/alexvy86.omp.json" | Invoke-Expression;
 }
 

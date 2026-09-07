@@ -8,10 +8,16 @@ I noticed that the VS Code agent was reporting a lot of failures to capture the 
 I traced it to the fact that if VS Code shell integration is active (OSC 633 markers), and oh-my-posh transient prompt rendering is enabled,
 the redraw from the transient prompt duplicates marker boundaries and corrupts the capture region.
 
-The fix is a config split gated by `COPILOT_AGENT=1`, which VSCode sets in agent terminals: there we use an oh-my-posh config without
-`transient_prompt`; interactive terminals keep the normal config with transient prompt enabled.
+Separately, the agent never renders or reads the prompt visually — it only parses the OSC 633 markers programmatically — so a themed
+prompt buys it nothing, while oh-my-posh's git-status segment can take up to ~20s to render in large monorepos, paid on every single
+prompt in the session.
 
-This note documents the investigation and the implemented config-split fix for PowerShell and zsh.
+The fix is to skip Oh-My-Posh entirely in agent terminals, gated on `AI_AGENT` being set (which VS Code sets, with a tool-specific value,
+in any agent terminal — not just Copilot's). This resolves both problems at once: no prompt re-render means no marker corruption, and no
+render at all means no monorepo latency cost. An earlier iteration of this fix only swapped in a config without `transient_prompt`
+(gated on the Copilot-specific `COPILOT_AGENT=1`); see [History](#history-config-split-fix) for that approach and why it was superseded.
+
+This note documents the investigation, the original config-split fix, and the full-disable fix that replaced it.
 
 ## Symptom
 
@@ -76,16 +82,46 @@ GIT_EDITOR=:
 DEBIAN_FRONTEND=noninteractive
 ```
 
-`COPILOT_AGENT=1` is the signal we gate on: persistent, cross-platform, and absent from interactive terminals. That is
-what lets us keep the transient prompt everywhere except the agent's terminal.
+Claude Code's VS Code agent terminal follows the same convention with a tool-specific value, e.g.
+`AI_AGENT=claude-code_2-1-263_agent` (confirmed via `env` in a live Claude Code session; it also sets `CLAUDECODE=1`).
+`AI_AGENT` — non-empty, not a specific value — is the signal we gate on: persistent, cross-platform, present in any
+agent terminal (not just Copilot's), and absent from interactive terminals. `COPILOT_AGENT` was the original gate but
+is Copilot-specific and misses other agents such as Claude Code's.
 
 Note: `VSCODE_PREVENT_SHELL_HISTORY=1` is also set for agent terminals, but `shellIntegration.ps1` consumes and unsets
-it during startup, so it is not reliably readable at runtime. Use `COPILOT_AGENT` instead.
+it during startup, so it is not reliably readable at runtime. Use `AI_AGENT` instead.
 
-## Resolution (PowerShell)
+Note: this doesn't affect Claude Code's own `Bash` tool invocations on Windows — those run git-bash non-interactively
+and `.bashrc` returns early before sourcing `use-ohmyposh.sh` at all (confirmed via `$-` in a live session). It only
+matters for an actual interactive agent terminal, e.g. Copilot's VS Code agent terminal or an equivalent.
 
-In `home/dot_config/powershell/profile.ps1.tmpl`, prompt init now selects one of two configs based on
-`COPILOT_AGENT=1`:
+## Resolution
+
+Skip Oh-My-Posh entirely when `AI_AGENT` is set, in both `home/dot_config/powershell/profile.ps1.tmpl` (PowerShell)
+and `home/dot_config/use-ohmyposh.sh` (bash/zsh):
+
+```powershell
+if (-not $env:AI_AGENT) {
+    oh-my-posh init pwsh --config "~/.config/alexvy86.omp.json" | Invoke-Expression;
+}
+```
+
+No agent-specific oh-my-posh config is needed anymore — there is nothing to render, so there is nothing to configure.
+This also transitively fixes the original transient-prompt corruption (no prompt render means no `InvokePrompt()`
+re-entrancy), and additionally avoids paying oh-my-posh's git-status segment cost (up to ~20s in large monorepos) on
+every prompt in an agent session.
+
+## Implementation status
+
+### ✅ PowerShell, zsh, bash — COMPLETE
+
+All three shells gate the entire `oh-my-posh init` call on `AI_AGENT` being unset. Interactive terminals are
+unaffected and keep `alexvy86.omp.json` (with transient prompt) exactly as before.
+
+## History: config-split fix
+
+The original (superseded) fix kept oh-my-posh running in agent terminals but swapped in a config without
+`transient_prompt`, gated on the Copilot-specific `COPILOT_AGENT=1`:
 
 ```powershell
 if ($env:COPILOT_AGENT -eq '1') {
@@ -96,29 +132,12 @@ else {
 }
 ```
 
-`alexvy86-agent.omp.json` omits the `transient_prompt` block, so there is no runtime mutation of oh-my-posh internals.
-Interactive terminals keep `alexvy86.omp.json` with transient prompt enabled.
-
-## Implementation status
-
-### ✅ zsh — COMPLETE
-
-The fix was implemented in `home/dot_config/use-ohmyposh.sh` and validated on WSL/Linux with oh-my-posh 29.19.0 and
-zsh 5.9. When `COPILOT_AGENT=1`, zsh initializes oh-my-posh with `~/.config/alexvy86-agent.omp.json` (which omits
-`transient_prompt`). Interactive terminals keep `~/.config/alexvy86.omp.json` with transient prompt enabled.
-
-### Open items: bash
-
-`bash`: `oh-my-posh init bash` produced empty output on Windows, so the mechanism could not be inspected there. bash
-transient also requires `ble.sh`. The fix placeholder is in `home/dot_config/use-ohmyposh.sh` (the `elif` branch),
-documented as deferred pending testing in a bash environment. The `COPILOT_AGENT=1` signal is shell-agnostic (injected
-by `_createCopilotTerminal` regardless of shell), so the same gate applies.
-
-### ✅ Config generation model
-
-- Shared base prompt payload lives in `home/.chezmoitemplates/alexvy86-omp.base.json`.
-- Interactive config is generated by `home/dot_config/alexvy86.omp.json.tmpl` and injects `transient_prompt`.
-- Agent config is generated by `home/dot_config/alexvy86-agent.omp.json.tmpl` and omits `transient_prompt`.
+`alexvy86-agent.omp.json` (generated from a shared base at `home/.chezmoitemplates/alexvy86-omp.base.json`) omitted
+the `transient_prompt` block, so there was no runtime mutation of oh-my-posh internals. This fixed the marker
+corruption but still paid the base render cost (git-status segment included) on every prompt, and only covered
+Copilot's terminal since it gated on `COPILOT_AGENT`. It was validated on WSL/Linux zsh (oh-my-posh 29.19.0, zsh 5.9);
+`oh-my-posh init bash` produced empty output on Windows so the bash path was never fully validated under this
+approach. Superseded by the full-disable fix above, which needs no agent-specific config at all.
 
 ## Scrollback (separate issue)
 
@@ -131,17 +150,14 @@ which captures exact bytes independent of markers and scrollback.
 
 ### Implementation files
 - **PowerShell fix**: `home/dot_config/powershell/profile.ps1.tmpl`
-  - Selects `~/.config/alexvy86-agent.omp.json` when `COPILOT_AGENT=1`
-- **zsh fix**: `home/dot_config/use-ohmyposh.sh`
-  - Selects `~/.config/alexvy86-agent.omp.json` when `COPILOT_AGENT=1`
-- **bash placeholder**: `home/dot_config/use-ohmyposh.sh`
-  - Documented as deferred; requires ble.sh support
+  - Skips `oh-my-posh init` entirely when `$env:AI_AGENT` is set
+- **zsh/bash fix**: `home/dot_config/use-ohmyposh.sh`
+  - Skips `oh-my-posh init` entirely when `$AI_AGENT` is set
 
 ### Configuration and references
-- Base prompt config template (no transient prompt): `home/.chezmoitemplates/alexvy86-omp.base.json`
-- Interactive prompt config template (adds transient prompt): `home/dot_config/alexvy86.omp.json.tmpl`
-- Agent prompt config template (keeps transient prompt disabled): `home/dot_config/alexvy86-agent.omp.json.tmpl`
-- Generated runtime configs: `~/.config/alexvy86.omp.json` and `~/.config/alexvy86-agent.omp.json`
+- Shared prompt config template (used for all interactive terminals): `home/dot_config/alexvy86.omp.json.tmpl`
+- Shared base prompt payload: `home/.chezmoitemplates/alexvy86-omp.base.json`
+- Generated runtime config: `~/.config/alexvy86.omp.json`
 - VS Code PowerShell shell integration:
   `resources/app/out/vs/workbench/contrib/terminal/common/scripts/shellIntegration.ps1`
 - VS Code agent terminal env injection: `_createCopilotTerminal` in
