@@ -1,0 +1,11 @@
+{{- /* chezmoi:modify-template */ -}}
+{{- $settings := dict -}}
+{{- if ne (.chezmoi.stdin | trim) "" -}}
+{{-   $settings = fromJson .chezmoi.stdin -}}
+{{- end -}}
+{{- if hasKey $settings "powershellFlags" -}}
+{{-   $_ := set $settings "powershellFlags" (without $settings.powershellFlags "-NoProfile") -}}
+{{- else -}}
+{{-   $_ := set $settings "powershellFlags" (list "-NoLogo") -}}
+{{- end -}}
+{{ $settings | toPrettyJson }}
