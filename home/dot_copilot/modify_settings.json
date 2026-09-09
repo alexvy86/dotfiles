@@ -8,4 +8,5 @@
 {{- else -}}
 {{-   $_ := set $settings "powershellFlags" (list "-NoLogo") -}}
 {{- end -}}
+{{- $_ := set $settings "defaultPermissionMode" "assisted" -}}
 {{ $settings | toPrettyJson }}
