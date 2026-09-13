@@ -1,5 +1,26 @@
 {
   "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "permissions": {
+    "deny": [
+      "Bash(scoop install:*)",
+      "Bash(winget install:*)",
+      "Bash(choco install:*)",
+      "Bash(brew install:*)",
+      "Bash(apt install:*)",
+      "Bash(apt-get install:*)",
+      "Bash(dnf install:*)",
+      "Bash(pacman -S:*)",
+      "Bash(npm install -g:*)",
+      "Bash(npm i -g:*)",
+      "Bash(pnpm add -g:*)",
+      "Bash(pipx install:*)",
+      "Bash(cargo install:*)",
+      "Bash(gem install:*)",
+      "Bash(go install:*)",
+      "Bash(dotnet tool install:*)"
+    ],
+    "defaultMode": "auto"
+  },
   "hooks": {
     "SessionStart": [
       {
@@ -32,25 +53,5 @@
   "forceLoginMethod": "console",
   "autoUpdatesChannel": "latest",
   "skipAutoPermissionPrompt": true,
-  "permissions": {
-    "defaultMode": "auto",
-    "deny": [
-      "Bash(scoop install:*)",
-      "Bash(winget install:*)",
-      "Bash(choco install:*)",
-      "Bash(brew install:*)",
-      "Bash(apt install:*)",
-      "Bash(apt-get install:*)",
-      "Bash(dnf install:*)",
-      "Bash(pacman -S:*)",
-      "Bash(npm install -g:*)",
-      "Bash(npm i -g:*)",
-      "Bash(pnpm add -g:*)",
-      "Bash(pipx install:*)",
-      "Bash(cargo install:*)",
-      "Bash(gem install:*)",
-      "Bash(go install:*)",
-      "Bash(dotnet tool install:*)"
-    ]
-  }
+  "agentPushNotifEnabled": true
 }
