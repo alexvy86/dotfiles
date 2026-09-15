@@ -38,7 +38,10 @@ When you post a comment, reply, or review **on my behalf** in any external syste
 pull request, issue, work item, discussion, or code review — you **must** mark it as agent-generated
 so readers can tell it did not come directly from me.
 
-- Start the comment with the marker `[Agent-generated]` on its own first line.
+Each session should have a persistent identity generated on-the-fly, *once per session*, in the format `[AlejandroBot <4-char-hash>]`.
+E.g. `[AlejandroBot a3f9]`
+
+- Start the comment with the marker for your identity on the first line.
 - This applies everywhere you post as me: GitHub PRs and issues, Azure DevOps work items and PRs,
   and any similar system.
 - The marker is required even when I ask you to "reply", "respond", or "comment" — it is never optional
