@@ -22,6 +22,7 @@
     "Separator": "<p:separator> \ue0b1 </>"
   },
   "console_title_template": "[[if .Root]]root :: [[end]][[.Shell]] :: [[.Folder]]",
+  "streaming": 100,
   "blocks": [
     {
       "type": "prompt",
