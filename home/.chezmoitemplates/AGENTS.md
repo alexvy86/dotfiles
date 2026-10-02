@@ -38,8 +38,12 @@ When you post a comment, reply, or review **on my behalf** in any external syste
 pull request, issue, work item, discussion, or code review — you **must** mark it as agent-generated
 so readers can tell it did not come directly from me.
 
-Each session should have a persistent identity generated on-the-fly, *once per session*, in the format `[AlejandroBot <4-char-hash>]`.
-E.g. `[AlejandroBot a3f9]`
+Each session must use a stable identity in the format `[AlejandroBot <4-hex-id>]`.
+When the host exposes a session ID, compute the SHA-256 hash of its exact UTF-8 value and use the first
+4 lowercase hexadecimal characters. Compute it with a tool; do not invent a hash. If no session ID is
+available, generate a UUID with a tool once and derive the marker the same way. Preserve the marker
+across turns, resumptions, and context compaction. A fork with a distinct session ID must derive its
+own marker. Never use an example marker as your actual identity.
 
 - Start the comment with the marker for your identity on the first line.
 - This applies everywhere you post as me: GitHub PRs and issues, Azure DevOps work items and PRs,
