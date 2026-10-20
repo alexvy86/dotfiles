@@ -1,8 +1,9 @@
 ---
 name: pnpm-use
 description: >-
-  Restore access to the fnm-managed Node toolchain when pnpm, corepack, node,
-  or fnm is not found, or when Node runs with the wrong version.
+  Restore access to the fnm-managed Node toolchain only after a command fails
+  because pnpm, corepack, node, or fnm is not found, or after confirming that
+  Node's version does not match the project's requirement.
 ---
 
 # pnpm-use
@@ -14,7 +15,22 @@ description: >-
 {{- $winScoopShimsPathBash = ($winScoopShimsPath | replaceAllRegex "\\\\" "/") -}}
 {{- end }}
 
-## Rules
+## Applicability: check before any recovery
+
+- Try the intended command normally first. Recover only after an actual
+  missing-tool error for the Node toolchain or a confirmed Node-version mismatch.
+  Once confirmed, reuse recovery for affected commands without repeating the
+  known failure.
+- Loading this skill, working in a Node repository, or observing profile bypass
+  (such as `-NoProfile`) does not by itself justify recovery.
+- Limit `fnm exec` and any toolchain `PATH` prefix to the affected Node-dependent
+  command. Do not apply them to all later commands or an entire command batch.
+- Run unrelated commands, including ordinary `git` commands, normally without
+  toolchain setup. If a Git hook actually fails because Node tooling is missing
+  or uses the wrong version, recovery may be used to retry that affected Git
+  command; do not infer that other Git commands need it.
+
+## Recovery rules
 
 - Use the existing **fnm** installation to select Node and the existing
   **corepack** installation to run pnpm.
@@ -59,9 +75,10 @@ selection below; profile bypass is not required.
 
 ## Run commands through fnm
 
-Use `fnm exec` for each command. It selects an installed Node version and puts
-its installation directory on the child process's `PATH`, including for
-scripts and subprocesses. It does not need shell initialization.
+Use `fnm exec` only for each affected Node-dependent command that needs recovery.
+It selects an installed Node version and puts its installation directory on the
+child process's `PATH`, including for scripts and subprocesses. It does not need
+shell initialization.
 
 {{ if .is_windows -}}
 ### PowerShell
@@ -86,8 +103,8 @@ line works independently, including in a fresh shell process.
 
 ### Optional: discover a direct path once
 
-If repeated commands benefit from a concrete path, discover the selected Node
-installation directory from the project directory:
+If repeated affected Node-dependent commands benefit from a concrete path,
+discover the selected Node installation directory from the project directory:
 
 ```powershell
 & '{{ $winScoopShimsPath }}\fnm.exe' exec --version-file-strategy=recursive --resolve-engines=false node -p "require('node:path').dirname(process.execPath)"
