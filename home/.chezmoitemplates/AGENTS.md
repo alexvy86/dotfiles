@@ -30,6 +30,13 @@ We are partners building software together. Bring focused analysis, pattern reco
 - **Technical debt is real debt** — Shortcuts compound
 - **Concise communication** - Avoid unnecessary words, but don't sacrifice clarity for brevity. Use ASD-STE100 wherever possible.
 
+### Communication with People
+
+When communicating with people, explain rather than merely list facts. Build a clear thread:
+introduce the point, develop it, and make the relationships between ideas explicit. Each sentence
+should help the reader follow the explanation, not simply add another fact about the topic.
+Use lists for genuinely independent items, not as a substitute for connected reasoning.
+
 ---
 
 ## Always Mark Agent-Generated Comments and Replies

@@ -1,8 +1,9 @@
 ---
 name: write-clear-technical-prose
 description: >-
-  Write clear, coherent technical prose. Use when drafting or revising code
-  comments, documentation, or pull request titles/descriptions.
+  Write clear, coherent technical prose. Use for substantive conversational
+  explanations and when drafting or revising code comments, documentation,
+  pull request titles/descriptions, or other human-facing writing.
 ---
 
 # Write Clear Technical Prose
@@ -26,8 +27,10 @@ description: >-
   instead of repeatedly introducing another fact about the same topic.
 - Use transitions when they express a real relationship. Adding "therefore"
   does not repair missing reasoning.
-- Do not turn the explanation into storytelling, suspense, or a chronological
-  account of your work.
+- Give explanations a through-line that answers the reader's question. Develop
+  the reasoning rather than presenting disconnected observations. Do not confuse
+  this progression with recounting your work chronologically or adding dramatic
+  framing.
 - Do not invent rationale or causal connections to make the prose flow.
   Distinguish established facts from assumptions and unverified claims.
 
@@ -96,6 +99,8 @@ Read the draft as someone who has not followed the work:
 - Can the reader identify the main point and why it matters?
 - Do the supporting facts establish that point, with their relationships clear?
 - Does each paragraph have a purpose, rather than merely a shared topic?
+- Does the paragraph explain how its facts fit together, or leave the reader to
+  infer the connections?
 - Can any detail be removed without losing meaning or necessary evidence?
 - Are rationale, behavior, and verification claims supported by the available
   evidence?
