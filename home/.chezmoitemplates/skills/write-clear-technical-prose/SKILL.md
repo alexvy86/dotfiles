@@ -49,15 +49,28 @@ description: >-
 
 ### Code comments
 
+- Write for a future maintainer who can read the surrounding code but has not
+  seen the task, conversation, PR, or earlier implementation.
 - Explain intent, constraints, or surprising choices that the code cannot
   express clearly. Do not narrate the implementation.
-- Keep comments close to the code they explain. Include enough context to
-  preserve a non-obvious constraint without recounting the development history.
+- State the relevant condition or constraint and its consequence. Name the
+  behavior or dependency that makes the choice necessary instead of assuming
+  the reader already knows the problem being fixed.
+- Describe the current contract, not the change history. Replace vague references
+  such as "now", "the old behavior", or "this fixes the issue" with the specific
+  reason: "Keep failed items queued so the next attempt can retry them."
+- Keep comments close to the code they explain. Include only the context needed
+  to understand the choice; do not make readers reconstruct it from a linked
+  issue or PR.
 - Follow the repository's conventions for API documentation and structured
   comments; include caller-facing contracts where relevant.
 
 ### Documentation
 
+- Write for a reader who has not seen the task, conversation, PR, or earlier
+  implementation. Include the context needed to understand the documented
+  behavior and use it correctly; describe the current system rather than the
+  change that produced it.
 - Organize around the reader's task or question. Put prerequisites before
   actions and explain consequences where they affect a choice.
 - Separate procedures from conceptual explanations when combining them would
@@ -86,5 +99,7 @@ Read the draft as someone who has not followed the work:
 - Can any detail be removed without losing meaning or necessary evidence?
 - Are rationale, behavior, and verification claims supported by the available
   evidence?
+- Would each code comment still explain the relevant constraint and reason for
+  the choice if the change discussion and diff were unavailable?
 
 Repair missing connections and remove unnecessary detail before delivering.
